@@ -1,7 +1,7 @@
 import { defineNuxtRouteMiddleware, useFetch, navigateTo } from "nuxt/app";
 
 export default defineNuxtRouteMiddleware(async (to: any) => {
-    // console.log("🚀 Global middleware running");
+    console.log("🚀 Global middleware running");
 
     const publicPages = ["/", "/login", "/register", "/api/auth/me"];
 
@@ -17,9 +17,9 @@ export default defineNuxtRouteMiddleware(async (to: any) => {
             server: true,
         });
 
-        if (!data.value?.user) {
-            return navigateTo("/login");
-        }
+        // if (!data.value?.user) {
+        //     return navigateTo("/login");
+        // }
     } catch {
         console.error("Failed to fetch user");
         return navigateTo("/login");

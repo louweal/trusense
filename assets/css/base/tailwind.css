@@ -11,6 +11,7 @@
     --color-secondary: var(--color-secondary);
     --color-accent: var(--color-accent);
     --color-background: var(--color-background);
+    --color-box: var(--color-box);
 
     /* Animations */
     --animate-slide-up: slide-up 0.45s cubic-bezier(0.2, 0, 0.2, 1) forwards;

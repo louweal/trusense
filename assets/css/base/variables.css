@@ -8,6 +8,7 @@
     --color-primary: #072847;
     --color-secondary: #f68227;
     --color-accent: #accfdc;
+    --color-box: rgba(255, 249, 244, 0.5);
 
     /* Gradients */
     --gradient-primary: radial-gradient(418.88% 131.44% at 1.84% 96.35%, #accfdc 0%, #c4ebf9 100%);

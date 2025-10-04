@@ -7,7 +7,11 @@
                 <ul v-if="!user" class="flex gap-7 items-center">
                     <li><NuxtLink to="/login">Login</NuxtLink></li>
                     <li>
-                        <NuxtLink to="/register" class="btn btn--dark btn--small">Track sensor</NuxtLink>
+                        <NuxtLink to="/register" class="btn btn--dark btn--small">Track</NuxtLink>
+                    </li>
+
+                    <li>
+                        <NuxtLink to="/sensor/006938176" class="btn btn--dark btn--small">ESP32-006938176</NuxtLink>
                     </li>
                 </ul>
 
@@ -25,8 +29,10 @@
 
 <script setup>
 import { HederaService } from "~/lib/hedera";
-const { user, loading, error, isLoggedIn, fetchUser, logout } = useAuth();
-await fetchUser();
+
+const user = null;
+// const { user, loading, error, isLoggedIn, fetchUser, logout } = useAuth();
+// await fetchUser();
 
 const hederaService = new HederaService();
 const state = hederaService.state;
