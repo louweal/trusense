@@ -15,8 +15,8 @@
                             Trust.
                         </h1>
                         <p class="text-2xl font-regular opacity-75 text-primary">
-                            Real-time temperature and humidity monitoring, immutably stored using the decentralized
-                            Hedera Consensus Service.
+                            Real-time temperature, humidity, barometric pressure, and air quality monitoring, immutably
+                            stored on the decentralized Hedera Consensus Service.
                         </p>
                         <a href="#features" class="btn self-start">Learn more</a>
                     </div>

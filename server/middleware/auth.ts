@@ -5,17 +5,16 @@ import { defineEventHandler, getCookie, getRequestURL, sendRedirect } from "h3";
 const JWT_SECRET = process.env.JWT_SECRET as string;
 
 export default defineEventHandler(async (event) => {
-    console.log("auth.js running");
+    // console.log("auth.js running");
     const url = getRequestURL(event).pathname;
     const method = event.method;
-
-    console.log("url :>> ", url);
 
     const publicRoutes = [
         { path: "/", method: "ANY" },
         { path: "/login", method: "ANY" },
         { path: "/register", method: "ANY" },
         { pathPrefix: "/sensor/", method: "ANY" },
+        { pathPrefix: "/api/hcs", method: "ANY" },
         { pathPrefix: "/api/auth", method: "ANY" },
         { pathPrefix: "/api/users", method: "ANY" },
     ];
@@ -25,10 +24,7 @@ export default defineEventHandler(async (event) => {
         return matchPath;
     });
 
-    console.log("isPublic :>> ", isPublic);
     if (isPublic) return;
-
-    console.log("noo noo noo");
 
     const token = getCookie(event, "auth_token");
     if (!token) {

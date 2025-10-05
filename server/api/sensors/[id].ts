@@ -1,4 +1,4 @@
-// server/api/users/[id].ts
+// server/api/sensors/[id].ts
 
 import { PrismaClient } from "@prisma/client";
 import { defineEventHandler, createError } from "h3";
@@ -12,13 +12,13 @@ export default defineEventHandler(async (event) => {
         throw createError({ statusCode: 400, statusMessage: "Missing ID" });
     }
 
-    const user = await prisma.user.findUnique({
+    const sensor = await prisma.sensor.findUnique({
         where: { id },
     });
 
-    if (!user) {
-        throw createError({ statusCode: 404, statusMessage: "User not found" });
+    if (!sensor) {
+        throw createError({ statusCode: 404, statusMessage: "Sensor not found" });
     }
 
-    return user;
+    return sensor;
 });

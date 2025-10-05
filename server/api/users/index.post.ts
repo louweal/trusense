@@ -3,6 +3,7 @@ import { z } from "zod";
 import bcrypt from "bcrypt";
 import { PrismaClient } from "@prisma/client";
 import { H3Event, sendError, createError } from "h3";
+import { defineEventHandler, readBody } from "h3";
 
 const prisma = new PrismaClient();
 
@@ -12,6 +13,7 @@ const UserInput = z.object({
 });
 
 export default defineEventHandler(async (event) => {
+    // register a new user
     try {
         const body = await readBody(event);
         const { email, password } = UserInput.parse(body);
@@ -20,6 +22,15 @@ export default defineEventHandler(async (event) => {
 
         const user = await prisma.user.create({
             data: { email: email, password: hash },
+        });
+
+        // add the dummy sensor
+        await prisma.sensor.create({
+            data: {
+                topicId: "0.0.6938176",
+                interval: 30000, // 30 seconds
+                subscriberId: user.id,
+            },
         });
 
         const { password: _omit, ...safeUser } = user;

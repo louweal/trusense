@@ -91,6 +91,8 @@
                     </p>
 
                     form here / compute fees
+
+                    <NuxtLink to="/register" class="btn">Register</NuxtLink>
                 </div>
             </div>
         </section>

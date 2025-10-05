@@ -17,9 +17,9 @@ export default defineNuxtRouteMiddleware(async (to: any) => {
             server: true,
         });
 
-        // if (!data.value?.user) {
-        //     return navigateTo("/login");
-        // }
+        if (!data.value?.user) {
+            return navigateTo("/login");
+        }
     } catch {
         console.error("Failed to fetch user");
         return navigateTo("/login");

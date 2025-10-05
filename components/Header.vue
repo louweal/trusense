@@ -16,11 +16,13 @@
                 </ul>
 
                 <ul v-else class="flex gap-7 items-center text-white">
-                    <!-- <li class="cursor-pointer whitespace-nowrap">
-                        <NuxtLink to="/account">Account ({{ user.name }})</NuxtLink>
-                    </li> -->
-
-                    <!-- <li class="btn btn--small btn--dark" @click="signOut">Sign out</li> -->
+                    <li class="cursor-pointer whitespace-nowrap">
+                        <NuxtLink to="/account">Account</NuxtLink>
+                    </li>
+                    <li>
+                        <NuxtLink to="/sensor/006938176" class="btn btn--dark btn--small">ESP32-006938176</NuxtLink>
+                    </li>
+                    <li class="btn btn--small btn--dark" @click="signOut">Sign out</li>
                 </ul>
             </nav>
         </div>
@@ -30,9 +32,9 @@
 <script setup>
 import { HederaService } from "~/lib/hedera";
 
-const user = null;
-// const { user, loading, error, isLoggedIn, fetchUser, logout } = useAuth();
-// await fetchUser();
+// const user = null;
+const { user, loading, error, isLoggedIn, fetchUser, logout } = useAuth();
+await fetchUser();
 
 const hederaService = new HederaService();
 const state = hederaService.state;

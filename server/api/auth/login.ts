@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { PrismaClient } from "@prisma/client";
 const JWT_SECRET = process.env.JWT_SECRET as string;
 import bcrypt from "bcrypt";
+import { defineEventHandler, readBody, setCookie, createError } from "h3";
 
 const prisma = new PrismaClient();
 
@@ -17,13 +18,6 @@ export default defineEventHandler(async (event) => {
     if (!user) {
         throw createError({ statusCode: 401, message: "Invalid credentials" });
     }
-
-    await prisma.user.update({
-        where: { email },
-        data: {
-            lastLogin: new Date(),
-        },
-    });
 
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {

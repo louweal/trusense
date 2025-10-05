@@ -98,7 +98,7 @@ function createChart() {
                 {
                     label: "Hedera Topic Data",
                     data: [],
-                    borderColor: "rgb(75, 192, 192)",
+                    borderColor: "#f68227",
                     tension: 0.3,
                     parsing: false,
                 },
@@ -168,6 +168,7 @@ async function getMessages() {
 
                     // ✅ Use the timestamp FROM the message (not from polling)
                     if (typeof payload.temperature === "number" && payload.timestamp) {
+                        // console.log("New message:", payload);
                         pushPoint(payload.timestamp, payload.temperature);
                     }
                 } catch (err) {

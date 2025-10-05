@@ -1,6 +1,7 @@
 // ~/server/api/auth/me.ts
 import jwt from "jsonwebtoken";
 import { PrismaClient } from "@prisma/client";
+import { defineEventHandler, getCookie, createError } from "h3";
 
 const prisma = new PrismaClient();
 
@@ -22,9 +23,7 @@ export default defineEventHandler(async (event) => {
             where: { email: decoded.email },
             select: {
                 id: true,
-                name: true,
-                wallet: true,
-                lastLogin: true,
+                email: true,
             },
         });
 

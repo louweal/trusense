@@ -13,13 +13,14 @@ model User {
   password     String
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
-  topics       Topic[]
+  sensors      Sensor[]
 }
 
-// Each topic corresponds to a sensor
-model Topic {
-  id           String   @id
-  sensorId     String
+// many Sensors can have the same topic id - one sensor item for each subscriber
+model Sensor {
+  id           String @id @default(cuid())
+  topicId      String
+  interval     Int?
   minTemp      Int?
   maxTemp      Int?
   minHum       Int?

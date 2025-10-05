@@ -1,27 +1,39 @@
 <template>
-    <div class="bg-box rounded-[40px] p-8">
-        <h4>{{ title }}</h4>
-        <canvas ref="gaugeCanvas"></canvas>
+    <div class="bg-box rounded-[40px] p-8 relative">
+        <h4 class="font-medium text-lg">{{ title }}</h4>
+        <canvas id="gaugeChart" ref="gaugeCanvas" class="max-h-[210px]"></canvas>
 
-        <span>30 seconds ago</span>
+        <!-- <span class="absolute bottom-2 right-4 text-xs opacity-50">30 seconds ago</span> -->
     </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import { Chart, ArcElement, Tooltip, Legend } from "chart.js";
+import { ref, onMounted, watch } from "vue";
+import { Chart, ArcElement, Tooltip, Legend, registerables } from "chart.js";
+Chart.register(...registerables);
 
 const props = defineProps({
     title: String,
     unit: String,
     min: Number,
     max: Number,
-    value: Number,
+    value: Number, // current value
 });
 
 Chart.register(ArcElement, Tooltip, Legend);
 
 const gaugeCanvas = ref(null);
+let gaugeChart = null;
+
+watch(
+    () => props.value,
+    (newVal) => {
+        if (!gaugeChart) return;
+
+        gaugeChart.data.datasets[0].data = [newVal, props.max - newVal];
+        gaugeChart.update({ duration: 300 });
+    },
+);
 
 // Plugin to draw centered text
 const addTextPlugin = {
@@ -36,27 +48,27 @@ const addTextPlugin = {
         ctx.fillStyle = "#333";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.fillText(`${props.value}`, width / 2, height * 0.7);
+        ctx.fillText(`${props.value}`, width / 2, height * 0.82);
 
         ctx.font = "bold 12px Arial";
         ctx.textAlign = "left";
-        ctx.fillText(`${props.min}`, 5, height * 0.8);
+        ctx.fillText(`${props.min}`, 5, height * 0.95);
 
         ctx.font = "bold 12px Arial";
         ctx.textAlign = "center";
-        ctx.fillText(`${props.unit}`, width / 2, height * 0.8);
+        ctx.fillText(`${props.unit}`, width / 2, height * 0.95);
 
         ctx.textAlign = "right";
-        ctx.fillText(`${props.max}`, width - 5, height * 0.8);
+        ctx.fillText(`${props.max}`, width - 5, height * 0.95);
     },
 };
 
 onMounted(() => {
     const ctx = gaugeCanvas.value.getContext("2d");
 
-    const percentage = Math.floor(Math.random() * (props.max - props.min + 1)) + props.min;
+    const percentage = ((props.value - props.min) / (props.max - props.min)) * 100;
 
-    new Chart(ctx, {
+    gaugeChart = new Chart(ctx, {
         type: "doughnut",
         data: {
             // labels: ["Used", "Remaining"], // Labels for legend
@@ -80,6 +92,13 @@ onMounted(() => {
                 },
                 tooltip: { enabled: false },
             },
+            hover: {
+                mode: null,
+            },
+            animation: {
+                animateRotate: false,
+                animateScale: false,
+            },
         },
         plugins: [addTextPlugin],
     });
@@ -87,8 +106,9 @@ onMounted(() => {
 </script>
 
 <style scoped>
-canvas {
-    /* width: 100%;
-    height: 200px; */
-}
+/* canvas#gaugeChart {
+    width: 100%;
+    height: 200px;
+    border: 1px solid gold;
+} */
 </style>
