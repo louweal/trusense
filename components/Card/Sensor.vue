@@ -1,6 +1,9 @@
 <template>
     <NuxtLink :to="`/sensor/${id}`" class="grid md:grid-cols-3 gap-5 items-center bg-box p-8 rounded-[40px]">
-        <div>{{ topicId }}</div>
+        <div>
+            <h2>{{ name }}</h2>
+            {{ topicId }}
+        </div>
     </NuxtLink>
 </template>
 
@@ -9,6 +12,10 @@ const props = defineProps({
     id: {
         type: String,
         required: true,
+    },
+    name: {
+        type: String,
+        default: "TSS",
     },
     topicId: {
         type: String,

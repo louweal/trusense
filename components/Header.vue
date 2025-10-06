@@ -10,18 +10,16 @@
                         <NuxtLink to="/register" class="btn btn--dark btn--small">Track</NuxtLink>
                     </li>
 
-                    <li>
+                    <!-- <li>
                         <NuxtLink to="/sensor/006938176" class="btn btn--dark btn--small">ESP32-006938176</NuxtLink>
-                    </li>
+                    </li> -->
                 </ul>
 
                 <ul v-else class="flex gap-7 items-center text-white">
                     <li class="cursor-pointer whitespace-nowrap">
                         <NuxtLink to="/account">Account</NuxtLink>
                     </li>
-                    <li>
-                        <NuxtLink to="/sensor/006938176" class="btn btn--dark btn--small">ESP32-006938176</NuxtLink>
-                    </li>
+
                     <li class="btn btn--small btn--dark" @click="signOut">Sign out</li>
                 </ul>
             </nav>
@@ -30,14 +28,14 @@
 </template>
 
 <script setup>
-import { HederaService } from "~/lib/hedera";
+// import { HederaService } from "~/lib/hedera";
 
 // const user = null;
 const { user, loading, error, isLoggedIn, fetchUser, logout } = useAuth();
 await fetchUser();
 
-const hederaService = new HederaService();
-const state = hederaService.state;
+// const hederaService = new HederaService();
+// const state = hederaService.state;
 
 const props = defineProps({
     gradient: {

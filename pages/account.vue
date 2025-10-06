@@ -1,5 +1,6 @@
 <template>
     <main>
+        <Header />
         <Hero-Account />
     </main>
 </template>

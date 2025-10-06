@@ -11,7 +11,7 @@
     --color-box: rgba(255, 249, 244, 0.5);
 
     /* Gradients */
-    --gradient-primary: radial-gradient(418.88% 131.44% at 1.84% 96.35%, #accfdc 0%, #c4ebf9 100%);
+    --gradient-primary: radial-gradient(418.88% 131.44% at 1.84% 96.35%, #99bfcd 0%, #d2f3ff 100%);
 
     /* Sizes */
     --container-width: 75rem;

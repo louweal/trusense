@@ -3,7 +3,8 @@ import { defineNuxtConfig } from "nuxt/config";
 export default defineNuxtConfig({
     compatibilityDate: "2024-04-03",
     devtools: { enabled: false },
-    modules: ["@nuxtjs/tailwindcss"],
+    modules: ["@nuxtjs/tailwindcss", "nuxt-aos"],
+
     css: ["~/assets/css/main.css"],
     runtimeConfig: {
         // Private keys (only available on server-side)
@@ -51,5 +52,10 @@ export default defineNuxtConfig({
             },
             autoprefixer: {},
         },
+    },
+    aos: {
+        // optional configuration
+        duration: 800,
+        once: true,
     },
 });

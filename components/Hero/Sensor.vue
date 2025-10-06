@@ -1,7 +1,11 @@
 <template>
     <header class="hero">
         <div class="container">
-            <h1>TruSense ESP32-{{ name }}</h1>
+            <h1>{{ name }}</h1>
+
+            <p>{{ topicId }}</p>
+
+            <a href="https://hashscan.io/testnet/topic/{{ topicId }}/messages" target="_blank">Inspect on HashScan</a>
         </div>
     </header>
 </template>
@@ -11,7 +15,11 @@
 const props = defineProps({
     name: {
         type: String,
-        default: "006938176",
+        default: "TSS",
+    },
+    topicId: {
+        type: String,
+        required: true,
     },
 });
 </script>

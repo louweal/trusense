@@ -1,8 +1,10 @@
 // server/api/hcs/start.ts
 import { startHcsListener } from "../../utils/hcs-listener";
-import { defineEventHandler } from "h3";
+import { defineEventHandler, getQuery } from "h3";
 
 export default defineEventHandler(async (event) => {
-    await startHcsListener();
+    const { topicId } = getQuery(event);
+
+    await startHcsListener(String(topicId));
     return { status: "listening" };
 });

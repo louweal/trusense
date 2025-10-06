@@ -38,6 +38,14 @@
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import { Chart } from "chart.js/auto";
 import "chartjs-adapter-date-fns";
+import { HcsListener } from "../lib/HcsListener";
+
+// let listener = new HcsListener();
+
+const props = defineProps({
+    topicId: String,
+    interval: Number,
+});
 
 const start = ref("");
 const end = ref("");
@@ -77,59 +85,80 @@ const validateDates = () => {
     }
 };
 
-const TOPIC_ID = "0.0.6938176"; // todo
-const MIRROR_URL = `https://testnet.mirrornode.hedera.com/api/v1/topics/${TOPIC_ID}/messages`;
-
 const chartCanvas = ref(null);
 let chartInstance = null;
-let lastTimestamp = null;
-let pollInterval = null;
+let hcsListener = null;
+
 // === CHART CREATION ===
 function createChart() {
     const ctx = chartCanvas.value.getContext("2d");
-
     const now = Date.now();
-    const oneHourAgo = now - 1000 * 60 * 60; // 1 hour in milliseconds
+    const oneHourAgo = now - 1000 * 60 * 60; // 1 hour
 
     chartInstance = new Chart(ctx, {
         type: "line",
         data: {
             datasets: [
                 {
-                    label: "Hedera Topic Data",
+                    label: "Temperature (°C)",
                     data: [],
                     borderColor: "#f68227",
                     tension: 0.3,
                     parsing: false,
+                },
+                {
+                    label: "Humidity (%)",
+                    data: [],
+                    borderColor: "#00b0ff",
+                    tension: 0.3,
+                    parsing: false,
+                    yAxisID: "yHumidity",
+                },
+                {
+                    label: "Air Pressure (hPa)",
+                    data: [],
+                    borderColor: "#ff4081",
+                    tension: 0.3,
+                    parsing: false,
+                    yAxisID: "yPressure",
                 },
             ],
         },
         options: {
             animation: false,
             responsive: true,
-            // hide legend
-
-            plugins: {
-                legend: {
-                    display: false,
-                    position: "bottom",
-                },
-            },
+            plugins: { legend: { display: true } },
             scales: {
                 x: {
                     type: "time",
-                    time: {
-                        unit: "minute",
-                        tooltipFormat: "HH:mm:ss",
-                    },
+                    time: { unit: "minute", tooltipFormat: "HH:mm:ss" },
                     title: { display: true, text: "Time" },
-                    min: oneHourAgo, // start of x-axis
-                    max: now, // end of x-axis
+                    min: oneHourAgo,
+                    max: now,
                 },
                 y: {
                     title: { display: true, text: "Temperature (°C)" },
                     min: 22,
                     max: 30,
+                },
+                yHumidity: {
+                    type: "linear",
+                    display: true,
+                    position: "right",
+                    title: { display: true, text: "Humidity (%)" },
+                    min: 0,
+                    max: 100,
+                    grid: { drawOnChartArea: false }, // avoid grid lines overlapping
+                },
+                yPressure: {
+                    type: "linear",
+                    display: true,
+                    position: "right",
+                    offset: true, // offset so pressure axis doesn’t overlap humidity
+                    title: { display: true, text: "Air Pressure (hPa)" },
+                    min: 950,
+                    max: 1050,
+                    grid: { drawOnChartArea: false },
                 },
             },
         },
@@ -137,59 +166,73 @@ function createChart() {
 }
 
 // === ADD DATA POINTS ===
-function pushPoint(timestampMs, value) {
-    const dataset = chartInstance.data.datasets[0].data;
-    dataset.push({ x: timestampMs, y: value });
+function pushPoint(timestamp, temperature, humidity, airPressure) {
+    if (!chartInstance) return;
 
-    if (dataset.length > 0) {
-        const now = Date.now();
-        chartInstance.options.scales.x.min = now - 1000 * 60 * 60; // 1 hour ago
-        chartInstance.options.scales.x.max = now;
-    }
+    // convert hedera timestamp to timestamp in ms
+    timestamp = new Date(timestamp).getTime();
+
+    // const dataset = chartInstance.data.datasets[0].data;
+    chartInstance.data.datasets[0].data.push({ x: timestamp, y: temperature });
+    chartInstance.data.datasets[1].data.push({ x: timestamp, y: humidity });
+    chartInstance.data.datasets[2].data.push({ x: timestamp, y: airPressure });
+
+    const now = Date.now();
+    chartInstance.options.scales.x.min = now - 1000 * 60 * 60; // last hour
+    chartInstance.options.scales.x.max = now;
 
     chartInstance.update("none");
 }
 
-// === FETCH FROM HEDERA MIRROR NODE ===
-async function getMessages() {
+// === FETCH LAST MESSAGES ===
+async function fetchHistoricalMessages(messageLimit) {
+    // compute message limit based on interval
+    messageLimit = Math.floor((1000 * 60 * 60) / props.interval);
+
+    console.log("fetching historical messages...");
+    const MIRROR_URL = `https://testnet.mirrornode.hedera.com/api/v1/topics/${props.topicId}/messages?limit=${messageLimit}&order=desc`;
+
     try {
-        let url = MIRROR_URL;
-        if (lastTimestamp) url += `?timestamp=gt:${lastTimestamp}`;
-        const res = await fetch(url);
+        const res = await fetch(MIRROR_URL);
         const json = await res.json();
 
         if (json.messages?.length) {
-            json.messages.forEach((msg) => {
-                lastTimestamp = msg.consensus_timestamp;
-                const decoded = atob(msg.message);
-
+            // messages come newest first; reverse to plot chronologically
+            json.messages.reverse().forEach((msg) => {
                 try {
+                    const decoded = atob(msg.message);
                     const payload = JSON.parse(decoded);
 
-                    // ✅ Use the timestamp FROM the message (not from polling)
-                    if (typeof payload.temperature === "number" && payload.timestamp) {
-                        // console.log("New message:", payload);
-                        pushPoint(payload.timestamp, payload.temperature);
-                    }
+                    pushPoint(payload.timestamp, payload.temperature, payload.humidity, payload.airPressure);
                 } catch (err) {
-                    console.warn("Invalid message:", decoded);
+                    console.warn("Invalid message:", msg.message);
                 }
             });
+        } else {
+            console.log("No messages found.");
         }
     } catch (err) {
-        console.error("Polling error:", err);
+        console.error("Error fetching historical messages:", err);
     }
 }
 
 // === LIFECYCLE ===
-onMounted(() => {
+onMounted(async () => {
     createChart();
-    pollInterval = setInterval(getMessages, 3000);
+    await fetchHistoricalMessages();
+
+    hcsListener = new HcsListener(props.topicId, (data) => {
+        if (data.temperature !== undefined && data.timestamp !== undefined) {
+            pushPoint(data.timestamp, data.temperature, data.humidity, data.airPressure);
+        }
+    });
+
+    hcsListener.start();
 });
 
 onBeforeUnmount(() => {
-    clearInterval(pollInterval);
     chartInstance?.destroy();
+    hcsListener?.stop();
 });
 </script>
 
