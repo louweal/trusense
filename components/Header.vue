@@ -1,5 +1,5 @@
 <template>
-    <div class="header fixed top-0 left-0 right-0 z-50 py-3">
+    <div class="gradient-header fixed top-0 left-0 right-0 z-50 py-3">
         <div class="container flex justify-between items-center">
             <Logo :homeUrl="user ? '/dashboard' : '/'" />
 
@@ -52,9 +52,3 @@ const signOut = async () => {
     }
 };
 </script>
-
-<style scoped>
-.header {
-    height: var(--header-height);
-}
-</style>
