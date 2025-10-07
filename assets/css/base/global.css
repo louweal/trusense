@@ -7,6 +7,15 @@ html {
 body {
 }
 
+.gradient-header {
+    background: var(--gradient-header);
+}
+
+.stroked {
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: var(--color-primary);
+}
+
 .main__wrapper {
     position: relative;
     .main__wrapper__bg {
@@ -24,21 +33,22 @@ body {
 
 .circles {
     position: absolute;
-    left: 5rem;
-    bottom: 3.125rem;
-    opacity: 0.25;
+    left: 70%;
+    bottom: 70%;
+    z-index: -1;
+    opacity: 0.3;
 }
 
 .circle {
     border-radius: 50%;
-    border: 6vw solid var(--color-secondary);
+    border: 25px solid var(--color-primary);
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     opacity: 0;
-    width: 70vw;
-    height: 70vw;
+    width: 16rem;
+    height: 16rem;
     animation: zoom 5s linear 1.5s infinite;
 }
 
@@ -61,6 +71,7 @@ body {
     }
     50% {
         opacity: 1;
+        /* border-color: var(--color-secondary); */
     }
     100% {
         transform: translate(-50%, -50%) scale(1);
@@ -89,6 +100,7 @@ body {
 
 input[type="text"],
 input[type="date"],
+input[type="datetime-local"],
 input[type="number"],
 input[type="email"],
 input[type="password"],

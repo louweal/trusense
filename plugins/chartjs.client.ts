@@ -1,4 +1,4 @@
-import { Chart, ArcElement, Tooltip, Legend } from "chart.js";
+// import { Chart, ArcElement, Tooltip, Legend } from "chart.js";
 
 // Register required pieces for doughnut charts
-Chart.register(ArcElement, Tooltip, Legend);
+// Chart.register(ArcElement, Tooltip, Legend);

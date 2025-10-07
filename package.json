@@ -24,6 +24,7 @@
         "jsonwebtoken": "^9.0.2",
         "nuxt": "^3.13.0",
         "nuxt-aos": "^1.2.5",
+        "typed.js": "^2.1.0",
         "zod": "^3.25.73"
     },
     "devDependencies": {

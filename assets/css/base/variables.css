@@ -12,6 +12,7 @@
 
     /* Gradients */
     --gradient-primary: radial-gradient(418.88% 131.44% at 1.84% 96.35%, #99bfcd 0%, #d2f3ff 100%);
+    --gradient-header: linear-gradient(180deg, rgba(172, 207, 220, 1) 40%, rgba(255, 255, 255, 0) 100%);
 
     /* Sizes */
     --container-width: 75rem;

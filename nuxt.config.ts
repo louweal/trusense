@@ -53,9 +53,10 @@ export default defineNuxtConfig({
             autoprefixer: {},
         },
     },
-    aos: {
-        // optional configuration
-        duration: 800,
-        once: true,
-    },
+    // plugins: ["~/plugins/vue-typed-js.client"],
+    // aos: {
+    //     // optional configuration
+    //     duration: 800,
+    //     once: true,
+    // },
 });
