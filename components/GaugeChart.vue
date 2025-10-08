@@ -15,6 +15,10 @@ Chart.register(...registerables);
 const props = defineProps({
     title: String,
     unit: String,
+    color: {
+        type: String,
+        default: "#000",
+    },
     min: Number,
     max: Number,
     value: Number, // current value
@@ -75,7 +79,7 @@ onMounted(() => {
             datasets: [
                 {
                     data: [percentage, 100 - percentage], // Gauge value
-                    backgroundColor: ["#f68227", "#E0E0E0"],
+                    backgroundColor: [props.color, "#E0E0E0"],
                     borderWidth: 0,
                     cutout: "50%",
                     rotation: -90,

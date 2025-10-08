@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
         { path: "/", method: "ANY" },
         { path: "/login", method: "ANY" },
         { path: "/register", method: "ANY" },
-        { pathPrefix: "/sensor/", method: "ANY" },
+        { pathPrefix: "/topic/", method: "ANY" },
         { pathPrefix: "/api/hcs", method: "ANY" },
         { pathPrefix: "/api/auth", method: "ANY" },
         { pathPrefix: "/api/users", method: "ANY" },

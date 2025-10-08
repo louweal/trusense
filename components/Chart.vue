@@ -3,10 +3,34 @@
         <h3>Historical Data</h3>
 
         <div class="flex w-full gap-4 my-10">
-            <div class="btn flex-grow" @click="handleFilter('lastHour')">Last hour</div>
-            <div class="btn flex-grow" @click="handleFilter('lastDay')">Last day</div>
-            <div class="btn flex-grow" @click="handleFilter('lastWeek')">Last week</div>
-            <div class="btn flex-grow" @click="handleFilter('lastMonth')">Last month</div>
+            <div
+                class="btn flex-grow"
+                :class="{ 'btn--primary': activeBtn === 'lastHour' }"
+                @click="handleFilter('lastHour')"
+            >
+                Last hour
+            </div>
+            <div
+                class="btn flex-grow"
+                :class="{ 'btn--primary': activeBtn === 'lastDay' }"
+                @click="handleFilter('lastDay')"
+            >
+                Last day
+            </div>
+            <div
+                class="btn flex-grow"
+                :class="{ 'btn--primary': activeBtn === 'lastWeek' }"
+                @click="handleFilter('lastWeek')"
+            >
+                Last week
+            </div>
+            <div
+                class="btn flex-grow"
+                :class="{ 'btn--primary': activeBtn === 'lastMonth' }"
+                @click="handleFilter('lastMonth')"
+            >
+                Last month
+            </div>
         </div>
 
         <div class="flex w-full gap-4 my-10">
@@ -37,7 +61,7 @@
             </div>
         </div>
 
-        <div class="relative">
+        <div class="relative flex flex-col justify-center items-center">
             <canvas ref="chartCanvas" :class="{ 'opacity-5': isFetching }"></canvas>
             <div class="absolute inset-0 flex items-center justify-center" v-if="isFetching">
                 <svg
@@ -54,13 +78,43 @@
                     ></path>
                 </svg>
             </div>
+
+            <div class="flex gap-6">
+                <div
+                    class="flex items-center gap-1"
+                    v-if="chartInstance"
+                    v-for="(dataset, index) in chartInstance?.data?.datasets"
+                    :key="index"
+                    @click="toggleDataset(index)"
+                >
+                    <span
+                        :style="{
+                            backgroundColor: dataset.hidden ? 'rgba(0,0,0,0.3)' : dataset.borderColor,
+                            cursor: 'pointer',
+                            display: 'inline-block',
+                            width: '12px',
+                            height: '12px',
+                            borderRadius: '50%',
+                        }"
+                    ></span>
+                    <span
+                        :style="{
+                            color: dataset.hidden ? 'rgba(0,0,0,0.3)' : '#000',
+                            cursor: 'pointer',
+                        }"
+                    >
+                        {{ dataset.label }} {{ dataset.hidden ? "(hidden)" : "(not hidden)" }}
+                    </span>
+                </div>
+            </div>
         </div>
 
         <div>
             Realtime:
-            <span class="font-semibold" :class="{ 'text-red-600': !realtime, 'text-green-600': realtime }">{{
-                realtime ? "ON" : "OFF"
-            }}</span>
+            <span class="font-semibold" :class="{ 'text-red-600': !realtime, 'text-green-600': realtime }">
+                <span v-if="realtime" @click="stopRealtime()">ON</span>
+                <span v-else @click="startRealtime()" class="cursor-pointer">OFF</span>
+            </span>
         </div>
     </div>
 </template>
@@ -70,16 +124,15 @@ import { ref, onMounted, onBeforeUnmount } from "vue";
 import { Chart } from "chart.js/auto";
 import "chartjs-adapter-date-fns";
 import { HcsListener } from "../lib/HcsListener";
-import { fa, tr } from "zod/v4/locales";
-
-// let listener = new HcsListener();
 
 const props = defineProps({
     topicId: String,
     interval: Number,
 });
-let isFetching = ref(false);
-let realtime = ref(true);
+
+const isFetching = ref(false);
+const realtime = ref(true);
+const activeBtn = ref("lastHour");
 
 const startDate = new Date(Date.now() - 1000 * 60 * 60); // 1 hour ago
 const localStartDate = new Date(startDate.getTime() - startDate.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
@@ -90,6 +143,41 @@ const localEndDate = new Date(endDate.getTime() - endDate.getTimezoneOffset() * 
 const inputStartDate = ref(localStartDate);
 const inputEndDate = ref(localEndDate);
 
+const meanLinePlugin = {
+    id: "meanLine",
+    afterDatasetsDraw(chart) {
+        const ctx = chart.ctx;
+        const yScale = chart.scales.y;
+        const xScale = chart.scales.x;
+
+        chart.data.datasets.forEach((dataset) => {
+            console.log("add mean line for dataset:", dataset.label);
+            const data = dataset.data;
+
+            if (!data || data.length === 0) return; // skip empty datasets
+            const dataY = data.map((point) => point.y);
+
+            // Compute mean
+            const mean = dataY.reduce((sum, val) => sum + val, 0) / dataY.length;
+            console.log("mean :>> ", mean);
+
+            // Convert mean value to pixel
+            const yPos = yScale.getPixelForValue(mean);
+
+            // Draw dashed line
+            ctx.save();
+            ctx.strokeStyle = dataset.borderColor;
+            ctx.lineWidth = 1;
+            // ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.moveTo(xScale.left, yPos);
+            ctx.lineTo(xScale.right, yPos);
+            ctx.stroke();
+            ctx.restore();
+        });
+    },
+};
+
 // Helper: format date for datetime-local
 function formatDateTimeLocal(date) {
     return date.toISOString().slice(0, 16); // "YYYY-MM-DDTHH:MM"
@@ -98,10 +186,21 @@ function formatDateTimeLocal(date) {
 const startError = ref("");
 const endError = ref("");
 
-const validateDates = () => {
-    // console.log("validateDates");
+function startRealtime() {
+    hcsListener.start();
+    realtime.value = true;
+}
+
+function stopRealtime() {
+    hcsListener?.stop();
+    realtime.value = false;
+}
+
+const validateDates = async () => {
+    console.log("validateDates");
     startError.value = "";
     endError.value = "";
+    activeBtn.value = "";
 
     if (!inputStartDate.value || !inputEndDate.value) return;
 
@@ -130,7 +229,8 @@ const validateDates = () => {
 
     let newFetchUrl = `https://testnet.mirrornode.hedera.com/api/v1/topics/${props.topicId}/messages?timestamp=gte:${hederaStartTimestamp}&timestamp=lte:${hederaEndTimestamp}&order=asc`;
 
-    fetchHistoricalMessages(newFetchUrl);
+    await fetchHistoricalMessages(newFetchUrl);
+    setScales();
 };
 
 function deletePoints() {
@@ -156,15 +256,17 @@ function createChart() {
                     label: "Temperature (°C)",
                     data: [],
                     borderColor: "#f68227",
-                    tension: 0.3,
+                    backgroundColor: "#f68227",
+                    tension: 0,
                     parsing: false,
                     pointRadius: 0,
                 },
                 {
                     label: "Humidity (%)",
                     data: [],
-                    borderColor: "#00b0ff",
-                    tension: 0.3,
+                    borderColor: "#072847",
+                    backgroundColor: "#072847",
+                    tension: 0,
                     parsing: false,
                     yAxisID: "yHumidity",
                     pointRadius: 0,
@@ -172,8 +274,9 @@ function createChart() {
                 {
                     label: "Air Pressure (hPa)",
                     data: [],
-                    borderColor: "#ff4081",
-                    tension: 0.3,
+                    borderColor: "#accfdc",
+                    backgroundColor: "#accfdc",
+                    tension: 0,
                     parsing: false,
                     yAxisID: "yPressure",
                     pointRadius: 0,
@@ -185,19 +288,14 @@ function createChart() {
             responsive: true,
             plugins: {
                 legend: {
-                    display: true,
-                    // labels: {
-                    //     font: {
-                    //         family: "'Libre Baskerville', serif",
-                    //         size: 16,
-                    //     },
-                    // },
+                    display: false,
                 },
                 decimation: {
                     enabled: true,
                     algorithm: "lttb", // "Largest Triangle Three Buckets"
                     samples: 5000, // reduce to ~5k visible points
                 },
+                meanLinePlugin,
             },
             scales: {
                 x: {
@@ -209,16 +307,14 @@ function createChart() {
                 },
                 y: {
                     title: { display: true, text: "Temperature (°C)" },
-                    min: 22,
-                    max: 30,
                 },
                 yHumidity: {
                     type: "linear",
                     display: true,
                     position: "right",
                     title: { display: true, text: "Humidity (%)" },
-                    min: 0,
-                    max: 100,
+                    // min: 0,
+                    // max: 100,
                     grid: { drawOnChartArea: false }, // avoid grid lines overlapping
                 },
                 yPressure: {
@@ -227,48 +323,40 @@ function createChart() {
                     position: "right",
                     offset: true, // offset so pressure axis doesn’t overlap humidity
                     title: { display: true, text: "Air Pressure (hPa)" },
-                    min: 950,
-                    max: 1050,
+                    // min: 950,
+                    // max: 1050,
                     grid: { drawOnChartArea: false },
                 },
             },
         },
+        // plugins: [meanLinePlugin],
     });
 }
 
-// === ADD DATA POINTS ===
 function pushPoint(timestamp, temperature, humidity, airPressure, shiftAxis = false) {
     if (!chartInstance) return;
 
-    // convert hedera timestamp to timestamp in ms
-    timestamp = new Date(timestamp).getTime();
-
-    // const dataset = chartInstance.data.datasets[0].data;
     chartInstance.data.datasets[0].data.push({ x: timestamp, y: temperature });
     chartInstance.data.datasets[1].data.push({ x: timestamp, y: humidity });
     chartInstance.data.datasets[2].data.push({ x: timestamp, y: airPressure });
 
-    // if (shiftAxis == true) {
-    //     const xAxisMin = +chartInstance.scales.x.min + +props.interval;
-    //     console.log(chartInstance.scales.x.min + " >> " + xAxisMin);
-    //     chartInstance.options.scales.x.min = xAxisMin;
-    //     chartInstance.options.scales.x.max = Date.now();
-    // }
-
     chartInstance.update("none");
 }
 
-function handleFilter(filter) {
+async function handleFilter(filter) {
     const end = new Date();
     const tsEnd = Math.floor(end.getTime() / 1000);
     let baseUrl = `https://testnet.mirrornode.hedera.com/api/v1/topics/${props.topicId}/messages?timestamp=lte:${tsEnd}&order=asc`;
     let start = new Date(end.getTime() - 60 * 60 * 1000);
     let tsStart = Math.floor(start.getTime() / 1000);
 
+    activeBtn.value = filter;
+
     switch (filter) {
         case "lastHour":
             deletePoints();
-            fetchHistoricalMessages(baseUrl + `&timestamp=gte:${tsStart}`);
+            await fetchHistoricalMessages(baseUrl + `&timestamp=gte:${tsStart}`);
+            setScales();
             hcsListener.start();
             realtime.value = true;
             break;
@@ -277,14 +365,16 @@ function handleFilter(filter) {
             start = new Date(end.getTime() - 24 * 60 * 60 * 1000);
             tsStart = Math.floor(start.getTime() / 1000);
             deletePoints();
-            fetchHistoricalMessages(baseUrl + `&timestamp=gte:${tsStart}`);
+            await fetchHistoricalMessages(baseUrl + `&timestamp=gte:${tsStart}`);
+            setScales();
             realtime.value = false;
             break;
         case "lastWeek":
             start = new Date(end.getTime() - 7 * 24 * 60 * 60 * 1000);
             tsStart = Math.floor(start.getTime() / 1000);
             deletePoints();
-            fetchHistoricalMessages(baseUrl + `&timestamp=gte:${tsStart}`);
+            await fetchHistoricalMessages(baseUrl + `&timestamp=gte:${tsStart}`);
+            setScales();
             realtime.value = false;
 
             break;
@@ -292,7 +382,8 @@ function handleFilter(filter) {
             start = new Date(end.getTime() - 30 * 24 * 60 * 60 * 1000);
             tsStart = Math.floor(start.getTime() / 1000);
             deletePoints();
-            fetchHistoricalMessages(baseUrl + `&timestamp=gte:${tsStart}`);
+            await fetchHistoricalMessages(baseUrl + `&timestamp=gte:${tsStart}`);
+            setScales();
             realtime.value = false;
 
             break;
@@ -300,6 +391,35 @@ function handleFilter(filter) {
             console.error("Invalid filter:", filter);
             break;
     }
+}
+
+function toggleDataset(i) {
+    const dataset = chartInstance.data.datasets[i];
+    chartInstance.data.datasets[i].hidden = !chartInstance.data.datasets[i].hidden;
+
+    chartInstance.update();
+}
+
+function setScales() {
+    const scaleNames = ["y", "yHumidity", "yPressure"];
+
+    for (let i = 0; i < 3; i++) {
+        const scaleName = scaleNames[i];
+        let data = chartInstance.data.datasets[i].data;
+
+        if (data.length > 0) {
+            const minVal = Math.min(...data.map((point) => point.y));
+            const maxVal = Math.max(...data.map((point) => point.y));
+            const offset = (maxVal - minVal) * 0.2; //  padding
+
+            chartInstance.options.scales[scaleName].min = minVal - offset;
+            chartInstance.options.scales[scaleName].max = maxVal + offset;
+        } else {
+            console.log("No data found.");
+        }
+    }
+
+    chartInstance.update();
 }
 
 // === FETCH LAST MESSAGES ===
@@ -345,22 +465,11 @@ onMounted(async () => {
     const endDate = new Date(Date.now());
     const hederaStartTimestamp = Math.floor(startDate.getTime() / 1000);
     const hederaEndTimestamp = Math.floor(endDate.getTime() / 1000);
-    // const start = `${hederaStartTimestamp}.0`;
-    // const end = `${hederaEndTimestamp}.0`;
+
     const initialFetchUrl = `https://testnet.mirrornode.hedera.com/api/v1/topics/${props.topicId}/messages?timestamp=gte:${hederaStartTimestamp}&timestamp=lte:${hederaEndTimestamp}&order=asc`;
 
     await fetchHistoricalMessages(initialFetchUrl);
-
-    // sort chartData by timestamp
-    // chartData.sort((a, b) => a.timestamp - b.timestamp);
-
-    // chartData.forEach((data) => {
-    //     pushPoint(data.timestamp, data.temperature, data.humidity, data.airPressure);
-    //     // delay
-    //     // setTimeout(() => {
-    //     //     pushPoint(data.timestamp, data.temperature, data.humidity, data.airPressure);
-    //     // }, 2000);
-    // });
+    setScales();
 
     // start listening for new messages
     hcsListener = new HcsListener(props.topicId, (data) => {
@@ -377,13 +486,3 @@ onBeforeUnmount(() => {
     hcsListener?.stop();
 });
 </script>
-
-<style scoped>
-input#start {
-    display: block;
-    width: 100%;
-    padding: 0.4rem;
-    border: 1px solid #ccc;
-    border-radius: 0.25rem;
-}
-</style>
