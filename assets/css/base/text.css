@@ -7,14 +7,14 @@ h6 {
     font-family: "Libre Baskerville", serif;
 }
 
-h1 {
+/* h1 {
     font-size: 2.5rem;
     font-weight: bold;
 
     @media only screen and (min-width: 1024px) {
         font-size: 4.375rem;
     }
-}
+} */
 
 h2 {
     font-size: 2.5rem;

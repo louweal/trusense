@@ -1,5 +1,5 @@
 <template>
-    <div class="grid md:grid-cols-8 gap-5 items-center" data-aos="fade-up">
+    <div class="grid md:grid-cols-8 gap-5 items-center" data-aos="fade">
         <div
             class="md:col-span-3"
             :class="{
@@ -7,7 +7,9 @@
             }"
         >
             <!-- todo: smaller image -->
-            <img class="w-full aspect-square rounded-full object-cover" :src="image" :alt="alt || title" />
+            <div class="w-full aspect-square object-cover">
+                <img class="w-full h-full rounded-full object-cover" :src="image" :alt="alt || title" />
+            </div>
         </div>
         <div class="md:col-span-5 p-8 flex flex-col gap-5">
             <h3>{{ title }}</h3>

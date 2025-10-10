@@ -2,7 +2,7 @@
     <div class="bg-box rounded-[40px] p-8">
         <h3>Historical Data</h3>
 
-        <div class="flex w-full gap-4 my-10">
+        <div class="flex flex-wrap w-full gap-4 my-10">
             <div
                 class="btn flex-grow"
                 :class="{ 'btn--primary': activeBtn === 'lastHour' }"
@@ -33,23 +33,25 @@
             </div>
         </div>
 
-        <div class="flex w-full gap-4 my-10">
+        <div class="flex flex-wrap w-full gap-4 my-10">
             <div class="relative flex-grow">
                 <label
                     for="start"
-                    class="bg-secondary absolute -top-2 left-1/2 -translate-x-1/2 rounded px-3 pt-1 text-xs"
-                    >Start date</label
+                    class="bg-primary absolute top-2 left-2 bottom-2 rounded-xl flex justify-center items-center px-4 text-white"
                 >
+                    Start date
+                </label>
                 <input class="" id="start" type="datetime-local" v-model="inputStartDate" @input="validateDates" />
                 <p v-if="startError" class="text-red-600">{{ startError }}</p>
             </div>
 
             <div class="relative flex-grow">
                 <label
-                    for="end"
-                    class="bg-secondary absolute -top-2 left-1/2 -translate-x-1/2 rounded px-3 pt-1 text-xs"
-                    >End date</label
+                    for="start"
+                    class="bg-primary absolute top-2 left-2 bottom-2 rounded-xl flex justify-center items-center px-4 text-white"
                 >
+                    End date
+                </label>
                 <input
                     id="end"
                     type="datetime-local"
@@ -79,31 +81,21 @@
                 </svg>
             </div>
 
-            <div class="flex gap-6">
+            <div class="flex flex-wrap gap-x-6">
                 <div
                     class="flex items-center gap-1"
                     v-if="chartInstance"
-                    v-for="(dataset, index) in chartInstance?.data?.datasets"
+                    v-for="(dataset, index) in datasets"
                     :key="index"
                     @click="toggleDataset(index)"
                 >
                     <span
-                        :style="{
-                            backgroundColor: dataset.hidden ? 'rgba(0,0,0,0.3)' : dataset.borderColor,
-                            cursor: 'pointer',
-                            display: 'inline-block',
-                            width: '12px',
-                            height: '12px',
-                            borderRadius: '50%',
-                        }"
+                        class="cursor-pointer w-3 h-3 rounded-full inline-block"
+                        :class="{ 'opacity-50': !dataset.active }"
+                        :style="{ backgroundColor: dataset.color }"
                     ></span>
-                    <span
-                        :style="{
-                            color: dataset.hidden ? 'rgba(0,0,0,0.3)' : '#000',
-                            cursor: 'pointer',
-                        }"
-                    >
-                        {{ dataset.label }} {{ dataset.hidden ? "(hidden)" : "(not hidden)" }}
+                    <span class="cursor-pointer" :class="{ 'opacity-50': !dataset.active }">
+                        {{ dataset.name }}
                     </span>
                 </div>
             </div>
@@ -130,6 +122,11 @@ const props = defineProps({
     interval: Number,
 });
 
+const datasets = ref([
+    { name: "Temperature", scale: "y", active: true, color: "#f68227" },
+    { name: "Humidity", scale: "yHumidity", active: true, color: "#accfdc" },
+    { name: "Air Pressure", scale: "yPressure", active: true, color: "#072847" },
+]);
 const isFetching = ref(false);
 const realtime = ref(true);
 const activeBtn = ref("lastHour");
@@ -248,6 +245,10 @@ function createChart() {
     const ctx = chartCanvas.value.getContext("2d");
 
     Chart.defaults.font.family = "'Libre Baskerville', serif";
+    Chart.defaults.font.size = window.innerWidth < 480 ? 10 : 12;
+
+    console.log("window.innerWidth :>> ", window.innerWidth);
+
     chartInstance = new Chart(ctx, {
         type: "line",
         data: {
@@ -255,35 +256,37 @@ function createChart() {
                 {
                     label: "Temperature (°C)",
                     data: [],
-                    borderColor: "#f68227",
-                    backgroundColor: "#f68227",
-                    tension: 0,
+                    borderColor: datasets.value[0].color,
+                    backgroundColor: datasets.value[0].color,
+                    tension: 0.1,
                     parsing: false,
-                    pointRadius: 0,
+                    pointRadius: 3,
                 },
                 {
                     label: "Humidity (%)",
                     data: [],
-                    borderColor: "#072847",
-                    backgroundColor: "#072847",
-                    tension: 0,
+                    borderColor: datasets.value[1].color,
+                    backgroundColor: datasets.value[1].color,
+                    tension: 0.1,
                     parsing: false,
                     yAxisID: "yHumidity",
-                    pointRadius: 0,
+                    pointRadius: 3,
                 },
                 {
                     label: "Air Pressure (hPa)",
                     data: [],
-                    borderColor: "#accfdc",
-                    backgroundColor: "#accfdc",
-                    tension: 0,
+                    borderColor: datasets.value[2].color,
+                    backgroundColor: datasets.value[2].color,
+                    tension: 0.1,
                     parsing: false,
                     yAxisID: "yPressure",
-                    pointRadius: 0,
+                    pointRadius: 3,
                 },
             ],
         },
+        // height: 300,
         options: {
+            aspectRatio: window.innerWidth < 480 ? 1 : 2,
             animation: false,
             responsive: true,
             plugins: {
@@ -296,6 +299,29 @@ function createChart() {
                     samples: 5000, // reduce to ~5k visible points
                 },
                 meanLinePlugin,
+                tooltip: {
+                    displayColors: false,
+                    callbacks: {
+                        label: (context) => {
+                            const datasetLabel = context.dataset.label || "";
+
+                            // Pick tooltip text depending on dataset
+                            switch (datasetLabel) {
+                                case "Temperature (°C)":
+                                    return `${context.parsed.y.toFixed(2)} °C`;
+                                case "Humidity (%)":
+                                    return `${context.parsed.y.toFixed(1)} %`;
+                                case "Pressure (hPa)":
+                                    return `${context.parsed.y.toFixed(1)} hPa`;
+                                default:
+                                    return `${context.parsed.y}`;
+                            }
+                        },
+                        title: (context) => {
+                            return new Date(context[0].parsed.x).toLocaleString();
+                        },
+                    },
+                },
             },
             scales: {
                 x: {
@@ -306,26 +332,36 @@ function createChart() {
                     // max: chartEndDate,
                 },
                 y: {
+                    display: false,
                     title: { display: true, text: "Temperature (°C)" },
+                    ticks: {
+                        precision: window.innerWidth < 480 ? 0 : undefined,
+                    },
                 },
                 yHumidity: {
                     type: "linear",
-                    display: true,
+                    display: false,
                     position: "right",
                     title: { display: true, text: "Humidity (%)" },
                     // min: 0,
                     // max: 100,
                     grid: { drawOnChartArea: false }, // avoid grid lines overlapping
+                    ticks: {
+                        precision: window.innerWidth < 480 ? 0 : undefined,
+                    },
                 },
                 yPressure: {
                     type: "linear",
-                    display: true,
+                    display: false,
                     position: "right",
                     offset: true, // offset so pressure axis doesn’t overlap humidity
                     title: { display: true, text: "Air Pressure (hPa)" },
                     // min: 950,
                     // max: 1050,
                     grid: { drawOnChartArea: false },
+                    ticks: {
+                        precision: window.innerWidth < 480 ? 0 : undefined,
+                    },
                 },
             },
         },
@@ -333,7 +369,7 @@ function createChart() {
     });
 }
 
-function pushPoint(timestamp, temperature, humidity, airPressure, shiftAxis = false) {
+function pushPoint(timestamp, temperature, humidity, airPressure) {
     if (!chartInstance) return;
 
     chartInstance.data.datasets[0].data.push({ x: timestamp, y: temperature });
@@ -394,17 +430,19 @@ async function handleFilter(filter) {
 }
 
 function toggleDataset(i) {
-    const dataset = chartInstance.data.datasets[i];
+    // const dataset = chartInstance.data.datasets[i];
     chartInstance.data.datasets[i].hidden = !chartInstance.data.datasets[i].hidden;
+
+    datasets.value[i].active = !datasets.value[i].active;
 
     chartInstance.update();
 }
 
 function setScales() {
-    const scaleNames = ["y", "yHumidity", "yPressure"];
+    // const scaleNames = ["y", "yHumidity", "yPressure"];
 
-    for (let i = 0; i < 3; i++) {
-        const scaleName = scaleNames[i];
+    for (let i = 0; i < datasets.value.length; i++) {
+        const scaleName = datasets.value[i].scale;
         let data = chartInstance.data.datasets[i].data;
 
         if (data.length > 0) {
@@ -412,8 +450,16 @@ function setScales() {
             const maxVal = Math.max(...data.map((point) => point.y));
             const offset = (maxVal - minVal) * 0.2; //  padding
 
-            chartInstance.options.scales[scaleName].min = minVal - offset;
-            chartInstance.options.scales[scaleName].max = maxVal + offset;
+            const newMin = minVal - offset;
+            const newMax = maxVal + offset;
+
+            // check if scale needs to be bigger
+            if (chartInstance.scales[scaleName].min > newMin) {
+                chartInstance.options.scales[scaleName].min = minVal - offset;
+            }
+            if (chartInstance.scales[scaleName].max < newMax) {
+                chartInstance.options.scales[scaleName].max = maxVal + offset;
+            }
         } else {
             console.log("No data found.");
         }
@@ -423,7 +469,7 @@ function setScales() {
 }
 
 // === FETCH LAST MESSAGES ===
-async function fetchHistoricalMessages(url, shiftAxis = false) {
+async function fetchHistoricalMessages(url) {
     isFetching.value = true;
     try {
         const res = await fetch(url);
@@ -437,7 +483,7 @@ async function fetchHistoricalMessages(url, shiftAxis = false) {
                     const decoded = atob(msg.message);
                     const payload = JSON.parse(decoded);
 
-                    pushPoint(payload.timestamp, payload.temperature, payload.humidity, payload.airPressure, shiftAxis);
+                    pushPoint(payload.timestamp, payload.temperature, payload.humidity, payload.airPressure);
                 } catch (err) {
                     console.warn("Invalid message:", msg.message);
                 }
@@ -473,8 +519,14 @@ onMounted(async () => {
 
     // start listening for new messages
     hcsListener = new HcsListener(props.topicId, (data) => {
-        if (data.temperature !== undefined && data.timestamp !== undefined) {
-            pushPoint(data.timestamp, data.temperature, data.humidity, data.airPressure, true);
+        if (
+            data.temperature !== undefined &&
+            data.humidity !== undefined &&
+            data.airPressure !== undefined &&
+            data.timestamp !== undefined
+        ) {
+            pushPoint(data.timestamp, data.temperature, data.humidity, data.airPressure);
+            setScales();
         }
     });
 

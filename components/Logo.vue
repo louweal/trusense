@@ -1,9 +1,9 @@
 <template>
     <NuxtLink :to="homeUrl" class="logo inline-flex gap-3">
         <svg xmlns="http://www.w3.org/2000/svg" width="41" height="41" fill="none">
-            <circle cx="20.388" cy="20.388" r="20.388" fill="#F68227" />
+            <circle cx="20.388" cy="20.388" r="20.388" fill="#072847" />
             <path
-                fill="#072847"
+                fill="#fff"
                 d="M20.373 17.164a1.96 1.96 0 0 1 .498 3.858v13.056h-.997V21.022a1.961 1.961 0 0 1 .499-3.858Z"
             />
             <path
@@ -15,7 +15,9 @@
                 d="M26.26 31.23c.872.018 4.667-3.481 5.884-6.126a12.958 12.958 0 1 0-23.528.035c1.225 2.641 5.141 6.113 5.902 6.109.761-.004.683-.768.481-.95-.202-.184-4.292-3.183-5.416-5.608a11.893 11.893 0 1 1 16.193 5.591s-.387.932.484.95Z"
             />
         </svg>
-        <span class="text-[28px] font-bold text-secondary"><span class="text-primary">Tru</span>Sense</span>
+        <span class="text-[28px] font-bold text-primary hidden sm:inline"
+            ><span class="text-primary">Tru</span>Sense</span
+        >
     </NuxtLink>
 </template>
 

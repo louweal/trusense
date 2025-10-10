@@ -1,5 +1,5 @@
 <template>
-    <div class="gradient-header fixed top-0 left-0 right-0 z-50 py-3">
+    <div class="gradient-header fixed top-0 left-0 right-0 z-50 py-3 transition-transform" ref="header">
         <div class="container flex justify-between items-center">
             <Logo :homeUrl="user ? '/dashboard' : '/'" />
 
@@ -7,7 +7,7 @@
                 <ul v-if="!user" class="flex gap-7 items-center">
                     <li><NuxtLink to="/login">Login</NuxtLink></li>
                     <li>
-                        <NuxtLink to="/register" class="btn btn--dark btn--small">Track</NuxtLink>
+                        <div @click="openSearchModal()" class="btn btn--dark btn--small">Track</div>
                     </li>
 
                     <!-- <li>
@@ -24,11 +24,17 @@
                 </ul>
             </nav>
         </div>
+        <SearchModal />
     </div>
 </template>
 
 <script setup>
+import { onMounted, useTemplateRef } from "vue";
+import { useAuth } from "~/composables/useAuth";
 // import { HederaService } from "~/lib/hedera";
+
+const header = useTemplateRef("header");
+let lastScrollY = 0;
 
 // const user = null;
 const { user, loading, error, isLoggedIn, fetchUser, logout } = useAuth();
@@ -49,6 +55,31 @@ const signOut = async () => {
         logout();
     } catch (err) {
         console.error("Failed to sign out:", err);
+    }
+};
+
+onMounted(() => {
+    window.addEventListener("scroll", () => {
+        const currentScrollY = window.scrollY;
+        if (currentScrollY > lastScrollY && currentScrollY > 50) {
+            header.value.classList.add("-translate-y-full");
+        } else {
+            header.value.classList.remove("-translate-y-full");
+        }
+        lastScrollY = currentScrollY;
+    });
+});
+
+const openSearchModal = () => {
+    console.log("open search modal");
+
+    const searchModal = document.querySelector(".search-modal");
+    if (searchModal) {
+        console.log("search model!");
+        searchModal.classList.add("is-active");
+
+        // disable scroll on body
+        document.body.style.overflow = "hidden";
     }
 };
 </script>

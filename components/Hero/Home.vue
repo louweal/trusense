@@ -5,22 +5,23 @@
             <div class="grid md:grid-cols-12 gap-y-10 gap-x-5 items-center">
                 <div class="md:col-span-4 min-height-[600px]">
                     <div class="w-full animate-slide-up relative">
-                        <div class="circles">
+                        <!-- <div class="circles">
                             <span class="circle circle--1"> </span>
                             <span class="circle circle--2"> </span>
                             <span class="circle circle--3"> </span>
-                        </div>
+                        </div> -->
                         <img src="/images/sensor-dummy.png" alt="hero" class="w-full h-full object-cover" />
                     </div>
                 </div>
                 <div class="md:col-span-5 md:col-start-6 order-first md:order-last">
-                    <div class="animate-slide-up flex flex-col flex-start gap-6 text-white">
-                        <client-only
-                            ><h1 class="font-semibold text-9xl text-secondary">
-                                Immutatble <span ref="typed" class="text-transparent stroked"></span> measurements on
-                                chain
-                            </h1></client-only
-                        >
+                    <div class="opacity-0 animate-fade-up flex flex-col flex-start gap-6 text-white origin-top">
+                        <client-only>
+                            <h1 class="font-semibold text-4xl md:text-[69px] text-secondary">
+                                Immutable <br />
+                                <span ref="typed" class="text-transparent stroked"></span>
+                                measurements on chain
+                            </h1>
+                        </client-only>
 
                         <p class="text-2xl font-regular opacity-75 text-primary">
                             With TruSense sensors you can track environmental variables in real time. All data is stored
@@ -46,7 +47,7 @@ onMounted(async () => {
 
     if (typed.value) {
         new Typed(typed.value, {
-            strings: ["temperature", "air pressure", "humidity", "air quality"],
+            strings: ["temperature", "air pressure", "humidity"],
             typeSpeed: 50,
             backSpeed: 40,
             loop: true,

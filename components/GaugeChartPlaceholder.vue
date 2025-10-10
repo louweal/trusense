@@ -1,10 +1,5 @@
 <template>
-    <div class="bg-box rounded-[40px] p-8 relative">
-        <h4 class="font-medium text-lg">{{ title }}</h4>
-        <canvas id="gaugeChart" ref="gaugeCanvas" class="max-h-[210px]"></canvas>
-
-        <!-- <span class="absolute bottom-2 right-4 text-xs opacity-50">30 seconds ago</span> -->
-    </div>
+    <canvas id="gaugeChart" ref="gaugeCanvas" class="max-h-[210px]"></canvas>
 </template>
 
 <script setup>
@@ -83,11 +78,3 @@ onMounted(() => {
     });
 });
 </script>
-
-<style scoped>
-/* canvas#gaugeChart {
-    width: 100%;
-    height: 200px;
-    border: 1px solid gold;
-} */
-</style>

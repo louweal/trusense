@@ -54,9 +54,13 @@ export default defineNuxtConfig({
         },
     },
     // plugins: ["~/plugins/vue-typed-js.client"],
-    // aos: {
-    //     // optional configuration
-    //     duration: 800,
-    //     once: true,
-    // },
+    aos: {
+        //  configuration
+        useClassNames: true,
+        duration: 1850,
+        once: true,
+        delay: 0,
+        offset: 100,
+        easing: "ease-in-out-cubic",
+    },
 });

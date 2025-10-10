@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
         // add the dummy sensor
         await prisma.sensor.create({
             data: {
-                topicId: "0.0.6938176",
+                topicId: "0.0.7001056",
                 interval: 30000, // 30 seconds
                 subscriberId: user.id,
             },

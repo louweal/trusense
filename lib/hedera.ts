@@ -88,4 +88,20 @@ export class HederaService {
 
         return result;
     }
+
+    async getFirstMessage(topicId: string): Promise<Measurement> {
+        const res = await fetch(`${this.networkUrl}/api/v1/topics/${topicId}/messages?limit=1`);
+        const json: MirrorNodeResponse = await res.json();
+
+        if (json.messages?.length) {
+            const msg = json.messages[0]; // get last message (last in array)
+            const decoded = atob(msg.message);
+            const payload = JSON.parse(decoded);
+
+            return payload;
+        } else {
+            console.log("No messages found");
+            return { temperature: null, humidity: null, airPressure: null };
+        }
+    }
 }
