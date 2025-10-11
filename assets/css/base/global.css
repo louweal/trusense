@@ -1,6 +1,6 @@
 html {
-    font-family: "Libre Baskerville", sans-serif;
-    font-weight: 500; /* medium */
+    font-family: "Syne", sans-serif;
+    font-weight: 400; /* medium */
     scroll-behavior: smooth;
 }
 
@@ -81,27 +81,9 @@ body {
     }
 }
 
-[data-aos="fade-up"] {
-    transform: translateY(10px) scaleY(1.08);
-}
-
-/* .fade-up-y {
-    animation: fade-up-y 1s 0.5s cubic-bezier(0.2, 0, 0.1, 1) forwards;
-    will-change: transform, opacity;
-    opacity: 0;
+/* [data-aos="fade-up"] {
     transform: translateY(10px) scaleY(1.08);
 } */
-
-@keyframes fade-up-y {
-    0% {
-        transform: translateY(10px) scaleY(1.08);
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-        transform: none;
-    }
-}
 
 .hero {
     width: 100%;
@@ -122,7 +104,7 @@ body {
     padding-bottom: 4rem;
 }
 
-input[type="text"],
+input[type="text"]:not(#search),
 input[type="date"],
 input[type="datetime-local"],
 input[type="number"],

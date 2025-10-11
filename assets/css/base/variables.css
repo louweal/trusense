@@ -20,6 +20,9 @@
     --container-width: 75rem;
     --header-height: 4rem;
 
+    --font-display: "Libre Baskerville", serif;
+    --font-body: "Syne", sans-serif;
+
     @media (min-width: 64rem) {
         /* --header-height: 6.5rem; */
     }

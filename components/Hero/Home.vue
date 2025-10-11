@@ -16,14 +16,14 @@
                 <div class="md:col-span-5 md:col-start-6 order-first md:order-last">
                     <div class="opacity-0 animate-fade-up flex flex-col flex-start gap-6 text-white origin-top">
                         <client-only>
-                            <h1 class="font-semibold text-4xl md:text-[69px] text-secondary">
+                            <h1 class="font-bold text-5xl md:text-[70px] text-secondary">
                                 Immutable <br />
-                                <span ref="typed" class="text-transparent stroked"></span>
-                                measurements on chain
+                                <span ref="typed" class="text-transparent stroked"></span> <br />
+                                tracking on chain
                             </h1>
                         </client-only>
 
-                        <p class="text-2xl font-regular opacity-75 text-primary">
+                        <p class="text-lg md:text-2xl font-light opacity-75 text-primary">
                             With TruSense sensors you can track environmental variables in real time. All data is stored
                             on chain and is immutable. Ensuring transparency and trust.
                         </p>

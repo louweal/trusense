@@ -1,5 +1,5 @@
 <template>
-    <div class="grid md:grid-cols-8 gap-5 items-center" data-aos="fade">
+    <div class="grid md:grid-cols-8 gap-5 items-center" data-aos="fade-up">
         <div
             class="md:col-span-3"
             :class="{

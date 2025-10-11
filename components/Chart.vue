@@ -439,10 +439,9 @@ function toggleDataset(i) {
 }
 
 function setScales() {
-    // const scaleNames = ["y", "yHumidity", "yPressure"];
-
     for (let i = 0; i < datasets.value.length; i++) {
         const scaleName = datasets.value[i].scale;
+        // console.log("scaleName :>> ", scaleName);
         let data = chartInstance.data.datasets[i].data;
 
         if (data.length > 0) {
@@ -453,13 +452,12 @@ function setScales() {
             const newMin = minVal - offset;
             const newMax = maxVal + offset;
 
+            // console.log("newMin :>> ", newMin);
+            // console.log("newMax :>> ", newMax);
+
             // check if scale needs to be bigger
-            if (chartInstance.scales[scaleName].min > newMin) {
-                chartInstance.options.scales[scaleName].min = minVal - offset;
-            }
-            if (chartInstance.scales[scaleName].max < newMax) {
-                chartInstance.options.scales[scaleName].max = maxVal + offset;
-            }
+            chartInstance.options.scales[scaleName].min = newMin;
+            chartInstance.options.scales[scaleName].max = newMax;
         } else {
             console.log("No data found.");
         }
