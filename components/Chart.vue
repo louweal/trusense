@@ -117,6 +117,8 @@ import { Chart } from "chart.js/auto";
 import "chartjs-adapter-date-fns";
 import { HcsListener } from "../lib/HcsListener";
 
+const config = useRuntimeConfig();
+
 const props = defineProps({
     topicId: String,
     interval: Number,
@@ -224,7 +226,7 @@ const validateDates = async () => {
     // delete all current chart data points
     deletePoints();
 
-    let newFetchUrl = `https://testnet.mirrornode.hedera.com/api/v1/topics/${props.topicId}/messages?timestamp=gte:${hederaStartTimestamp}&timestamp=lte:${hederaEndTimestamp}&order=asc`;
+    let newFetchUrl = `https://${config.public.hederaNetwork}.mirrornode.hedera.com/api/v1/topics/${props.topicId}/messages?timestamp=gte:${hederaStartTimestamp}&timestamp=lte:${hederaEndTimestamp}&order=asc`;
 
     await fetchHistoricalMessages(newFetchUrl);
     setScales();
@@ -246,8 +248,6 @@ function createChart() {
 
     Chart.defaults.font.family = "'Libre Baskerville', serif";
     Chart.defaults.font.size = window.innerWidth < 480 ? 10 : 12;
-
-    console.log("window.innerWidth :>> ", window.innerWidth);
 
     chartInstance = new Chart(ctx, {
         type: "line",
@@ -382,7 +382,7 @@ function pushPoint(timestamp, temperature, humidity, airPressure) {
 async function handleFilter(filter) {
     const end = new Date();
     const tsEnd = Math.floor(end.getTime() / 1000);
-    let baseUrl = `https://testnet.mirrornode.hedera.com/api/v1/topics/${props.topicId}/messages?timestamp=lte:${tsEnd}&order=asc`;
+    let baseUrl = `https://${config.public.hederaNetwork}.mirrornode.hedera.com/api/v1/topics/${props.topicId}/messages?timestamp=lte:${tsEnd}&order=asc`;
     let start = new Date(end.getTime() - 60 * 60 * 1000);
     let tsStart = Math.floor(start.getTime() / 1000);
 
@@ -492,7 +492,9 @@ async function fetchHistoricalMessages(url) {
 
         // console.log("json.links :>> ", json.links);
         if (json.links?.next) {
-            await fetchHistoricalMessages("https://testnet.mirrornode.hedera.com" + json.links.next);
+            await fetchHistoricalMessages(
+                `https://${config.public.hederaNetwork}.mirrornode.hedera.com${json.links.next}`,
+            );
         }
 
         isFetching.value = false;
@@ -510,7 +512,7 @@ onMounted(async () => {
     const hederaStartTimestamp = Math.floor(startDate.getTime() / 1000);
     const hederaEndTimestamp = Math.floor(endDate.getTime() / 1000);
 
-    const initialFetchUrl = `https://testnet.mirrornode.hedera.com/api/v1/topics/${props.topicId}/messages?timestamp=gte:${hederaStartTimestamp}&timestamp=lte:${hederaEndTimestamp}&order=asc`;
+    const initialFetchUrl = `https://${config.public.hederaNetwork}.mirrornode.hedera.com/api/v1/topics/${props.topicId}/messages?timestamp=gte:${hederaStartTimestamp}&timestamp=lte:${hederaEndTimestamp}&order=asc`;
 
     await fetchHistoricalMessages(initialFetchUrl);
     setScales();

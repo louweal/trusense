@@ -35,6 +35,7 @@ export class HederaService {
     private client: Client;
     private network: string;
     private networkUrl: string;
+    private inspectorUrl: string;
 
     constructor() {
         const config = useRuntimeConfig();
@@ -44,10 +45,12 @@ export class HederaService {
             this.client = Client.forMainnet();
             this.network = "mainnet";
             this.networkUrl = "https://mainnet.mirrornode.hedera.com";
+            this.inspectorUrl = "https://hashscan.io/mainnet/topic/";
         } else {
             this.client = Client.forTestnet();
             this.network = "testnet";
             this.networkUrl = "https://testnet.mirrornode.hedera.com";
+            this.inspectorUrl = "https://hashscan.io/testnet/topic/";
         }
     }
 

@@ -13,8 +13,10 @@ export async function startHcsListener(topicId: string) {
     if (isListening) return;
     isListening = true;
 
-    const client = Client.forTestnet();
-    client.setOperator(process.env.HEDERA_ACCOUNT_ID!, process.env.HEDERA_PRIVATE_KEY!);
+    let client = Client.forTestnet();
+    if (process.env.HEDERA_NETWORK === "mainnet") {
+        client = Client.forMainnet();
+    }
 
     console.log("[HCS] Starting listener for ", topicId);
 

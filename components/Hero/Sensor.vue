@@ -10,9 +10,11 @@
                 <div>
                     <p>
                         <strong>Topic ID: </strong
-                        ><a href="https://hashscan.io/testnet/topic/{{ topicId }}/messages" target="_blank">{{
-                            topicId
-                        }}</a>
+                        ><a
+                            :href="`https://hashscan.io/${config.public.hederaNetwork}/topic/${topicId}/messages`"
+                            target="_blank"
+                            >{{ topicId }}</a
+                        >
                     </p>
                     <p><strong>Measurement Interval: </strong> {{ interval / 1000 }} seconds</p>
                     <p><strong>First message:</strong> {{ firstMessageDate }}</p>
@@ -27,6 +29,7 @@ import { onMounted } from "vue";
 import { HederaService } from "~/lib/hedera";
 
 const hederaService = new HederaService();
+const config = useRuntimeConfig();
 
 const firstMessageDate = ref(null);
 
