@@ -7,7 +7,7 @@
 
         <section class="section">
             <div class="container flex flex-col gap-10">
-                <CurrentMeasurements v-if="topicId" :topicId="topicId" :interval="interval" />
+                <CurrentMeasurements v-if="topicId" :topicId="topicId" :interval="interval" :id="slug" />
 
                 <!-- <div class="grid sm:grid-cols-3 gap-5">
                     <div class="bg-box rounded-[40px] p-8">

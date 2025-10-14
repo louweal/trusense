@@ -29,9 +29,6 @@
             </div>
         </div>
         <ModalQR />
-        <ModalAlert :id="id" measurement="temperature" />
-        <ModalAlert :id="id" measurement="humidity" />
-        <ModalAlert :id="id" measurement="pressure" />
     </header>
 </template>
 

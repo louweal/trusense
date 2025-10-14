@@ -28,7 +28,7 @@
 
                 <!-- list all sensors -->
                 <div class="flex flex-col gap-5">
-                    <CardSensor v-for="sensor in allSensors" :key="sensor.id" v-bind="sensor" />
+                    <CardSensorMini v-for="sensor in allSensors" :key="sensor.id" v-bind="sensor" />
                 </div>
             </div>
         </section>

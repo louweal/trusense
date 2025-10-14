@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 
 const pageUrl = ref(null);
 const copied = ref(false);

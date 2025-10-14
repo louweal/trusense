@@ -30,16 +30,30 @@
                 color="#accfdc"
             />
         </ClientOnly>
+        <ModalAlert :id="id" measurement="temperature" :email="user.email" />
+        <ModalAlert :id="id" measurement="humidity" :email="user.email" />
+        <ModalAlert :id="id" measurement="pressure" :email="user.email" />
     </div>
 </template>
 
 <script setup>
 import { HederaService } from "~/lib/hedera";
 import { HcsListener } from "../lib/HcsListener";
-import { onMounted } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 import GaugeChartWrapper from "../../components/GaugeChartWrapper.vue";
+import { useAuth } from "~/composables/useAuth";
+
+const { user, loading, error, isLoggedIn, fetchUser, logout } = useAuth();
+await fetchUser();
+
+// const user = null;
+const email = ref(null);
 
 const props = defineProps({
+    id: {
+        type: String,
+        required: true,
+    },
     topicId: {
         type: String,
         required: true,
@@ -74,6 +88,16 @@ onMounted(async () => {
     });
 
     await listener.start();
+
+    if (user.value) {
+        console.log(user.value);
+        email.value = user.value.email;
+
+        // console.log("logged in");
+        // console.log("user.email :>> ", user.value.email);
+    } else {
+        // console.log("not logged in");
+    }
 });
 
 // stop listening when component is unmounted

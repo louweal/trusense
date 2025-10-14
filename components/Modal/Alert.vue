@@ -36,7 +36,7 @@
 </template>
 
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 
 const props = defineProps({
     id: {
@@ -44,6 +44,10 @@ const props = defineProps({
         required: true,
     },
     measurement: {
+        type: String,
+        required: true,
+    },
+    email: {
         type: String,
         required: true,
     },
@@ -104,7 +108,7 @@ const sendEmail = async () => {
         const res = await $fetch("/api/send-email", {
             method: "POST",
             body: {
-                to: "trusense.alert@gmail.com",
+                to: props.email,
                 subject: "Test Notification",
                 message: "Hello from Nuxt + SendGrid with TypeScript!",
             },

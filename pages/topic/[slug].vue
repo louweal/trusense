@@ -5,7 +5,7 @@
 
         <section class="section">
             <div class="container flex flex-col gap-10">
-                <CurrentMeasurements v-if="topicId" :topicId="topicId" :interval="interval" />
+                <CurrentMeasurements v-if="topicId" :topicId="topicId" :interval="interval" :id="id" />
 
                 <Chart v-if="topicId" :topicId="topicId" :interval="interval" />
                 <div v-else>
@@ -19,7 +19,7 @@
 <script setup>
 import { HederaService } from "~/lib/hedera";
 import { HcsListener } from "../../lib/HcsListener";
-import { onMounted } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 
 // get slug
 const route = useRoute();

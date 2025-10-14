@@ -19,10 +19,12 @@
 </template>
 
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 import { HederaService } from "~/lib/hedera";
+import { HcsListener } from "../lib/HcsListener";
 
 const hederaService = new HederaService();
+let listener = new HcsListener();
 
 const temperature = ref(null);
 const humidity = ref(null);
@@ -54,5 +56,18 @@ onMounted(async () => {
     temperature.value = lastMessage.temperature;
     humidity.value = lastMessage.humidity;
     airPressure.value = lastMessage.airPressure;
+
+    // then start listening for new messages
+    listener = new HcsListener(props.topicId, (data) => {
+        if (data.temperature !== undefined) temperature.value = data.temperature;
+        if (data.humidity !== undefined) humidity.value = data.humidity;
+        if (data.airPressure !== undefined) airPressure.value = data.airPressure;
+    });
+
+    await listener.start();
+});
+
+onUnmounted(() => {
+    listener?.stop();
 });
 </script>
