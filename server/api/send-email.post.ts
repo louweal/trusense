@@ -17,7 +17,7 @@ export default defineEventHandler(async (event: H3Event) => {
 
         const msg = {
             to: body.to,
-            from: "your-verified-sender@example.com", // must be verified in SendGrid
+            from: "trusense.alert@gmail.com", // must be verified in SendGrid
             subject: body.subject,
             text: body.message,
             html: `<p>${body.message}</p>`,

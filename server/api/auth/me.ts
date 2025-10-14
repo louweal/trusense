@@ -10,7 +10,7 @@ const JWT_SECRET = process.env.JWT_SECRET as string;
 export default defineEventHandler(async (event) => {
     const token = getCookie(event, "auth_token");
     if (!token) {
-        throw createError({ statusCode: 401, message: "Unauthorized" });
+        throw createError({ statusCode: 401, message: "Unauthorized!" });
     }
 
     try {

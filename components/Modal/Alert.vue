@@ -28,6 +28,8 @@
                     >
                     <input type="number" v-model="max" name="max" id="max" class="!pl-20" />
                 </div>
+
+                <div class="btn" @click="sendEmail()">Send email</div>
             </form>
         </div>
     </div>
@@ -96,4 +98,21 @@ onMounted(async () => {
 onUnmounted(() => {
     closeModal();
 });
+
+const sendEmail = async () => {
+    try {
+        const res = await $fetch("/api/send-email", {
+            method: "POST",
+            body: {
+                to: "trusense.alert@gmail.com",
+                subject: "Test Notification",
+                message: "Hello from Nuxt + SendGrid with TypeScript!",
+            },
+        });
+
+        console.log(res);
+    } catch (err) {
+        console.error("API error", err);
+    }
+};
 </script>
