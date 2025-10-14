@@ -13,6 +13,4 @@
 
 <style></style>
 
-<script setup>
-import SearchModal from "./components/SearchModal.vue";
-</script>
+<script setup></script>

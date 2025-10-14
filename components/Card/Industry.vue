@@ -11,7 +11,7 @@
                 <img class="w-full h-full rounded-full object-cover" :src="image" :alt="alt || title" />
             </div>
         </div>
-        <div class="md:col-span-5 p-8 flex flex-col gap-5">
+        <div class="md:col-span-5 p-8 flex flex-col gap-5 text-primary">
             <h3>{{ title }}</h3>
             <p>
                 {{ description }}

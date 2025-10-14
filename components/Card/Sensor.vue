@@ -15,7 +15,7 @@ const props = defineProps({
     },
     name: {
         type: String,
-        default: "TSS",
+        default: "",
     },
     topicId: {
         type: String,

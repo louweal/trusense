@@ -17,6 +17,7 @@ export default defineEventHandler(async (event) => {
         { pathPrefix: "/api/hcs", method: "ANY" },
         { pathPrefix: "/api/auth", method: "ANY" },
         { pathPrefix: "/api/users", method: "ANY" },
+        { pathPrefix: "/api/sensors", method: "GET" },
     ];
 
     const isPublic = publicRoutes.some(({ path, pathPrefix }) => {

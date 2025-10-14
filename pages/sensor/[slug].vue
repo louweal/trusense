@@ -1,7 +1,7 @@
 <template>
     <main>
         <Header />
-        <HeroSensor v-if="topicId" :name="name" :interval="interval" :topicId="topicId" />
+        <HeroSensor v-if="topicId" :id="slug" :name="name" :interval="interval" :topicId="topicId" />
 
         <!-- <div class="btn" @click="updateInterval(40000)">Set interval (40000)</div> -->
 

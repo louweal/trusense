@@ -17,6 +17,7 @@
         "@hashgraph/sdk": "^2.67.0",
         "@nuxtjs/tailwindcss": "^7.0.0-beta.0",
         "@prisma/client": "^5.19.1",
+        "@sendgrid/mail": "^8.1.6",
         "bcrypt": "^6.0.0",
         "chart.js": "^4.5.0",
         "chartjs-adapter-date-fns": "^3.0.0",
@@ -24,6 +25,7 @@
         "jsonwebtoken": "^9.0.2",
         "nuxt": "^3.13.0",
         "nuxt-aos": "^1.2.5",
+        "qrcode": "^1.5.4",
         "typed.js": "^2.1.0",
         "zod": "^3.25.73"
     },

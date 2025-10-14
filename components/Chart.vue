@@ -142,41 +142,6 @@ const localEndDate = new Date(endDate.getTime() - endDate.getTimezoneOffset() * 
 const inputStartDate = ref(localStartDate);
 const inputEndDate = ref(localEndDate);
 
-const meanLinePlugin = {
-    id: "meanLine",
-    afterDatasetsDraw(chart) {
-        const ctx = chart.ctx;
-        const yScale = chart.scales.y;
-        const xScale = chart.scales.x;
-
-        chart.data.datasets.forEach((dataset) => {
-            console.log("add mean line for dataset:", dataset.label);
-            const data = dataset.data;
-
-            if (!data || data.length === 0) return; // skip empty datasets
-            const dataY = data.map((point) => point.y);
-
-            // Compute mean
-            const mean = dataY.reduce((sum, val) => sum + val, 0) / dataY.length;
-            console.log("mean :>> ", mean);
-
-            // Convert mean value to pixel
-            const yPos = yScale.getPixelForValue(mean);
-
-            // Draw dashed line
-            ctx.save();
-            ctx.strokeStyle = dataset.borderColor;
-            ctx.lineWidth = 1;
-            // ctx.setLineDash([5, 5]);
-            ctx.beginPath();
-            ctx.moveTo(xScale.left, yPos);
-            ctx.lineTo(xScale.right, yPos);
-            ctx.stroke();
-            ctx.restore();
-        });
-    },
-};
-
 // Helper: format date for datetime-local
 function formatDateTimeLocal(date) {
     return date.toISOString().slice(0, 16); // "YYYY-MM-DDTHH:MM"
@@ -196,7 +161,6 @@ function stopRealtime() {
 }
 
 const validateDates = async () => {
-    console.log("validateDates");
     startError.value = "";
     endError.value = "";
     activeBtn.value = "";
@@ -258,7 +222,7 @@ function createChart() {
                     data: [],
                     borderColor: datasets.value[0].color,
                     backgroundColor: datasets.value[0].color,
-                    tension: 0.1,
+                    tension: 0,
                     parsing: false,
                     pointRadius: 3,
                 },
@@ -298,9 +262,13 @@ function createChart() {
                     algorithm: "lttb", // "Largest Triangle Three Buckets"
                     samples: 5000, // reduce to ~5k visible points
                 },
-                meanLinePlugin,
                 tooltip: {
                     displayColors: false,
+                    backgroundColor: "rgba(255, 255, 255, 0.95)",
+                    titleColor: "black",
+                    bodyColor: "black",
+                    yAlign: "bottom",
+                    xAlign: "center",
                     callbacks: {
                         label: (context) => {
                             const datasetLabel = context.dataset.label || "";
@@ -308,10 +276,10 @@ function createChart() {
                             // Pick tooltip text depending on dataset
                             switch (datasetLabel) {
                                 case "Temperature (°C)":
-                                    return `${context.parsed.y.toFixed(2)} °C`;
+                                    return `${context.parsed.y.toFixed(2)}°C`;
                                 case "Humidity (%)":
-                                    return `${context.parsed.y.toFixed(1)} %`;
-                                case "Pressure (hPa)":
+                                    return `${context.parsed.y.toFixed(1)}%`;
+                                case "Air Pressure (hPa)":
                                     return `${context.parsed.y.toFixed(1)} hPa`;
                                 default:
                                     return `${context.parsed.y}`;
@@ -332,20 +300,9 @@ function createChart() {
                     // max: chartEndDate,
                 },
                 y: {
-                    display: false,
+                    display: true,
                     title: { display: true, text: "Temperature (°C)" },
-                    ticks: {
-                        precision: window.innerWidth < 480 ? 0 : undefined,
-                    },
-                },
-                yHumidity: {
-                    type: "linear",
-                    display: false,
-                    position: "right",
-                    title: { display: true, text: "Humidity (%)" },
-                    // min: 0,
-                    // max: 100,
-                    grid: { drawOnChartArea: false }, // avoid grid lines overlapping
+                    grid: { drawOnChartArea: false },
                     ticks: {
                         precision: window.innerWidth < 480 ? 0 : undefined,
                     },
@@ -363,9 +320,20 @@ function createChart() {
                         precision: window.innerWidth < 480 ? 0 : undefined,
                     },
                 },
+                yHumidity: {
+                    type: "linear",
+                    display: true,
+                    position: "right",
+                    title: { display: true, text: "Humidity (%)" },
+                    // min: 0,
+                    // max: 100,
+                    // avoid grid lines overlapping
+                    ticks: {
+                        precision: window.innerWidth < 480 ? 0 : undefined,
+                    },
+                },
             },
         },
-        // plugins: [meanLinePlugin],
     });
 }
 
@@ -382,7 +350,7 @@ function pushPoint(timestamp, temperature, humidity, airPressure) {
 async function handleFilter(filter) {
     const end = new Date();
     const tsEnd = Math.floor(end.getTime() / 1000);
-    let baseUrl = `https://${config.public.hederaNetwork}.mirrornode.hedera.com/api/v1/topics/${props.topicId}/messages?timestamp=lte:${tsEnd}&order=asc`;
+    let baseUrl = `https://${config.public.hederaNetwork}.mirrornode.hedera.com/api/v1/topics/${props.topicId}/messages?timestamp=lte:${tsEnd}&order=asc&limit=100`;
     let start = new Date(end.getTime() - 60 * 60 * 1000);
     let tsStart = Math.floor(start.getTime() / 1000);
 
@@ -397,7 +365,6 @@ async function handleFilter(filter) {
             realtime.value = true;
             break;
         case "lastDay":
-            console.log("lastDay");
             start = new Date(end.getTime() - 24 * 60 * 60 * 1000);
             tsStart = Math.floor(start.getTime() / 1000);
             deletePoints();
@@ -512,7 +479,7 @@ onMounted(async () => {
     const hederaStartTimestamp = Math.floor(startDate.getTime() / 1000);
     const hederaEndTimestamp = Math.floor(endDate.getTime() / 1000);
 
-    const initialFetchUrl = `https://${config.public.hederaNetwork}.mirrornode.hedera.com/api/v1/topics/${props.topicId}/messages?timestamp=gte:${hederaStartTimestamp}&timestamp=lte:${hederaEndTimestamp}&order=asc`;
+    const initialFetchUrl = `https://${config.public.hederaNetwork}.mirrornode.hedera.com/api/v1/topics/${props.topicId}/messages?timestamp=gte:${hederaStartTimestamp}&timestamp=lte:${hederaEndTimestamp}&order=asc&limit=100`;
 
     await fetchHistoricalMessages(initialFetchUrl);
     setScales();

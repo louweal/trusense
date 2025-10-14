@@ -1,52 +1,11 @@
 <template>
     <main>
         <Header />
-        <!-- <HeroSensor :name="name" :topicId="topicId" /> -->
-
-        <header class="hero">
-            <div class="container">
-                <h1>{{ name }}</h1>
-
-                <p>{{ topicId }}</p>
-                <p>Measurement Interval: {{ interval / 1000 }} seconds</p>
-
-                <a :href="`https://hashscan.io/testnet/topic/${topicId}/messages`" target="_blank"
-                    >Inspect on HashScan</a
-                >
-            </div>
-        </header>
+        <HeroSensor v-if="topicId" :id="id" :name="name" :interval="interval" :topicId="topicId" />
 
         <section class="section">
             <div class="container flex flex-col gap-10">
-                <div class="grid sm:grid-cols-3 gap-5">
-                    <ClientOnly fallback="Loading charts...">
-                        <GaugeChartWrapper
-                            title="Temperature"
-                            unit="°C"
-                            :min="-40"
-                            :max="85"
-                            :value="curTemp"
-                            color="#f68227"
-                        />
-
-                        <GaugeChartWrapper
-                            title="Humidity"
-                            unit="%"
-                            :min="0"
-                            :max="100"
-                            :value="curHum"
-                            color="#072847"
-                        />
-                        <GaugeChartWrapper
-                            title="Air Pressure"
-                            unit="hPa"
-                            :min="950"
-                            :max="1050"
-                            :value="curAirPressure"
-                            color="#accfdc"
-                        />
-                    </ClientOnly>
-                </div>
+                <CurrentMeasurements v-if="topicId" :topicId="topicId" :interval="interval" />
 
                 <Chart v-if="topicId" :topicId="topicId" :interval="interval" />
                 <div v-else>
@@ -61,12 +20,12 @@
 import { HederaService } from "~/lib/hedera";
 import { HcsListener } from "../../lib/HcsListener";
 import { onMounted } from "vue";
-import GaugeChartWrapper from "../../components/GaugeChartWrapper.vue";
 
 // get slug
 const route = useRoute();
 const slug = route.params.slug;
 
+const id = ref(null);
 const topicId = ref(null);
 const interval = ref(null);
 const name = ref(null);
@@ -81,7 +40,8 @@ let listener = new HcsListener();
 // get the sensor for db on mount
 onMounted(async () => {
     try {
-        const sensor = await $fetch("/api/sensors/" + slug);
+        const sensor = await $fetch("/api/sensors/by-topic/" + slug);
+        id.value = sensor.id;
         topicId.value = sensor.topicId;
         interval.value = sensor.interval;
         name.value = sensor.name;

@@ -2,7 +2,7 @@
     <div class="bg-box rounded-[40px] p-8 relative">
         <div class="flex justify-between items-center w-full">
             <h4 class="font-medium text-lg">{{ title }}</h4>
-            <div class="cursor-pointer">
+            <div class="cursor-pointer" @click="openModal">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="22" fill="none">
                     <path
                         fill="#accfdc"
@@ -20,6 +20,7 @@
 const props = defineProps({
     title: String,
     unit: String,
+    measurement: String,
     min: Number,
     max: Number,
     value: Number, // current value
@@ -28,4 +29,12 @@ const props = defineProps({
         default: "#000",
     },
 });
+
+const openModal = () => {
+    const modal = document.querySelector(".alert-modal#" + props.measurement);
+    console.log(modal);
+    if (!modal) return;
+
+    modal.classList.add("is-active");
+};
 </script>

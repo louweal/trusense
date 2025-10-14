@@ -1,14 +1,31 @@
 <template>
     <div class="grid sm:grid-cols-3 gap-5">
         <ClientOnly fallback="Loading charts...">
-            <GaugeChartWrapper title="Temperature" unit="°C" :min="-40" :max="85" :value="curTemp" color="#f68227" />
-
-            <GaugeChartWrapper title="Humidity" unit="%" :min="0" :max="100" :value="curHum" color="#072847" />
             <GaugeChartWrapper
+                measurement="temperature"
+                title="Temperature"
+                unit="°C"
+                :min="-40"
+                :max="85"
+                :value="curTemp"
+                color="#f68227"
+            />
+
+            <GaugeChartWrapper
+                measurement="humidity"
+                title="Humidity"
+                unit="%"
+                :min="0"
+                :max="100"
+                :value="curHum"
+                color="#072847"
+            />
+            <GaugeChartWrapper
+                measurement="pressure"
                 title="Air Pressure"
                 unit="hPa"
                 :min="950"
-                :max="1050"
+                :max="1100"
                 :value="curAirPressure"
                 color="#accfdc"
             />
