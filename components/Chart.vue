@@ -1,8 +1,23 @@
 <template>
-    <div class="bg-box rounded-[40px] p-8">
-        <h3>Historical Data</h3>
+    <div class="bg-box rounded-[40px] p-8 flex flex-col gap-5">
+        <div class="flex justify-between items-center">
+            <h3 class="text-lg">
+                <!-- Historical Data -->
+            </h3>
 
-        <div class="flex flex-wrap w-full gap-4 my-10">
+            <div>
+                Realtime
+                <span
+                    class="font-semibold px-2 py-1 rounded-2xl cursor-pointer text-sm"
+                    :class="{ 'text-red-600 bg-red-600/10': !realtime, 'text-green-600 bg-green-600/10': realtime }"
+                >
+                    <span v-if="realtime" @click="stopRealtime()">ON</span>
+                    <span v-else @click="startRealtime()">OFF</span>
+                </span>
+            </div>
+        </div>
+
+        <div class="flex flex-wrap w-full gap-4">
             <div
                 class="btn flex-grow"
                 :class="{ 'btn--primary': activeBtn === 'lastHour' }"
@@ -31,9 +46,6 @@
             >
                 Last month
             </div>
-        </div>
-
-        <div class="flex flex-wrap w-full gap-4 my-10">
             <div class="relative flex-grow">
                 <label
                     for="start"
@@ -99,14 +111,6 @@
                     </span>
                 </div>
             </div>
-        </div>
-
-        <div>
-            Realtime:
-            <span class="font-semibold" :class="{ 'text-red-600': !realtime, 'text-green-600': realtime }">
-                <span v-if="realtime" @click="stopRealtime()">ON</span>
-                <span v-else @click="startRealtime()" class="cursor-pointer">OFF</span>
-            </span>
         </div>
     </div>
 </template>
@@ -250,7 +254,7 @@ function createChart() {
         },
         // height: 300,
         options: {
-            aspectRatio: window.innerWidth < 480 ? 1 : 2,
+            aspectRatio: window.innerWidth < 480 ? 1 : 3,
             animation: false,
             responsive: true,
             plugins: {

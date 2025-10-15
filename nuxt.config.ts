@@ -60,7 +60,7 @@ export default defineNuxtConfig({
     aos: {
         //  configuration
         useClassNames: true,
-        duration: 1850,
+        duration: 850,
         once: true,
         delay: 0,
         offset: 100,

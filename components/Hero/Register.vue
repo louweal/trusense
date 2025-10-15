@@ -11,8 +11,10 @@
 
                     <div class="flex-col gap-4 hidden md:flex">
                         <h1 class="text-[38px] font-semibold">
-                            Transparency and trust with
-                            <span class="bg-white inline-block transform rotate-[-1deg] px-4 rounded-md"><Logo /></span>
+                            Add transparency and trust to your business with
+                            <span class="bg-white inline-block transform rotate-[-1deg] pt-3 px-4 rounded-md"
+                                ><Logo
+                            /></span>
                         </h1>
                     </div>
                 </div>

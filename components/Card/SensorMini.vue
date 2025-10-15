@@ -1,7 +1,7 @@
 <template>
-    <NuxtLink :to="`/topic/${topicId}`" class="bg-white p-8 rounded-[40px] flex flex-col gap-4">
+    <NuxtLink :to="`/topic/${topicId}`" class="bg-box p-8 rounded-[40px] flex flex-col gap-4">
         <h2 class="font-bold font-body text-lg">{{ name }}</h2>
-        <div class="flex gap-5">
+        <div class="flex flex-wrap gap-5">
             <div class="flex gap-3" v-if="temperature">
                 <div class="bg-secondary text-white size-6 rounded-full flex justify-center items-center">T</div>
                 <span class="font-bold">{{ temperature }}°C</span>

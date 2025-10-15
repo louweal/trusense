@@ -54,7 +54,12 @@ async function updateInterval(interval) {
     if (!topicId.value) return;
 
     console.log("updating interval");
-    interval = 30000;
+
+    if (interval < 1000) {
+        console.log("Interval too small");
+        // todo show error in frontend
+        return;
+    }
 
     await fetch("https://trusense-web-server.onrender.com/settings/" + topicId.value, {
         method: "POST",

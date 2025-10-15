@@ -1,5 +1,5 @@
 <template>
-    <canvas id="gaugeChart" ref="gaugeCanvas" class="max-h-[210px]"></canvas>
+    <canvas id="gaugeChart" ref="gaugeCanvas" class=""></canvas>
 </template>
 
 <script setup>
@@ -74,7 +74,7 @@ onMounted(() => {
             datasets: [
                 {
                     data: [percentage, 100 - percentage], // Gauge value
-                    backgroundColor: [props.color, "#E0E0E0"],
+                    backgroundColor: [props.color, "#f3f2f2"],
                     borderWidth: 0,
                     cutout: "50%",
                     rotation: -90,
@@ -84,6 +84,8 @@ onMounted(() => {
         },
         options: {
             responsive: true,
+            aspectRatio: window.innerWidth < 480 ? 2 : 3,
+
             plugins: {
                 legend: {
                     display: false,

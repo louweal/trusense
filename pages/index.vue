@@ -6,19 +6,26 @@
 
         <section class="section" id="features">
             <div class="container">
-                <div class="bg-box rounded-[40px] py-20 px-8">
-                    <h2 class="text-center">Why choose TruSense?</h2>
+                <div class="bg-box rounded-[40px] py-20 px-8 flex flex-col gap-12">
+                    <h2 class="h2 text-center font-bold">Why choose TruSense?</h2>
                     <div class="grid md:grid-cols-3 gap-5">
-                        <div class="flex flex-col gap-4">
-                            <h3>Immutable Data</h3>
-                        </div>
-                        <div class="flex flex-col gap-4">
-                            <h3>Realtime Charts</h3>
-                        </div>
-
-                        <div class="flex flex-col gap-4">
-                            <h3>Smart Alerts</h3>
-                        </div>
+                        <CardFeature
+                            title="Immutable Data"
+                            description="Store temperature, humidity, and air pressure data on Hedera, ensuring transparency and verifiability."
+                            icon=""
+                        />
+                        <CardFeature
+                            data-aos-delay="100"
+                            title="Realtime Data"
+                            description="Charts and dashboards for real-time monitoring of temperature, humidity, and air pressure."
+                            icon=""
+                        />
+                        <CardFeature
+                            data-aos-delay="200"
+                            title="Smart Alerts"
+                            description="Receive alerts for temperature, humidity, and air pressure changes when they exceed your thresholds."
+                            icon=""
+                        />
                     </div>
                 </div>
             </div>
@@ -72,23 +79,25 @@
                             :reverse="false"
                         />
                     </div>
-                    <div class="md:col-span-4">
-                        <div class="bg-box rounded-[40px] p-8 flex flex-col gap-4 sticky top-20">
-                            <h3>All industries need immutable data</h3>
+                    <div class="md:col-span-4 lg:col-span-3 lg:col-start-10">
+                        <div
+                            class="bg-box rounded-[40px] p-8 flex flex-col gap-4 sticky top-20 justify-start items-start"
+                        >
+                            <h4 class="h4 text-primary">Immutable data at your fingertips</h4>
 
-                            <p>
-                                Vitae bibendum enim dolor sapien urna pellentesque leo in. Eu in nibh cursus quis sed
-                                rhoncus.
+                            <p class="opacity-60">
+                                For less than $8/month you can track temperature, humidity, and air pressure every 5
+                                minutes and store it on chain.
                             </p>
 
-                            <div class="btn">Get started</div>
+                            <NuxtLink to="/order" class="btn">Order now</NuxtLink>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="section" id="start">
+        <!-- <section class="section" id="start">
             <div class="container">
                 <div class="bg-box rounded-[40px] p-8 flex flex-col gap-4">
                     <h3>Ready to get started?</h3>
@@ -102,7 +111,7 @@
                     <NuxtLink to="/register" class="btn">Register</NuxtLink>
                 </div>
             </div>
-        </section>
+        </section> -->
 
         <Footer />
     </main>

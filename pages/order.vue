@@ -1,6 +1,8 @@
 <template>
     <main>
         <Hero-Order />
+
+        <p>hello</p>
     </main>
 </template>
 

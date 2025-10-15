@@ -1,36 +1,129 @@
 <template>
     <div
         class="modal alert-modal fixed inset-0 w-full h-full top-0 left-0 right-0 bottom-0 invisible opacity-0 flex justify-center items-center backdrop-blur-sm transition-opacity duration-300 ease-in-out z-20"
-        :id="measurement ? measurement : 'help'"
     >
         <div @click="closeModal()" class="absolute cursor-pointer inset-0 bg-[#313131] opacity-50"></div>
         <div
-            class="relative flex flex-col justify-center items-center gap-5 w-[600px] max-w-[90vw] bg-white rounded-[40px] transition-opacity shadow-modal p-8"
+            class="relative flex flex-col gap-5 w-[600px] max-w-[90vw] bg-white rounded-[40px] transition-opacity shadow-modal p-8"
         >
-            <h2 class="text-2xl">Alert</h2>
+            <h2 class="text-2xl">Alert Settings</h2>
 
             <p>Send an email notification when the value exceeds the threshold(s).</p>
 
-            <form class="grid md:grid-cols-2 gap-5">
+            <h3>Temperature</h3>
+
+            <div class="grid md:grid-cols-2 gap-5">
                 <div class="relative">
                     <label
-                        for="min"
+                        for="minTemperature"
                         class="bg-primary absolute top-2 left-2 bottom-2 rounded-xl flex justify-center items-center px-4 text-white"
                         >Min</label
                     >
-                    <input type="number" v-model="min" name="min" id="min" class="!pl-20" />
+                    <input
+                        type="number"
+                        v-model="minTemperature"
+                        name="minTemperature"
+                        id="minTemperature"
+                        placeholder="Unset"
+                        class="!pl-20"
+                        min="-40"
+                        max="85"
+                    />
                 </div>
                 <div class="relative">
                     <label
-                        for="max"
+                        for="maxTemperature"
                         class="bg-primary absolute top-2 left-2 bottom-2 rounded-xl flex justify-center items-center px-4 text-white"
                         >Max</label
                     >
-                    <input type="number" v-model="max" name="max" id="max" class="!pl-20" />
+                    <input
+                        type="number"
+                        v-model="maxTemperature"
+                        name="maxTemperature"
+                        id="maxTemperature"
+                        class="!pl-22"
+                        min="-40"
+                        max="85"
+                        placeholder="Unset"
+                    />
                 </div>
+            </div>
 
-                <div class="btn" @click="sendEmail()">Send email</div>
-            </form>
+            <h3>Humidity</h3>
+
+            <div class="grid md:grid-cols-2 gap-5">
+                <div class="relative">
+                    <label
+                        for="minHumidity"
+                        class="bg-primary absolute top-2 left-2 bottom-2 rounded-xl flex justify-center items-center px-4 text-white"
+                        >Min</label
+                    >
+                    <input
+                        type="number"
+                        v-model="minHumidity"
+                        name="minHumidity"
+                        id="minHumidity"
+                        placeholder="Unset"
+                        class="!pl-20"
+                        min="0"
+                        max="100"
+                    />
+                </div>
+                <div class="relative">
+                    <label
+                        for="maxHumidity"
+                        class="bg-primary absolute top-2 left-2 bottom-2 rounded-xl flex justify-center items-center px-4 text-white"
+                        >Max</label
+                    >
+                    <input
+                        type="number"
+                        v-model="maxHumidity"
+                        name="maxHumidity"
+                        id="maxHumidity"
+                        class="!pl-22"
+                        min="0"
+                        max="100"
+                        placeholder="Unset"
+                    />
+                </div>
+            </div>
+
+            <h3>Air Pressure</h3>
+
+            <div class="grid md:grid-cols-2 gap-5">
+                <div class="relative">
+                    <label
+                        for="minAirPressure"
+                        class="bg-primary absolute top-2 left-2 bottom-2 rounded-xl flex justify-center items-center px-4 text-white"
+                        >Min</label
+                    >
+                    <input
+                        type="number"
+                        v-model="minAirPressure"
+                        name="minAirPressure"
+                        id="minAirPressure"
+                        placeholder="Unset"
+                        class="!pl-20"
+                    />
+                </div>
+                <div class="relative">
+                    <label
+                        for="maxAirPressure"
+                        class="bg-primary absolute top-2 left-2 bottom-2 rounded-xl flex justify-center items-center px-4 text-white"
+                        >Max</label
+                    >
+                    <input
+                        type="number"
+                        v-model="maxAirPressure"
+                        name="maxAirPressure"
+                        id="maxAirPressure"
+                        placeholder="Unset"
+                        class="!pl-22"
+                    />
+                </div>
+            </div>
+
+            <button class="btn btn--primary">Save</button>
         </div>
     </div>
 </template>
@@ -43,23 +136,41 @@ const props = defineProps({
         type: String,
         required: true,
     },
-    measurement: {
-        type: String,
-        required: true,
+    minTemp: {
+        type: Number,
+        default: null,
     },
-    email: {
-        type: String,
-        required: true,
+    maxTemp: {
+        type: Number,
+        default: null,
+    },
+    minHum: {
+        type: Number,
+        default: null,
+    },
+    maxHum: {
+        type: Number,
+        default: null,
+    },
+    minPres: {
+        type: Number,
+        default: null,
+    },
+    maxPres: {
+        type: Number,
+        default: null,
     },
 });
 
-const modalType = ref("");
-
-const min = ref(null);
-const max = ref(null);
+const minTemperature = ref(props.minTemp);
+const maxTemperature = ref(props.maxTemp);
+const minHumidity = ref(props.minHum);
+const maxHumidity = ref(props.maxHum);
+const minAirPressure = ref(props.minPres);
+const maxAirPressure = ref(props.maxPres);
 
 const closeModal = () => {
-    const modal = document.querySelector(".alert-modal#" + props.measurement);
+    const modal = document.querySelector(".alert-modal");
 
     if (modal) {
         modal.classList.remove("is-active");
@@ -69,54 +180,9 @@ const closeModal = () => {
     }
 };
 
-onMounted(async () => {
-    // const modal = document.querySelector(".alert-modal");
-
-    // get sensor data from database
-    try {
-        const sensor = await $fetch("/api/sensors/" + props.id);
-
-        if (sensor) {
-            switch (modalType.value) {
-                case "temperature":
-                    min.value = sensor.minTemp;
-                    max.value = sensor.maxTemp;
-                    break;
-                case "humidity":
-                    min.value = sensor.minHum;
-                    max.value = sensor.maxHum;
-                    break;
-                // case "airPressure":
-                //     min.value = sensor.minAirPressure;
-                //     max.value = sensor.maxAirPressure;
-                //     break;
-                default:
-                    break;
-            }
-        }
-    } catch (error) {
-        console.log(error);
-    }
-});
+onMounted(async () => {});
 
 onUnmounted(() => {
     closeModal();
 });
-
-const sendEmail = async () => {
-    try {
-        const res = await $fetch("/api/send-email", {
-            method: "POST",
-            body: {
-                to: props.email,
-                subject: "Test Notification",
-                message: "Hello from Nuxt + SendGrid with TypeScript!",
-            },
-        });
-
-        console.log(res);
-    } catch (err) {
-        console.error("API error", err);
-    }
-};
 </script>

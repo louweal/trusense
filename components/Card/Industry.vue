@@ -6,14 +6,13 @@
                 'md:order-last': props.reverse,
             }"
         >
-            <!-- todo: smaller image -->
             <div class="w-full aspect-square object-cover">
                 <img class="w-full h-full rounded-full object-cover" :src="image" :alt="alt || title" />
             </div>
         </div>
         <div class="md:col-span-5 p-8 flex flex-col gap-5 text-primary">
-            <h3>{{ title }}</h3>
-            <p>
+            <h3 class="h3">{{ title }}</h3>
+            <p class="text-xl opacity-75">
                 {{ description }}
             </p>
         </div>

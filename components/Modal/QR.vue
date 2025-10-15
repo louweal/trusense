@@ -6,6 +6,7 @@
         <div
             class="relative flex flex-col justify-center items-center gap-5 w-[600px] max-w-[90vw] bg-white rounded-[40px] transition-opacity shadow-modal p-8"
         >
+            <h2 class="text-2xl">Share link</h2>
             <QrCode v-if="pageUrl" :value="pageUrl" xxxchange="onUrlChange" />
             <div>
                 <a :href="pageUrl" class="flex flex-grow gap-2 items-center cursor-pointer" @click="handleCopyClick">
