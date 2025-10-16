@@ -55,7 +55,6 @@ const signOut = async () => {
 
 onMounted(() => {
     const header = document.querySelector(".header");
-    console.log(header);
 
     window.addEventListener("scroll", () => {
         const currentScrollY = window.scrollY;

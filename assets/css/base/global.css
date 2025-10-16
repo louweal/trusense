@@ -5,6 +5,7 @@ html {
 }
 
 body {
+    color: var(--color-primary);
 }
 
 .gradient-header {
@@ -131,7 +132,12 @@ select {
 }
 
 input[type="datetime-local"] {
-    padding-left: 132px;
+    padding-left: 120px;
+    min-width: 0px;
+
+    @media only screen and (min-width: 1024px) {
+        padding-left: 132px;
+    }
 }
 
 .is-active {

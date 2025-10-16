@@ -21,4 +21,8 @@
     &.btn--primary {
         background-color: var(--color-primary);
     }
+
+    &.btn--accent {
+        background-color: var(--color-accent);
+    }
 }

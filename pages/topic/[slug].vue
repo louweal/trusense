@@ -10,17 +10,31 @@
 
                         <div class="lg:col-span-2 flex flex-col flex-grow gap-5 flex-stretch h-full w-full">
                             <CurrentMeasurements v-if="topicId" :topicId="topicId" :interval="interval" />
-                            <div class="flex gap-4">
-                                <div class="btn cursor-pointer" @click="openAlertModal()">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="22" fill="none">
+                            <div class="flex gap-4 w-full justify-center items-center">
+                                <div class="btn cursor-pointer flex gap-3" @click="openAlertModal()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="27" height="22" fill="none">
                                         <path
-                                            fill="#072847"
-                                            d="M2.98 11.678a12.238 12.238 0 0 1 .507-9.762c.253-.542 0-1.193-.543-1.446-.506-.253-1.12-.036-1.41.47A14.316 14.316 0 0 0 .92 12.438c.216.578.831.831 1.41.65.578-.18.867-.867.65-1.41ZM30.35.94a1.04 1.04 0 0 0-1.446-.47 1.04 1.04 0 0 0-.47 1.446c1.519 3.037 1.7 6.58.506 9.762-.216.543.073 1.194.615 1.41.542.218 1.193-.072 1.41-.614 1.41-3.796 1.193-7.954-.614-11.534ZM5.403 10.268c.578-.108.94-.65.831-1.229a9.398 9.398 0 0 1 .109-3.76 1.078 1.078 0 1 0-2.097-.506A11.908 11.908 0 0 0 4.1 9.437c.109.578.687.94 1.302.831ZM25.578 5.243c.29 1.229.325 2.53.108 3.76-.108.578.29 1.157.868 1.265a1.099 1.099 0 0 0 1.266-.867c.289-1.555.253-3.146-.109-4.665a1.099 1.099 0 0 0-1.265-.867 1.099 1.099 0 0 0-.868 1.265v.109ZM23.3 13.956c-1.085-1.157-1.555-2.35-1.555-3.832V8.46c0-2.06-1.12-3.94-2.892-4.953V2.82A2.824 2.824 0 0 0 16.033 0a2.824 2.824 0 0 0-2.82 2.82v.723c-1.808 1.049-2.893 3.001-2.893 5.098v1.483c0 1.482-.47 2.675-1.555 3.832a2.265 2.265 0 0 0-2.133 2.278v.578A2.268 2.268 0 0 0 8.91 19.09h3.905a3.284 3.284 0 0 0 3.615 2.893 3.303 3.303 0 0 0 2.893-2.893h3.869a2.268 2.268 0 0 0 2.277-2.277v-.579c-.036-1.23-.976-2.206-2.169-2.278Z"
+                                            fill="#fff"
+                                            d="M24.96 13.92a4.586 4.586 0 0 0-.797-2.59V0H0v16.05h15.771v.363l-1.385 3.463h3.655a2.552 2.552 0 0 0 5.032 0h3.734l-1.848-3.492v-2.463Zm-4.403-4.585a.92.92 0 1 1 .92-.92.92.92 0 0 1-.92.91v.01Zm0-2.823a1.9 1.9 0 0 0-1.536 3.026c-.354.11-.693.262-1.01.456l-2.253-1.966 7.423-6.459v8.73a4.495 4.495 0 0 0-1.173-.656 1.902 1.902 0 0 0-1.451-3.135v.004ZM8.405 8.035.983 14.478V1.569l7.422 6.466ZM1.805.983h20.553L12.093 9.918 1.805.983Zm0 14.084 7.34-6.393 2.948 2.545 2.925-2.545 2.201 1.916a4.586 4.586 0 0 0-1.438 3.33v1.144l-13.976.003Zm18.752 5.955a1.569 1.569 0 0 1-1.507-1.146h3.01a1.565 1.565 0 0 1-1.503 1.146Zm4.618-2.129h-9.332l.911-2.293v-2.68a3.611 3.611 0 0 1 7.223 0v2.706l1.198 2.267Z"
                                         />
                                     </svg>
                                     Alerts
                                 </div>
-                                <div class="btn">Device Settings</div>
+                                <div class="btn flex gap-3" @click="openSettingsModal()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none">
+                                        <path
+                                            fill="#fff"
+                                            d="M19.5 10.5h-4.05a2.5 2.5 0 0 0-4.9 0H2.5a.5.5 0 0 0 0 1h8.05a2.5 2.5 0 0 0 4.9 0h4.05a.5.5 0 0 0 0-1Zm-6.5 2a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3ZM19.5 5H9.95a2.5 2.5 0 0 0-4.9 0H2.5a.5.5 0 1 0 0 1h2.55a2.5 2.5 0 0 0 4.9 0h9.55a.5.5 0 0 0 0-1Zm-12 2a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3ZM19.5 15.5H9.95a2.5 2.5 0 0 0-4.9 0H2.5a.5.5 0 0 0 0 1h2.55a2.5 2.5 0 0 0 4.9 0h9.55a.5.5 0 0 0 0-1Zm-12 2a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z"
+                                        />
+                                        <path
+                                            fill="#fff"
+                                            d="M20.5 0h-19A1.502 1.502 0 0 0 0 1.5v19A1.502 1.502 0 0 0 1.5 22h19a1.502 1.502 0 0 0 1.5-1.5v-19A1.502 1.502 0 0 0 20.5 0Zm.5 20.5a.5.5 0 0 1-.5.5h-19a.5.5 0 0 1-.5-.5v-19a.5.5 0 0 1 .5-.5h19a.5.5 0 0 1 .5.5v19Z"
+                                        />
+                                    </svg>
+                                    Device Settings
+                                </div>
+
+                                <div class="btn" @click="setSettings()">Set settings</div>
                             </div>
                         </div>
                     </div>
@@ -32,7 +46,8 @@
                 </div>
             </div>
         </section>
-        <ModalAlert v-if="id" :id="id" v-bind="sensor" />
+        <ModalAlert v-if="id" :id="id" :topicId="topicId" v-bind="sensor" />
+        <ModalSettings v-if="id" :id="id" :topicId="topicId" :interval="interval" />
     </main>
 </template>
 
@@ -104,9 +119,53 @@ useHead({
 
 const openAlertModal = () => {
     const modal = document.querySelector(".alert-modal");
-    console.log(modal);
     if (!modal) return;
 
     modal.classList.add("is-active");
+
+    // disable scroll on body
+    document.body.style.overflow = "hidden";
+};
+
+const openSettingsModal = () => {
+    const modal = document.querySelector(".settings-modal");
+    if (!modal) return;
+
+    modal.classList.add("is-active");
+
+    // disable scroll on body
+    document.body.style.overflow = "hidden";
+};
+
+const setSettings = async () => {
+    console.log("set settings");
+    // open modal
+
+    const res = await fetch("https://trusense-web-server.onrender.com/settings/" + topicId.value, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            name: name.value,
+            email: "anneloeslouwe@gmail.com",
+            minTemp: sensor.value.minTemp,
+            maxTemp: sensor.value.maxTemp,
+            minHum: sensor.value.minHum,
+            maxHum: sensor.value.maxHum,
+            minAirPres: sensor.value.minPres,
+            maxAirPres: sensor.value.maxPres,
+        }),
+    });
+
+    const data = await res.json();
+    console.log(data);
+
+    console.log("data.status :>> ", data.status);
+
+    // get received data
+    if (data.received) {
+        console.log(data.received);
+    }
 };
 </script>

@@ -3,17 +3,9 @@
         <Header />
         <HeroSensor v-if="topicId" :id="slug" :name="name" :interval="interval" :topicId="topicId" />
 
-        <!-- <div class="btn" @click="updateInterval(40000)">Set interval (40000)</div> -->
-
         <section class="section">
             <div class="container flex flex-col gap-10">
                 <CurrentMeasurements v-if="topicId" :topicId="topicId" :interval="interval" :id="slug" />
-
-                <!-- <div class="grid sm:grid-cols-3 gap-5">
-                    <div class="bg-box rounded-[40px] p-8">
-                        <h3>Alerts</h3>
-                    </div>
-                </div> -->
 
                 <Chart v-if="topicId" :topicId="topicId" :interval="interval" />
                 <div v-else>
@@ -61,7 +53,7 @@ async function updateInterval(interval) {
         return;
     }
 
-    await fetch("https://trusense-web-server.onrender.com/settings/" + topicId.value, {
+    await fetch("https://trusense-web-server.onrender.com/device-settings/" + topicId.value, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

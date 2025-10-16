@@ -1,20 +1,22 @@
 <template>
-    <div class="bg-box p-8 rounded-[40px] flex gap-5 flex-wrap">
+    <div class="bg-box p-8 rounded-[40px] flex gap-5 flex-wrap text-primary">
         <div class="flex gap-3" v-if="temperature">
             <div class="bg-secondary text-white size-6 rounded-full flex justify-center items-center">T</div>
-            <div class="relative w-16">
+            <div class="relative w-20">
                 <transition name="fade">
-                    <span :key="`temp-${counter}`" class="font-bold absolute inset-0">{{ temperature }}°C</span>
+                    <span :key="`temp-${counter}`" class="font-bold absolute inset-0"
+                        >{{ temperature }} <span class="opacity-40">°C</span>
+                    </span>
                 </transition>
             </div>
         </div>
         <div class="flex gap-3" v-if="humidity">
             <div class="bg-accent text-primary size-6 rounded-full flex justify-center items-center">H</div>
 
-            <div class="relative w-16">
+            <div class="relative w-20">
                 <transition name="fade">
                     <span :key="`humidity-${counter}`" class="font-bold text-primary absolute inset-0"
-                        >{{ humidity }}%</span
+                        >{{ humidity }}<span class="opacity-40">%</span></span
                     >
                 </transition>
             </div>
@@ -24,7 +26,7 @@
             <div class="relative w-[160px]">
                 <transition name="fade">
                     <span :key="`pressure-${counter}`" class="font-bold absolute inset-0 origin-left"
-                        >{{ airPressure }} hPa</span
+                        >{{ airPressure }} <span class="opacity-40">hPa</span></span
                     >
                 </transition>
             </div>

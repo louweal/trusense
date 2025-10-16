@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-box rounded-[40px] p-8 flex flex-col gap-5">
+    <div class="bg-box rounded-[40px] px-4 py-8 md:p-8 flex flex-col gap-5">
         <div class="flex justify-between items-center">
             <h3 class="text-lg">
                 <!-- Historical Data -->
@@ -75,7 +75,7 @@
             </div>
         </div>
 
-        <div class="relative flex flex-col justify-center items-center">
+        <div class="relative flex flex-col gap-5 justify-center items-center">
             <canvas ref="chartCanvas" :class="{ 'opacity-5': isFetching }"></canvas>
             <div class="absolute inset-0 flex items-center justify-center" v-if="isFetching">
                 <svg
@@ -93,7 +93,7 @@
                 </svg>
             </div>
 
-            <div class="flex flex-wrap gap-x-6">
+            <div class="flex flex-wrap gap-x-2 md:gap-x-6">
                 <div
                     class="flex items-center gap-1"
                     v-if="chartInstance"
@@ -299,7 +299,7 @@ function createChart() {
                 x: {
                     type: "time",
                     time: { unit: "minute", tooltipFormat: "HH:mm:ss" },
-                    title: { display: true, text: "Time" },
+                    title: { display: false, text: "Time" },
                     // min: chartStartDate,
                     // max: chartEndDate,
                 },
