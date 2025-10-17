@@ -28,7 +28,7 @@ export function useAuth() {
         try {
             await $fetch("/api/auth/logout", { method: "POST", credentials: "include" });
             user.value = null;
-            // await navigateTo("/");
+            await navigateTo("/");
 
             // refresh page
             location.reload();

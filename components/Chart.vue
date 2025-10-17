@@ -257,6 +257,7 @@ function createChart() {
             aspectRatio: window.innerWidth < 480 ? 1 : 3,
             animation: false,
             responsive: true,
+            spanGaps: props.interval * 1.5,
             plugins: {
                 legend: {
                     display: false,
