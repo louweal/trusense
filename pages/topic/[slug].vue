@@ -11,7 +11,7 @@
                         <div class="lg:col-span-2 flex flex-col flex-grow gap-5 flex-stretch h-full w-full">
                             <CurrentMeasurements v-if="topicId" :topicId="topicId" :interval="interval" />
                             <div class="flex gap-4 w-full justify-center items-center">
-                                <div class="btn cursor-pointer flex gap-3" @click="openAlertModal()">
+                                <div class="btn btn--primary cursor-pointer flex gap-3" @click="openAlertModal()">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="27" height="22" fill="none">
                                         <path
                                             fill="#fff"

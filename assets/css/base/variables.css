@@ -8,13 +8,13 @@
     --color-primary: #072847;
     --color-secondary: #f68227;
     --color-accent: #accfdc;
-    --color-box: rgba(255, 249, 244, 0.5);
+    --color-box: rgba(255, 249, 244, 0.75);
 
     /* Gradients */
     --gradient-primary: radial-gradient(418.88% 131.44% at 1.84% 96.35%, #99bfcd 0%, #d2f3ff 100%);
     /* --gradient-primary: rgb(228, 228, 228); */
 
-    --gradient-header: linear-gradient(180deg, rgba(172, 207, 220, 1) 40%, rgba(255, 255, 255, 0) 100%);
+    --gradient-header: linear-gradient(180deg, rgba(172, 207, 220, 1) 0%, rgba(255, 255, 255, 0) 100%);
 
     /* Sizes */
     --container-width: 95rem;

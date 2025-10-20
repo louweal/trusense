@@ -4,13 +4,17 @@
         <div class="container z-[2]">
             <div class="grid md:grid-cols-12 gap-y-10 gap-x-5 items-center">
                 <div class="md:col-span-4 min-height-[600px]">
-                    <div class="w-full animate-slide-up relative">
-                        <!-- <div class="circles">
-                            <span class="circle circle--1"> </span>
-                            <span class="circle circle--2"> </span>
-                            <span class="circle circle--3"> </span>
-                        </div> -->
-                        <img src="/images/sensor-dummy.png" alt="hero" class="w-full h-full object-cover" />
+                    <div class="w-full animate-slide-up relative images--carrousel">
+                        <img
+                            src="/images/trusense-prototype-open-nobg.png"
+                            alt="hero"
+                            class="w-full h-full object-cover"
+                        />
+                        <img
+                            src="/images/trusense-prototype-closed-nobg.png"
+                            alt="hero"
+                            class="w-full h-full object-cover absolute inset-0"
+                        />
                     </div>
                 </div>
                 <div class="md:col-span-5 md:col-start-6 order-first md:order-last">
