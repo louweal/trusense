@@ -32,7 +32,6 @@ const props = defineProps({
 
 const openModal = () => {
     const modal = document.querySelector(".alert-modal#" + props.measurement);
-    console.log(modal);
     if (!modal) return;
 
     modal.classList.add("is-active");

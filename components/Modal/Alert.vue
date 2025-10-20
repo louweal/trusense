@@ -218,8 +218,6 @@ const updateAlerts = async () => {
         body["maxPres"] = maxAirPressure.value; // update database
     }
 
-    console.log(body);
-
     if (body == {}) return;
 
     // send settings to web server

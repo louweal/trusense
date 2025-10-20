@@ -11,21 +11,21 @@
                     <div class="grid md:grid-cols-3 gap-5">
                         <CardFeature
                             title="Immutability"
-                            description="Store temperature, humidity, and air pressure data on Hedera, ensuring transparency and verifiability."
+                            description="Storing measurements on Hedera's immutable ledger ensures transparency and verifiability."
                             icon="/icons/hashgraph.svg"
                             :i="0"
                         />
                         <CardFeature
                             data-aos-delay="100"
                             title="Realtime Data"
-                            description="Charts and dashboards for real-time monitoring of temperature, humidity, and air pressure."
+                            description="TruSense provides charts and dashboards for real-time monitoring of temperature, humidity, and air pressure."
                             icon="/icons/realtime.svg"
                             :i="1"
                         />
                         <CardFeature
                             data-aos-delay="200"
                             title="Smart Alerts"
-                            description="Receive alerts for temperature, humidity, and air pressure changes when they exceed your thresholds."
+                            description="Immediately receive an email alert when a measurement exceeds your predefined thresholds."
                             icon="/icons/alert.svg"
                             :i="2"
                         />
@@ -35,7 +35,8 @@
         </section>
 
         <section class="section" id="industries">
-            <div class="container">
+            <div class="container flex flex-col gap-12">
+                <h2 class="h2 text-center">Many industries can benefit from TruSense</h2>
                 <div class="grid md:grid-cols-12 gap-5">
                     <div class="md:col-span-8 flex flex-col gap-10">
                         <CardIndustry
@@ -80,13 +81,13 @@
                             :i="4"
                         />
 
-                        <CardIndustry
+                        <!-- <CardIndustry
                             title="Air Quality"
                             description="Our devices contain a high-precision BME860 sensor which detects volatile organic compounds in the air. The next generation of TruSense sensors will also allow for real-time monitoring of air quality on Hedera. Many use cases are yet to be imagined, including real-time indoor air quality monitoring in offices and factories; trusted by both workers and employers."
                             image="/images/industries/air-quality2.png"
                             :reverse="false"
                             :i="5"
-                        />
+                        /> -->
                     </div>
                     <div class="md:col-span-4 lg:col-span-3 lg:col-start-10">
                         <div
@@ -95,8 +96,9 @@
                             <h4 class="h4 text-primary">Immutable data at your fingertips</h4>
 
                             <p class="opacity-60">
-                                For less than $2/month you can track temperature, humidity, and air pressure every 5
-                                minutes and store it on chain.
+                                Common use cases require high-precision air measurements every 5-10 minutes. Our sensors
+                                can measure and store these measurements on Hedera's decentralized network for only
+                                <strong>$1 per month</strong>.
                             </p>
 
                             <a href="#fees" class="btn">Pricing</a>
@@ -108,7 +110,7 @@
 
         <section class="section" id="fees">
             <div class="container">
-                <div class="grid md:grid-cols-12 gap-5">
+                <div class="grid md:grid-cols-12 gap-8">
                     <div class="md:col-span-8 lg:col-span-7 lg:col-start-2 flex flex-col gap-10">
                         <div class="bg-box rounded-[40px] p-8 flex flex-col gap-5">
                             <h2 class="h3">Pricing</h2>
@@ -123,55 +125,41 @@
                                 Discover the fees for your use cases below and get started with TruSense today!
                             </p>
 
-                            <form className="mt-4">
-                                <div className="mb-6 flex gap-5 w-full">
-                                    <label htmlFor="sensors" className="block w-40">Number of Sensors</label>
-                                    <div className="flex items-center gap-3 flex-grow">
+                            <form class="mt-4">
+                                <div class="mb-6 flex gap-5 w-full">
+                                    <label htmlFor="sensors" class="block w-40">Sensors:</label>
+                                    <div class="flex items-center gap-3 flex-grow">
                                         <input
                                             id="sensors"
                                             type="range"
                                             min="1"
                                             max="100"
                                             v-model="numSensors"
-                                            className="w-full h-1 bg-accent rounded-lg appearance-none cursor-pointer
-                [&::-webkit-slider-thumb]:appearance-none
-                [&::-webkit-slider-thumb]:w-6
-                [&::-webkit-slider-thumb]:h-6
-                [&::-webkit-slider-thumb]:bg-primary
-                [&::-webkit-slider-thumb]:rounded-full
-                [&::-webkit-slider-thumb]:transition-all
-                [&::-webkit-slider-thumb]:hover:bg-primary"
+                                            class="slider"
                                         />
-                                        <span className="w-12 font-semibold">{{ numSensors }}</span>
+                                        <span class="w-16 font-semibold">{{ numSensors }}</span>
                                     </div>
                                 </div>
 
-                                <div className="mb-8 flex w-full gap-5">
-                                    <label htmlFor="interval" className="block w-40"> Measurement Interval </label>
-                                    <div className="flex flex-grow items-center gap-3">
+                                <div class="mb-8 flex w-full gap-5">
+                                    <label htmlFor="interval" class="block w-40">Measurement Interval:</label>
+                                    <div class="flex flex-grow items-center gap-3">
                                         <input
                                             id="interval"
                                             type="range"
                                             v-model="interval"
                                             min="1"
-                                            max="600"
+                                            max="1200"
                                             step="1"
-                                            className="w-full h-1 bg-accent rounded-lg appearance-none cursor-pointer
-                [&::-webkit-slider-thumb]:appearance-none
-                [&::-webkit-slider-thumb]:w-6
-                [&::-webkit-slider-thumb]:h-6
-                [&::-webkit-slider-thumb]:bg-primary
-                [&::-webkit-slider-thumb]:rounded-full
-                [&::-webkit-slider-thumb]:transition-all
-                [&::-webkit-slider-thumb]:hover:bg-primary"
+                                            class="slider"
                                         />
-                                        <span className="w-12 font-semibold">
+                                        <span class="w-16 font-semibold">
                                             {{ interval }} <span class="font-light text-xs opacity-60">s</span>
                                         </span>
                                     </div>
                                 </div>
 
-                                <div className="mb-8 flex w-full gap-2">
+                                <div class="mb-8 flex w-full gap-2">
                                     <!-- Current fees -->
                                     <label class="flex items-center gap-2 cursor-pointer">
                                         <input
@@ -227,11 +215,11 @@
                                 </li>
 
                                 <li>
-                                    🕒 Every
+                                    🕒
                                     <span v-if="interval >= 60">
-                                        {{ Math.ceil((interval / 60) * 100) / 100 }} minutes
+                                        {{ Math.ceil((interval / 60) * 100) / 100 }} minute
                                     </span>
-                                    <span v-else> {{ interval }} seconds</span>
+                                    <span v-else> {{ interval }} second</span> measurement interval
                                 </li>
                                 <li>🌐 Decentralized storage</li>
                                 <li>📈 Realtime charts</li>
@@ -257,7 +245,7 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
 const numSensors = ref(1);
-const interval = ref(300);
+const interval = ref(600);
 const fee = ref(null);
 const selectedTariff = ref(0.0001);
 const truSenseFee = ref(0.0001);
@@ -266,14 +254,14 @@ const secondsPerMonth = 30.5 * 24 * 60 * 60;
 
 onMounted(() => {
     fee.value = numSensors.value * (selectedTariff.value + truSenseFee.value) * (secondsPerMonth / interval.value);
-    fee.value = Math.ceil(fee.value * 10) / 10;
+    // fee.value = Math.ceil(fee.value * 10) / 10;
     fee.value = fee.value.toFixed(2);
 });
 
 watch([numSensors, interval, selectedTariff], ([newNumSensors, newInterval, newSelectedTariff]) => {
     selectedTariff.value = newSelectedTariff;
     fee.value = newNumSensors * (selectedTariff.value + truSenseFee.value) * (secondsPerMonth / newInterval);
-    fee.value = Math.ceil(fee.value * 10) / 10;
+    // fee.value = Math.ceil(fee.value * 10) / 10;
     fee.value = fee.value.toFixed(2);
 });
 

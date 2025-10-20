@@ -48,7 +48,6 @@ function handleCopyClick(event) {
 
 const copyLink = async () => {
     try {
-        console.log("pageUrl.value :>> ", pageUrl.value);
         await navigator.clipboard.writeText(pageUrl.value);
         copied.value = true;
 

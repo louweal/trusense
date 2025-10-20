@@ -1,5 +1,5 @@
 <template>
-    <NuxtLink :to="`/topic/${topicId}`" class="bg-box p-8 rounded-[40px] flex flex-col gap-4">
+    <NuxtLink :to="nuxtTo" class="bg-box p-8 rounded-[40px] flex flex-col gap-4">
         <h2 class="font-bold font-body text-lg">{{ name }}</h2>
         <div class="flex flex-wrap gap-5">
             <div class="flex gap-3" v-if="temperature">
@@ -47,7 +47,13 @@ const props = defineProps({
         type: Number,
         required: true,
     },
+    link: {
+        type: String,
+        required: false,
+    },
 });
+
+const nuxtTo = props.link ? ref(props.link) : ref(`/topic/${props.topicId}`);
 
 onMounted(async () => {
     const lastMessage = await hederaService.getLastMessage(props.topicId, props.interval);

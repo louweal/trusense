@@ -9,17 +9,9 @@
                     <li>
                         <div @click="openSearchModal()" class="btn btn--dark btn--small">Track</div>
                     </li>
-
-                    <!-- <li>
-                        <NuxtLink to="/sensor/006938176" class="btn btn--dark btn--small">ESP32-006938176</NuxtLink>
-                    </li> -->
                 </ul>
 
                 <ul v-else class="flex gap-7 items-center text-white">
-                    <li class="cursor-pointer whitespace-nowrap">
-                        <NuxtLink to="/account">Account</NuxtLink>
-                    </li>
-
                     <li class="btn btn--small btn--dark" @click="signOut">Sign out</li>
                 </ul>
             </nav>

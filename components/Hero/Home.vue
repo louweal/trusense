@@ -1,17 +1,17 @@
 <template>
-    <div class="hero relative pt-20 min-h-dvh hero--center">
+    <div class="hero relative min-h-dvh hero--center">
         <div class="hero__bg"></div>
         <div class="container z-[2]">
             <div class="grid md:grid-cols-12 gap-y-10 gap-x-5 items-center">
                 <div class="md:col-span-4 min-height-[600px]">
                     <div class="w-full animate-slide-up relative images--carrousel">
                         <img
-                            src="/images/trusense-prototype-open-nobg.png"
+                            src="/images/trusense-prototype-closed-nobg.png"
                             alt="hero"
                             class="w-full h-full object-cover"
                         />
                         <img
-                            src="/images/trusense-prototype-closed-nobg.png"
+                            src="/images/trusense-prototype-open-nobg.png"
                             alt="hero"
                             class="w-full h-full object-cover absolute inset-0"
                         />
@@ -28,8 +28,8 @@
                         </client-only>
 
                         <p class="text-lg md:text-2xl font-light opacity-75 text-primary">
-                            With TruSense sensors you can track environmental variables in real time. All data is stored
-                            on chain and is immutable. Ensuring transparency and trust.
+                            TruSense devices perform high precision environmental measurements and store them on
+                            Hedera's immutable ledger; ensuring full transparency and trust.
                         </p>
                         <a href="#features" class="btn self-start">Learn more</a>
                     </div>

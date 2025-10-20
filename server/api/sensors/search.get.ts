@@ -7,6 +7,7 @@ const prisma = new PrismaClient();
 export default defineEventHandler(async (event) => {
     const query = getQuery(event);
     const search = query.q?.toString() || "";
+    const userId = query.userId?.toString(); // get the optional userId from the query
 
     const sensors = await prisma.sensor.findMany({
         where: {
@@ -14,6 +15,7 @@ export default defineEventHandler(async (event) => {
                 contains: search,
                 mode: "insensitive", // case-insensitive search
             },
+            ...(userId && { subscriberId: userId }), // add subscriberId filter if userId exists
         },
         orderBy: {
             createdAt: "desc",

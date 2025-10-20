@@ -10,7 +10,7 @@
                     </NuxtLink>
 
                     <div class="flex-col gap-4 hidden md:flex">
-                        <h1 class="text-[38px] font-semibold leading-[1.25]">Manage your sensors with ease</h1>
+                        <h1 class="text-[38px] font-semibold leading-[1.25]">Manage your sensor settings with ease</h1>
                     </div>
                 </div>
                 <div class="md:col-span-5">

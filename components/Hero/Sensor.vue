@@ -81,8 +81,6 @@ onMounted(async () => {
 // };
 
 const openQRModal = () => {
-    console.log("open modal");
-
     const qrCode = document.querySelector(".qr-modal");
     if (qrCode) {
         qrCode.classList.add("is-active");

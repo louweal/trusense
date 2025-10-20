@@ -12,10 +12,20 @@
                     <div class="flex-col gap-4 hidden md:flex">
                         <h1 class="text-[38px] font-semibold">
                             Add transparency and trust to your business with
-                            <span class="bg-white inline-block transform rotate-[-1deg] pt-3 px-4 rounded-md"
+                            <span class="bg-box inline-block transform rotate-[-1deg] pt-3 px-4 rounded-md"
                                 ><Logo
                             /></span>
                         </h1>
+
+                        <p>
+                            Register now to explore the possibilities of TruSense. Once registered, you can update the
+                            device settings and email alert settings for the demo sensor (<NuxtLink
+                                to="/topic/0.0.7001056"
+                                >TruSense ESP32 001</NuxtLink
+                            >).
+                        </p>
+
+                        <p>Soon you will also be able to buy your own TruSense sensors in our webstore!</p>
                     </div>
                 </div>
                 <div class="md:col-span-5">
