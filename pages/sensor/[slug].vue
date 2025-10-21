@@ -46,8 +46,8 @@
                 </div>
             </div>
         </section>
-        <ModalAlert v-if="id" :id="id" :topicId="topicId" v-bind="sensor" />
-        <ModalSettings v-if="id" :id="id" :topicId="topicId" :interval="interval" />
+        <ModalAlert v-if="id && user" :id="id" :topicId="topicId" v-bind="sensor" :userId="user.id" />
+        <ModalSettings v-if="id && user" :id="id" :topicId="topicId" :interval="interval" />
     </main>
 </template>
 
@@ -56,6 +56,11 @@ import { HederaService } from "~/lib/hedera";
 import { HcsListener } from "../../lib/HcsListener";
 import { onMounted, onUnmounted, ref } from "vue";
 import CurrentMeasurements from "../../components/CurrentMeasurements.vue";
+
+const { user, loading, error, isLoggedIn, fetchUser } = useAuth();
+await fetchUser();
+
+console.log(user);
 
 // get slug
 const route = useRoute();

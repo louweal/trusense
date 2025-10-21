@@ -28,8 +28,8 @@
                         </client-only>
 
                         <p class="text-lg md:text-2xl font-light opacity-75 text-primary">
-                            TruSense devices perform high precision environmental measurements and store them on
-                            Hedera's immutable ledger; ensuring full transparency and trust.
+                            High precision temperature, humidity and air pressure measurements immutably stored on
+                            Hedera; ensuring full transparency and trust.
                         </p>
                         <a href="#features" class="btn self-start">Learn more</a>
                     </div>

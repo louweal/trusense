@@ -182,6 +182,10 @@ const props = defineProps({
         type: Number,
         default: null,
     },
+    userId: {
+        type: String,
+        required: true,
+    },
 });
 
 const minTemperature = ref(props.minTemp);
@@ -195,40 +199,43 @@ const updateAlerts = async () => {
     let body = {};
 
     if (minTemperature.value != props.minTemp) {
-        body["minTemp"] = minTemperature.value; // update database
+        body["minTemp"] = minTemperature.value;
     }
 
     if (maxTemperature.value != props.maxTemp) {
-        body["maxTemp"] = maxTemperature.value; // update database
+        body["maxTemp"] = maxTemperature.value;
     }
 
     if (minHumidity.value != props.minHum) {
-        body["minHum"] = minHumidity.value; // update database
+        body["minHum"] = minHumidity.value;
     }
 
     if (maxHumidity.value != props.maxHum) {
-        body["maxHum"] = maxHumidity.value; // update database
+        body["maxHum"] = maxHumidity.value;
     }
 
     if (minAirPressure.value != props.minPres) {
-        body["minPres"] = minAirPressure.value; // update database
+        body["minPres"] = minAirPressure.value;
     }
 
     if (maxAirPressure.value != props.maxPres) {
-        body["maxPres"] = maxAirPressure.value; // update database
+        body["maxPres"] = maxAirPressure.value;
     }
 
     if (body == {}) return;
 
     // send settings to web server
     try {
-        const res = await fetch("https://trusense-web-server.onrender.com/settings/" + props.topicId, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
+        const res = await fetch(
+            "https://trusense-web-server.onrender.com/settings/" + props.topicId + "/" + props.userId,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ ...body, subscriberId: props.userId }),
             },
-            body: JSON.stringify(body),
-        });
+        );
 
         if (res.ok) {
             // update database
