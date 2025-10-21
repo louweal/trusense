@@ -25,17 +25,18 @@ export default defineEventHandler(async (event) => {
         });
 
         // add the dummy sensor
-        await prisma.sensor.create({
+        const sensor = await prisma.sensor.create({
             data: {
                 topicId: "0.0.7001056",
-                interval: 30000, // 30 seconds
+                name: "TruSense ESP32-001",
+                interval: 30000, // todo: get interval from
                 subscriberId: user.id,
             },
         });
 
         const { password: _omit, ...safeUser } = user;
 
-        return safeUser;
+        return { ...safeUser, sensorId: sensor.id };
     } catch (err: any) {
         if (err instanceof z.ZodError) {
             // Validation error

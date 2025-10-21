@@ -15,16 +15,18 @@
             </div>
 
             <div>
-                <p>
-                    <strong>Topic ID: </strong
-                    ><a
+                <p class="flex gap-3 items-center">
+                    <span> <strong>Topic ID:</strong> {{ topicId }}</span>
+                    <a
+                        class="bg-accent px-2 rounded-2xl text-xs"
                         :href="`https://hashscan.io/${config.public.hederaNetwork}/topic/${topicId}/messages`"
                         target="_blank"
-                        >{{ topicId }}</a
                     >
+                        View on Hashscan
+                    </a>
                 </p>
                 <p>
-                    <strong>Measurement Interval: </strong> {{ interval }} ms
+                    <strong>Measurement Interval: </strong> {{ interval / 1000 }} s
                     <!-- <button class="bg-accent text-primary cursor-pointer px-2 rounded-2xl">edit</button> -->
                 </p>
                 <p><strong>First message:</strong> {{ firstMessageDate }}</p>

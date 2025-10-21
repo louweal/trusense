@@ -83,7 +83,7 @@
 
                         <!-- <CardIndustry
                             title="Air Quality"
-                            description="Our devices contain a high-precision BME860 sensor which detects volatile organic compounds in the air. The next generation of TruSense sensors will also allow for real-time monitoring of air quality on Hedera. Many use cases are yet to be imagined, including real-time indoor air quality monitoring in offices and factories; trusted by both workers and employers."
+                            description="Our devices contain a high-precision BME680 sensor which detects volatile organic compounds in the air. The next generation of TruSense sensors will also allow for real-time monitoring of air quality on Hedera. Many use cases are yet to be imagined, including real-time indoor air quality monitoring in offices and factories; trusted by both workers and employers."
                             image="/images/industries/air-quality2.png"
                             :reverse="false"
                             :i="5"
@@ -206,7 +206,7 @@
                             <ul class="flex flex-col gap-2">
                                 <li>
                                     🔢 {{ numSensors }} high precision sensor<span v-if="numSensors > 1">s</span>
-                                    (BME860)
+                                    (BME680)
                                     <ul class="ml-4">
                                         <li>🌡️ Temperature</li>
                                         <li>💦 Humidity</li>

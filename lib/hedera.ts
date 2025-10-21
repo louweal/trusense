@@ -1,10 +1,5 @@
-import { Client, AccountId, Hbar, TransferTransaction, TokenId } from "@hashgraph/sdk";
-// import type { Topic } from "@prisma/client";
+import { Client } from "@hashgraph/sdk";
 import { useRuntimeConfig } from "nuxt/app";
-import { ref } from "vue";
-import type { Ref } from "vue";
-
-import { LedgerId } from "@hashgraph/sdk";
 
 interface MirrorNodeResponse {
     messages: Message[];

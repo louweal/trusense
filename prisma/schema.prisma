@@ -19,7 +19,7 @@ model User {
 // many Sensors can have the same topic id - one sensor item for each subscriber
 model Sensor {
   id           String @id @default(cuid())
-  name         String @default("TSS")
+  name         String @default("TruSense ESP32-001")
   topicId      String
   interval     Int?
   minTemp      Int?

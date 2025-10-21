@@ -121,6 +121,31 @@ const createUser = async () => {
             });
 
             userId = response.id;
+            const demoSensorId = response.sensorId;
+
+            try {
+                const res = await fetch("https://trusense-web-server.onrender.com/device-settings/0.0.7001056", {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    console.log(data);
+
+                    // update database (demo sensor)
+                    await $fetch("/api/sensors/" + demoSensorId, {
+                        method: "PATCH",
+                        body: {
+                            interval: data.interval,
+                        },
+                    });
+                }
+            } catch (error) {
+                console.log(error);
+            }
 
             // Reset form and refresh data
             newUser.value = { email: "", password: "", password2: "" };

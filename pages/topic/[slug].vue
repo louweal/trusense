@@ -106,36 +106,4 @@ const openSettingsModal = () => {
     // disable scroll on body
     document.body.style.overflow = "hidden";
 };
-
-const setSettings = async () => {
-    console.log("set settings");
-    // open modal
-
-    const res = await fetch("https://trusense-web-server.onrender.com/settings/" + topicId.value, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            name: name.value,
-            email: "anneloeslouwe@gmail.com",
-            minTemp: sensor.value.minTemp,
-            maxTemp: sensor.value.maxTemp,
-            minHum: sensor.value.minHum,
-            maxHum: sensor.value.maxHum,
-            minAirPres: sensor.value.minPres,
-            maxAirPres: sensor.value.maxPres,
-        }),
-    });
-
-    const data = await res.json();
-    console.log(data);
-
-    console.log("data.status :>> ", data.status);
-
-    // get received data
-    if (data.received) {
-        console.log(data.received);
-    }
-};
 </script>
