@@ -229,7 +229,8 @@
                             <NuxtLink to="/register" class="btn">Get started</NuxtLink>
 
                             <p class="text-sm opacity-60">
-                                * Excluding the initial one-time cost for the device<span v-if="numSensors > 1">s</span>
+                                * Including TruSense fee ($0.0001 /message). Excluding the initial one-time cost for the
+                                device<span v-if="numSensors > 1">s</span>
                                 and shipping.
                             </p>
                         </div>

@@ -41,7 +41,7 @@
                                         id="email"
                                         required
                                         class=""
-                                        placeholder="your@email.com"
+                                        placeholder="Email"
                                     />
                                 </div>
                                 <div class="flex flex-col gap-2">

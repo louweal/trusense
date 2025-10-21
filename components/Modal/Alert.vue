@@ -13,7 +13,11 @@
                 not more than one email per four hours.
             </p>
 
-            <form @submit.prevent="updateAlerts()" class="flex flex-col gap-5">
+            <form
+                @submit.prevent="updateAlerts()"
+                class="flex flex-col gap-5"
+                :class="{ 'opacity-50 pointer-events-none': showConfirmation }"
+            >
                 <div class="flex flex-col gap-1">
                     <h3 class="font-bold">Temperature</h3>
 
@@ -141,6 +145,7 @@
 
                 <button class="btn btn--primary">Save</button>
             </form>
+            <p class="text-center text-green-600" v-if="showConfirmation">Settings saved successfully!</p>
         </div>
     </div>
 </template>
@@ -187,7 +192,7 @@ const props = defineProps({
         required: true,
     },
 });
-
+const showConfirmation = ref(false);
 const minTemperature = ref(props.minTemp);
 const maxTemperature = ref(props.maxTemp);
 const minHumidity = ref(props.minHum);
@@ -243,7 +248,13 @@ const updateAlerts = async () => {
                 method: "PATCH",
                 body: body,
             });
-            closeModal();
+
+            showConfirmation.value = true;
+
+            setTimeout(() => {
+                showConfirmation.value = false;
+                closeModal();
+            }, 2000);
         }
     } catch (error) {
         console.log(error);

@@ -14,9 +14,9 @@
                     </div>
 
                     <Chart v-if="topicId" :topicId="topicId" :interval="interval" />
-                    <div v-else>
+                    <!-- <div v-else>
                         <p>Loading chart...</p>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </section>
@@ -58,8 +58,6 @@ onMounted(async () => {
     } catch (error) {
         console.log(error);
     }
-
-    console.log("topicId.value :>> ", topicId.value);
 
     if (!topicId.value) return;
 

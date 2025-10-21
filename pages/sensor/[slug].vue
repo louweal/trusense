@@ -34,20 +34,20 @@
                                     Device Settings
                                 </div>
 
-                                <div class="btn" @click="setSettings()">Set settings</div>
+                                <!-- <div class="btn" @click="setSettings()">Set settings</div> -->
                             </div>
                         </div>
                     </div>
 
                     <Chart v-if="topicId" :topicId="topicId" :interval="interval" />
-                    <div v-else>
+                    <!-- <div v-else>
                         <p>Loading chart...</p>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </section>
         <ModalAlert v-if="id && user" :id="id" :topicId="topicId" v-bind="sensor" :userId="user.id" />
-        <ModalSettings v-if="id && user" :id="id" :topicId="topicId" :interval="interval" />
+        <ModalSettings v-if="id && user" :id="id" :topicId="topicId" :interval="interval / 1000" />
     </main>
 </template>
 
@@ -91,8 +91,6 @@ onMounted(async () => {
     } catch (error) {
         console.log(error);
     }
-
-    console.log("topicId.value :>> ", topicId.value);
 
     if (!topicId.value) return;
 

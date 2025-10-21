@@ -32,46 +32,50 @@
             >
                 Last day
             </div>
-            <div
+            <!-- <div
                 class="btn flex-grow"
                 :class="{ 'btn--primary': activeBtn === 'lastWeek' }"
                 @click="handleFilter('lastWeek')"
             >
                 Last week
-            </div>
-            <div
+            </div> -->
+            <!-- <div
                 class="btn flex-grow"
                 :class="{ 'btn--primary': activeBtn === 'lastMonth' }"
                 @click="handleFilter('lastMonth')"
             >
                 Last month
-            </div>
+            </div> -->
             <div class="relative flex-grow">
-                <label
-                    for="start"
-                    class="bg-primary absolute top-2 left-2 bottom-2 rounded-xl flex justify-center items-center px-4 text-white"
-                >
-                    Start date
-                </label>
-                <input class="" id="start" type="datetime-local" v-model="inputStartDate" @input="validateDates" />
-                <p v-if="startError" class="text-red-600">{{ startError }}</p>
+                <div class="relative">
+                    <label
+                        for="start"
+                        class="bg-primary absolute top-2 left-2 bottom-2 rounded-xl flex justify-center items-center px-4 text-white"
+                    >
+                        Start date
+                    </label>
+                    <input class="" id="start" type="datetime-local" v-model="inputStartDate" @input="validateDates" />
+                </div>
+                <p v-if="startError" class="text-red-600 text-center">{{ startError }}</p>
             </div>
 
             <div class="relative flex-grow">
-                <label
-                    for="start"
-                    class="bg-primary absolute top-2 left-2 bottom-2 rounded-xl flex justify-center items-center px-4 text-white"
-                >
-                    End date
-                </label>
-                <input
-                    id="end"
-                    type="datetime-local"
-                    v-model="inputEndDate"
-                    @input="validateDates"
-                    :min="inputStartDate"
-                />
-                <p v-if="endError" class="text-red-600">{{ endError }}</p>
+                <div class="relative">
+                    <label
+                        for="start"
+                        class="bg-primary absolute top-2 left-2 bottom-2 rounded-xl flex justify-center items-center px-4 text-white"
+                    >
+                        End date
+                    </label>
+                    <input
+                        id="end"
+                        type="datetime-local"
+                        v-model="inputEndDate"
+                        @input="validateDates"
+                        :min="inputStartDate"
+                    />
+                </div>
+                <p v-if="endError" class="text-red-600 text-center">{{ endError }}</p>
             </div>
         </div>
 
@@ -79,7 +83,7 @@
             <canvas ref="chartCanvas" :class="{ 'opacity-5': isFetching }"></canvas>
             <div class="absolute inset-0 flex items-center justify-center" v-if="isFetching">
                 <svg
-                    class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                    class="animate-spin -ml-1 mr-3 h-5 w-5 text-primary"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"

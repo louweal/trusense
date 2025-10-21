@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-box p-8 rounded-[40px] flex gap-5 flex-wrap text-primary">
+    <div class="bg-box p-8 rounded-[40px] flex gap-5 flex-wrap text-primary" v-if="temperature">
         <div class="flex gap-3" v-if="temperature">
             <div class="bg-secondary text-white size-6 rounded-full flex justify-center items-center">T</div>
             <div class="relative w-20">
@@ -31,6 +31,10 @@
                 </transition>
             </div>
         </div>
+    </div>
+    <div v-else class="bg-box p-8 rounded-[40px] flex items-center gap-3">
+        <span class="size-2 rounded-full bg-red-600"></span>
+        <p>This sensor seems to be offline.</p>
     </div>
 </template>
 

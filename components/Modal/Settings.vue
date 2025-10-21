@@ -8,11 +8,22 @@
         >
             <h2 class="text-2xl">Device Settings</h2>
 
-            <p class="opacity-60">Set the interval between measurements (in milliseconds).</p>
+            <!-- <p class="opacity-60">
+                Change the measurement interval. The device will receive the new settings within 2 minutes.
+            </p> -->
 
-            <p class="text-sm opacity-60">The device will receive the new settings within two minutes.</p>
+            <p class="opacity-60">
+                The current measurement interval for this device is {{ interval }} seconds ({{
+                    Math.round((interval / 60) * 100) / 100
+                }}
+                minutes). Below you can change the interval.
+            </p>
 
-            <form @submit.prevent="updateDeviceSettings()" class="flex flex-col gap-5">
+            <form
+                @submit.prevent="updateDeviceSettings()"
+                class="flex flex-col gap-5"
+                :class="{ 'opacity-50 pointer-events-none': showConfirmation }"
+            >
                 <div class="flex flex-col gap-1">
                     <!-- <h3 class="font-bold">Interval</h3> -->
 
@@ -27,15 +38,46 @@
                             v-model="interval"
                             name="interval"
                             id="interval"
-                            min="1000"
+                            min="1"
                             class="!pl-26 !pr-12"
                         />
-                        <span class="absolute right-4 top-1/2 -translate-y-1/2 opacity-50">ms</span>
+                        <span class="absolute right-4 top-1/2 -translate-y-1/2 opacity-50">s</span>
+                    </div>
+                </div>
+
+                <div class="flex w-full gap-5">
+                    <div class="w-1/3 rounded-2xl p-6 bg-accent">
+                        <h4 class="text-lg">Testnet</h4>
+                        <span class="text-sm opacity-50">Your plan</span>
+                        <p class="text-2xl">$0 <span class="text-sm opacity-50">/month</span></p>
+                    </div>
+                    <div class="w-1/3 rounded-2xl p-6">
+                        <h4 class="text-lg">Mainnet</h4>
+                        <span class="text-sm opacity-50">Current fees</span>
+                        <p class="text-2xl">${{ feesCurrent }} <span class="text-sm opacity-50">/month</span></p>
+                    </div>
+                    <div class="w-1/3 rounded-2xl p-6">
+                        <h4 class="text-lg">Mainnet</h4>
+                        <span class="text-sm opacity-50">Future fees*</span>
+                        <p class="text-2xl">${{ feesFuture }} <span class="text-sm opacity-50">/month</span></p>
                     </div>
                 </div>
 
                 <button class="btn btn--primary">Save</button>
+
+                <p class="text-sm">
+                    <span class="opacity-60"
+                        >*Starting January 2026, the price for the ConsensusSubmitMessage transaction on the Hedera
+                        Consensus Service will increase from $0.0001 to $0.0008 USD.
+                    </span>
+                    <a
+                        href="https://hedera.com/blog/price-update-to-consensussubmitmessage-in-consensus-service-january-2026"
+                        target="_blank"
+                        >Read more</a
+                    >
+                </p>
             </form>
+            <p class="text-center text-green-600" v-if="showConfirmation">Settings saved successfully!</p>
         </div>
     </div>
 </template>
@@ -57,28 +99,67 @@ const props = defineProps({
         default: null,
     },
 });
+const secondsPerMonth = 30.5 * 24 * 60 * 60;
 
+const showConfirmation = ref(false);
 const interval = ref(props.interval);
+const feesCurrent = ref(0);
+const feesFuture = ref(0);
+
+onMounted(async () => {
+    feesCurrent.value = ((0.0001 + 0.0001) * (secondsPerMonth / interval.value)).toFixed(2);
+    feesFuture.value = ((0.0008 + 0.0001) * (secondsPerMonth / interval.value)).toFixed(2);
+});
+
+watch(interval, (newInterval, oldInterval) => {
+    if (newInterval === oldInterval) return;
+    interval.value = newInterval;
+
+    if (!newInterval) {
+        interval.value = 0;
+    }
+    if (interval.value != 0) {
+        feesCurrent.value = ((0.0001 + 0.0001) * (secondsPerMonth / newInterval)).toFixed(2);
+        feesFuture.value = ((0.0008 + 0.0001) * (secondsPerMonth / newInterval)).toFixed(2);
+    } else {
+        feesCurrent.value = 0;
+        feesFuture.value = 0;
+    }
+});
 
 const updateDeviceSettings = async () => {
-    let body = { interval: interval.value };
+    let body = { interval: interval.value * 1000 };
 
     // send settings to web server
-    const res = await fetch("https://trusense-web-server.onrender.com/device-settings/" + props.topicId, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-    });
-
-    if (res.ok) {
-        // update database
-        await $fetch("/api/sensors/" + props.id, {
-            method: "PATCH",
-            body: body,
+    try {
+        const res = await fetch("https://trusense-web-server.onrender.com/device-settings/" + props.topicId, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(body),
         });
-        closeModal();
+
+        if (res.ok) {
+            try {
+                // update database
+                await $fetch("/api/sensors/" + props.id, {
+                    method: "PATCH",
+                    body: body,
+                });
+
+                showConfirmation.value = true;
+
+                setTimeout(() => {
+                    showConfirmation.value = false;
+                    closeModal();
+                }, 2000);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    } catch (error) {
+        console.log(error);
     }
 };
 
