@@ -111,8 +111,8 @@
         <section class="section" id="fees">
             <div class="container">
                 <div class="grid md:grid-cols-12 gap-8">
-                    <div class="md:col-span-8 lg:col-span-7 lg:col-start-2 flex flex-col gap-10">
-                        <div class="bg-box rounded-[40px] p-8 flex flex-col gap-5">
+                    <div class="md:col-span-8 lg:col-span-7 lg:col-start-2 flex flex-col gap-10 h-full">
+                        <div class="bg-box rounded-[40px] p-8 flex flex-col gap-5 h-full">
                             <h2 class="h3">Pricing</h2>
 
                             <p class="opacity-60 text-lg">
@@ -199,8 +199,8 @@
                             </form>
                         </div>
                     </div>
-                    <div class="md:col-span-4 lg:col-span-3 lg:col-start-9 flex flex-col gap-10">
-                        <div class="bg-box rounded-[40px] py-8 px-8 flex flex-col gap-5 items-start">
+                    <div class="md:col-span-4 lg:col-span-3 lg:col-start-9 flex flex-col gap-10 h-full">
+                        <div class="bg-box rounded-[40px] py-8 px-8 flex flex-col gap-5 items-start h-full">
                             <h2 class="h2 font-bold">${{ fee }} <span class="opacity-60 text-base">/month*</span></h2>
 
                             <ul class="flex flex-col gap-2">

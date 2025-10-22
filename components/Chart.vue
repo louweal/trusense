@@ -305,6 +305,8 @@ function createChart() {
                     type: "time",
                     time: { unit: "minute", tooltipFormat: "HH:mm:ss" },
                     title: { display: false, text: "Time" },
+                    grid: { drawOnChartArea: false },
+
                     // min: chartStartDate,
                     // max: chartEndDate,
                 },
