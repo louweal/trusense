@@ -27,7 +27,7 @@
             </div>
 
             <div v-if="search != ''">
-                <div v-if="sensors?.length">
+                <div v-if="sensors?.length" class="flex flex-col gap-5">
                     <CardSensorMini v-for="sensor in sensors" v-bind="sensor" />
                 </div>
                 <div v-else class="bg-white p-8 rounded-[40px]">

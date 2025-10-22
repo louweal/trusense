@@ -7,12 +7,15 @@
             class="relative flex flex-col justify-center items-center gap-5 w-[600px] max-w-[90vw] bg-white rounded-[40px] transition-opacity shadow-modal p-8"
         >
             <h2 class="text-2xl">Share link</h2>
-            <QrCode v-if="pageUrl" :value="pageUrl" xxxchange="onUrlChange" />
-            <div>
-                <a :href="pageUrl" class="flex flex-grow gap-2 items-center cursor-pointer" @click="handleCopyClick">
-                    {{ copied ? "Copied!" : "Copy link" }} <IconCopy />
-                </a>
-            </div>
+            <QrCode v-if="pageUrl" :value="pageUrl" />
+            <a
+                v-if="pageUrl"
+                :href="pageUrl"
+                class="flex flex-grow gap-2 items-center cursor-pointer"
+                @click="handleCopyClick"
+            >
+                {{ copied ? "Copied!" : "Copy link" }} <IconCopy />
+            </a>
         </div>
     </div>
 </template>
@@ -22,6 +25,13 @@ import { onMounted, onUnmounted, ref } from "vue";
 
 const pageUrl = ref(null);
 const copied = ref(false);
+
+const props = defineProps({
+    topicId: {
+        type: String,
+        required: true,
+    },
+});
 
 const closeModal = () => {
     const qrModal = document.querySelector(".qr-modal");
@@ -34,7 +44,8 @@ const closeModal = () => {
 };
 
 onMounted(() => {
-    pageUrl.value = window.location.href;
+    const domain = window.location.origin;
+    pageUrl.value = `${domain}/topic/${props.topicId}`;
 });
 
 onUnmounted(() => {

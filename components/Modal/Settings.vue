@@ -8,10 +8,6 @@
         >
             <h2 class="text-2xl">Device Settings</h2>
 
-            <!-- <p class="opacity-60">
-                Change the measurement interval. The device will receive the new settings within 2 minutes.
-            </p> -->
-
             <p class="opacity-60">
                 The current measurement interval for this device is {{ interval }} seconds ({{
                     Math.round((interval / 60) * 100) / 100
@@ -35,7 +31,7 @@
                         >
                         <input
                             type="number"
-                            v-model="interval"
+                            v-model="intervalRef"
                             name="interval"
                             id="interval"
                             min="1"
@@ -45,7 +41,7 @@
                     </div>
                 </div>
 
-                <div class="flex w-full gap-5">
+                <div class="flex w-full gap-0">
                     <div class="w-1/3 rounded-2xl p-6 bg-accent">
                         <h4 class="text-lg">Testnet</h4>
                         <span class="text-sm opacity-50">Your plan</span>
@@ -54,16 +50,25 @@
                     <div class="w-1/3 rounded-2xl p-6">
                         <h4 class="text-lg">Mainnet</h4>
                         <span class="text-sm opacity-50">Current fees</span>
-                        <p class="text-2xl">${{ feesCurrent }} <span class="text-sm opacity-50">/month</span></p>
+                        <p class="text-2xl whitespace-nowrap">
+                            ${{ feesCurrent }} <span class="text-sm opacity-50">/month</span>
+                        </p>
                     </div>
                     <div class="w-1/3 rounded-2xl p-6">
                         <h4 class="text-lg">Mainnet</h4>
                         <span class="text-sm opacity-50">Future fees*</span>
-                        <p class="text-2xl">${{ feesFuture }} <span class="text-sm opacity-50">/month</span></p>
+                        <p class="text-2xl whitespace-nowrap">
+                            ${{ feesFuture }} <span class="text-sm opacity-50">/month</span>
+                        </p>
                     </div>
                 </div>
 
-                <button class="btn btn--primary">Save</button>
+                <button
+                    class="btn btn--primary"
+                    :class="{ 'pointer-events-none opacity-50': intervalRef === interval || intervalRef == 0 }"
+                >
+                    Save
+                </button>
 
                 <p class="text-sm">
                     <span class="opacity-60"
@@ -102,23 +107,23 @@ const props = defineProps({
 const secondsPerMonth = 30.5 * 24 * 60 * 60;
 
 const showConfirmation = ref(false);
-const interval = ref(props.interval);
+const intervalRef = ref(props.interval);
 const feesCurrent = ref(0);
 const feesFuture = ref(0);
 
 onMounted(async () => {
-    feesCurrent.value = ((0.0001 + 0.0001) * (secondsPerMonth / interval.value)).toFixed(2);
-    feesFuture.value = ((0.0008 + 0.0001) * (secondsPerMonth / interval.value)).toFixed(2);
+    feesCurrent.value = ((0.0001 + 0.0001) * (secondsPerMonth / intervalRef.value)).toFixed(2);
+    feesFuture.value = ((0.0008 + 0.0001) * (secondsPerMonth / intervalRef.value)).toFixed(2);
 });
 
-watch(interval, (newInterval, oldInterval) => {
+watch(intervalRef, (newInterval, oldInterval) => {
     if (newInterval === oldInterval) return;
-    interval.value = newInterval;
+    intervalRef.value = newInterval;
 
     if (!newInterval) {
-        interval.value = 0;
+        intervalRef.value = 0;
     }
-    if (interval.value != 0) {
+    if (intervalRef.value != 0) {
         feesCurrent.value = ((0.0001 + 0.0001) * (secondsPerMonth / newInterval)).toFixed(2);
         feesFuture.value = ((0.0008 + 0.0001) * (secondsPerMonth / newInterval)).toFixed(2);
     } else {
@@ -128,7 +133,9 @@ watch(interval, (newInterval, oldInterval) => {
 });
 
 const updateDeviceSettings = async () => {
-    let body = { interval: interval.value * 1000 };
+    if (intervalRef.value == props.interval) return;
+
+    let body = { interval: intervalRef.value * 1000 };
 
     // send settings to web server
     try {
@@ -153,6 +160,9 @@ const updateDeviceSettings = async () => {
                 setTimeout(() => {
                     showConfirmation.value = false;
                     closeModal();
+
+                    // reload page
+                    location.reload();
                 }, 2000);
             } catch (error) {
                 console.log(error);

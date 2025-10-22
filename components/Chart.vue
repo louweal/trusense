@@ -1,8 +1,7 @@
 <template>
     <div class="bg-box rounded-[40px] px-4 py-8 md:p-8 flex flex-col gap-5">
-        <div class="flex justify-between items-center">
+        <!-- <div class="flex justify-between items-center">
             <h3 class="text-lg">
-                <!-- Historical Data -->
             </h3>
 
             <div>
@@ -15,72 +14,59 @@
                     <span v-else @click="startRealtime()">OFF</span>
                 </span>
             </div>
-        </div>
+        </div> -->
 
-        <div class="flex flex-wrap w-full gap-4">
-            <div
-                class="btn flex-grow"
-                :class="{ 'btn--primary': activeBtn === 'lastHour' }"
-                @click="handleFilter('lastHour')"
-            >
-                Last hour
-            </div>
-            <div
-                class="btn flex-grow"
-                :class="{ 'btn--primary': activeBtn === 'lastDay' }"
-                @click="handleFilter('lastDay')"
-            >
-                Last day
-            </div>
-            <!-- <div
-                class="btn flex-grow"
-                :class="{ 'btn--primary': activeBtn === 'lastWeek' }"
-                @click="handleFilter('lastWeek')"
-            >
-                Last week
-            </div> -->
-            <!-- <div
-                class="btn flex-grow"
-                :class="{ 'btn--primary': activeBtn === 'lastMonth' }"
-                @click="handleFilter('lastMonth')"
-            >
-                Last month
-            </div> -->
-            <div class="relative flex-grow">
-                <div class="relative">
-                    <label
-                        for="start"
-                        class="bg-primary absolute top-2 left-2 bottom-2 rounded-xl flex justify-center items-center px-4 text-white"
-                    >
-                        Start date
-                    </label>
-                    <input class="" id="start" type="datetime-local" v-model="inputStartDate" @input="validateDates" />
+        <div class="flex flex-wrap justify-between w-full gap-4">
+            <div class="flex gap-4">
+                <div
+                    class="btn flex-grow"
+                    :class="{ 'btn--primary': activeBtn === 'lastHour' }"
+                    @click="handleFilter('lastHour')"
+                >
+                    Last hour
                 </div>
-                <p v-if="startError" class="text-red-600 text-center">{{ startError }}</p>
+                <div
+                    class="btn flex-grow"
+                    :class="{ 'btn--primary': activeBtn === 'lastDay' }"
+                    @click="handleFilter('lastDay')"
+                >
+                    Last 24 hours
+                </div>
             </div>
 
-            <div class="relative flex-grow">
+            <div class="flex gap-4">
                 <div class="relative">
-                    <label
-                        for="start"
-                        class="bg-primary absolute top-2 left-2 bottom-2 rounded-xl flex justify-center items-center px-4 text-white"
-                    >
-                        End date
-                    </label>
-                    <input
-                        id="end"
-                        type="datetime-local"
-                        v-model="inputEndDate"
-                        @input="validateDates"
-                        :min="inputStartDate"
-                    />
+                    <div class="relative">
+                        <label
+                            for="start"
+                            class="bg-primary absolute top-2 left-2 bottom-2 rounded-xl flex justify-center items-center px-4 text-white"
+                        >
+                            Start date
+                        </label>
+                        <input class="" id="start" type="datetime-local" v-model="inputStartDate" />
+                    </div>
+                    <p v-if="startError" class="text-red-600 text-center">{{ startError }}</p>
                 </div>
-                <p v-if="endError" class="text-red-600 text-center">{{ endError }}</p>
+
+                <div class="relative flex-grow">
+                    <div class="relative">
+                        <label
+                            for="start"
+                            class="bg-primary absolute top-2 left-2 bottom-2 rounded-xl flex justify-center items-center px-4 text-white"
+                        >
+                            End date
+                        </label>
+                        <input id="end" type="datetime-local" v-model="inputEndDate" />
+                    </div>
+                    <p v-if="endError" class="text-red-600 text-center">{{ endError }}</p>
+                </div>
+
+                <div class="btn" @click="validateDates()">Go</div>
             </div>
         </div>
 
         <div class="relative flex flex-col gap-5 justify-center items-center">
-            <canvas ref="chartCanvas" :class="{ 'opacity-5': isFetching }"></canvas>
+            <canvas ref="chartCanvas" :class="{ 'opacity-15': isFetching }"></canvas>
             <div class="absolute inset-0 flex items-center justify-center" v-if="isFetching">
                 <svg
                     class="animate-spin -ml-1 mr-3 h-5 w-5 text-primary"
@@ -261,7 +247,7 @@ function createChart() {
             aspectRatio: window.innerWidth < 480 ? 1 : 3,
             animation: false,
             responsive: true,
-            spanGaps: props.interval * 1.5,
+            spanGaps: 24 * 60 * 60 * 1000 * 1.2, // 1 day
             plugins: {
                 legend: {
                     display: false,
@@ -381,26 +367,24 @@ async function handleFilter(filter) {
             deletePoints();
             await fetchHistoricalMessages(baseUrl + `&timestamp=gte:${tsStart}`);
             setScales();
-            realtime.value = false;
+            realtime.value = true;
             break;
-        case "lastWeek":
-            start = new Date(end.getTime() - 7 * 24 * 60 * 60 * 1000);
-            tsStart = Math.floor(start.getTime() / 1000);
-            deletePoints();
-            await fetchHistoricalMessages(baseUrl + `&timestamp=gte:${tsStart}`);
-            setScales();
-            realtime.value = false;
-
-            break;
-        case "lastMonth":
-            start = new Date(end.getTime() - 30 * 24 * 60 * 60 * 1000);
-            tsStart = Math.floor(start.getTime() / 1000);
-            deletePoints();
-            await fetchHistoricalMessages(baseUrl + `&timestamp=gte:${tsStart}`);
-            setScales();
-            realtime.value = false;
-
-            break;
+        // case "lastWeek":
+        //     start = new Date(end.getTime() - 7 * 24 * 60 * 60 * 1000);
+        //     tsStart = Math.floor(start.getTime() / 1000);
+        //     deletePoints();
+        //     await fetchHistoricalMessages(baseUrl + `&timestamp=gte:${tsStart}`);
+        //     setScales();
+        //     realtime.value = false;
+        //     break;
+        // case "lastMonth":
+        //     start = new Date(end.getTime() - 30 * 24 * 60 * 60 * 1000);
+        //     tsStart = Math.floor(start.getTime() / 1000);
+        //     deletePoints();
+        //     await fetchHistoricalMessages(baseUrl + `&timestamp=gte:${tsStart}`);
+        //     setScales();
+        //     realtime.value = false;
+        //     break;
         default:
             console.error("Invalid filter:", filter);
             break;

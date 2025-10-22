@@ -1,6 +1,5 @@
 <template>
-    <header class="xxx">
-        <!-- <div class="container"> -->
+    <header>
         <div class="bg-box rounded-[40px] p-8 flex flex-col gap-4">
             <div class="flex w-full justify-between items-center">
                 <h1 class="text-2xl font-medium">{{ name }}</h1>
@@ -25,15 +24,11 @@
                         View on Hashscan
                     </a>
                 </p>
-                <p>
-                    <strong>Measurement Interval: </strong> {{ interval / 1000 }} s
-                    <!-- <button class="bg-accent text-primary cursor-pointer px-2 rounded-2xl">edit</button> -->
-                </p>
+                <p><strong>Measurement Interval: </strong> {{ interval / 1000 }} s</p>
                 <p><strong>First message:</strong> {{ firstMessageDate }}</p>
             </div>
         </div>
-        <!-- </div> -->
-        <ModalQR />
+        <ModalQR :topicId="topicId" />
     </header>
 </template>
 
