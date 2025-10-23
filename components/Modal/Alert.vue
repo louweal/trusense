@@ -203,6 +203,10 @@ const props = defineProps({
         type: Number,
         default: null,
     },
+    email: {
+        type: String,
+        default: null,
+    },
     userId: {
         type: String,
         required: true,
@@ -215,7 +219,7 @@ const minHumidity = ref(props.minHum);
 const maxHumidity = ref(props.maxHum);
 const minAirPressure = ref(props.minPres);
 const maxAirPressure = ref(props.maxPres);
-const email = ref(null);
+const email = ref(props.email);
 
 const updateAlerts = async () => {
     let body = {};
@@ -290,8 +294,6 @@ const closeModal = () => {
         document.body.style.overflow = "auto";
     }
 };
-
-onMounted(async () => {});
 
 onUnmounted(() => {
     closeModal();
