@@ -34,7 +34,7 @@
                 </div>
             </div>
 
-            <div class="flex gap-4">
+            <div class="flex justify-center flex-wrap gap-4">
                 <div class="relative">
                     <div class="relative">
                         <label
@@ -61,7 +61,9 @@
                     <p v-if="endError" class="text-red-600 text-center">{{ endError }}</p>
                 </div>
 
-                <div class="btn" @click="validateDates()">Go</div>
+                <div class="btn" @click="validateDates()" :class="{ 'pointer-events-none opacity-50': isFetching }">
+                    Go
+                </div>
             </div>
         </div>
 

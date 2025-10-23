@@ -1,7 +1,7 @@
 <template>
     <NuxtLink :to="nuxtTo" class="bg-box p-8 rounded-[40px] flex flex-col gap-4">
         <h2 class="font-bold font-body text-lg">{{ name }}</h2>
-        <div class="flex flex-wrap gap-5">
+        <div class="flex flex-wrap gap-5" v-if="temperature || humidity || airPressure">
             <div class="flex gap-3" v-if="temperature">
                 <div class="bg-secondary text-white size-6 rounded-full flex justify-center items-center">T</div>
                 <span class="font-bold">{{ temperature }}°C</span>
@@ -14,6 +14,10 @@
                 <div class="bg-primary text-white size-6 rounded-full flex justify-center items-center">P</div>
                 <span class="font-bold">{{ airPressure }} hPa</span>
             </div>
+        </div>
+        <div v-else class="flex items-center gap-3">
+            <span class="size-2 rounded-full bg-red-600"></span>
+            <p>This sensor seems to be offline.</p>
         </div>
     </NuxtLink>
 </template>

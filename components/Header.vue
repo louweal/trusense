@@ -1,7 +1,7 @@
 <template>
     <div class="header gradient-header fixed top-0 left-0 right-0 z-10 py-3 transition-transform">
         <div class="container flex justify-between items-center">
-            <Logo :homeUrl="user ? '/dashboard' : '/'" />
+            <Logo homeUrl="/" />
 
             <nav>
                 <ul v-if="!user" class="flex gap-7 items-center">
@@ -12,6 +12,7 @@
                 </ul>
 
                 <ul v-else class="flex gap-7 items-center text-white">
+                    <li><NuxtLink to="/dashboard">Dashboard</NuxtLink></li>
                     <li class="btn btn--small btn--dark" @click="signOut">Sign out</li>
                 </ul>
             </nav>

@@ -16,14 +16,14 @@ export default defineEventHandler(async (event) => {
     try {
         const decoded: any = jwt.verify(token, JWT_SECRET);
 
-        if (!decoded?.email) return { user: null };
+        if (!decoded?.username) return { user: null };
 
         // Fetch full user from DB
         const user = await prisma.user.findUnique({
-            where: { email: decoded.email },
+            where: { username: decoded.username },
             select: {
                 id: true,
-                email: true,
+                username: true,
             },
         });
 

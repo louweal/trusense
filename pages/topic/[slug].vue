@@ -10,6 +10,10 @@
 
                         <div class="lg:col-span-2 flex flex-col flex-grow gap-5 flex-stretch h-full w-full">
                             <CurrentMeasurements v-if="topicId" :topicId="topicId" :interval="interval" />
+                            <p class="text-center">
+                                <NuxtLink to="/login" class="border-b opacity-50">Log in</NuxtLink>
+                                <span class=""> to manage your sensors.</span>
+                            </p>
                         </div>
                     </div>
 

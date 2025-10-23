@@ -8,7 +8,7 @@ import { defineEventHandler, readBody } from "h3";
 const prisma = new PrismaClient();
 
 const UserInput = z.object({
-    email: z.string().email(),
+    username: z.string().min(3, "Username must be 3+ chars"),
     password: z.string().min(8, "Password must be 8+ chars"),
 });
 
@@ -16,27 +16,27 @@ export default defineEventHandler(async (event) => {
     // register a new user
     try {
         const body = await readBody(event);
-        const { email, password } = UserInput.parse(body);
+        const { username, password } = UserInput.parse(body);
 
         const hash = await bcrypt.hash(password, 10);
 
         const user = await prisma.user.create({
-            data: { email: email, password: hash },
+            data: { username: username, password: hash },
         });
 
-        // add the dummy sensor
-        const sensor = await prisma.sensor.create({
-            data: {
-                topicId: "0.0.7001056",
-                name: "TruSense ESP32-001",
-                interval: 30000, // todo: get interval from
-                subscriberId: user.id,
-            },
-        });
+        // add the dummy sensor (development only)
+        // const sensor = await prisma.sensor.create({
+        //     data: {
+        //         topicId: "0.0.7001056",
+        //         name: "TruSense ESP32-001",
+        //         interval: 30000,
+        //         subscriberId: user.id,
+        //     },
+        // });
 
         const { password: _omit, ...safeUser } = user;
 
-        return { ...safeUser, sensorId: sensor.id };
+        return safeUser;
     } catch (err: any) {
         if (err instanceof z.ZodError) {
             // Validation error
@@ -44,7 +44,7 @@ export default defineEventHandler(async (event) => {
         }
         if (err.code === "P2002") {
             // Prisma unique‑constraint error
-            throw createError({ statusCode: 409, statusMessage: "Email already in use" });
+            throw createError({ statusCode: 409, statusMessage: "Username already in use" });
         }
         sendError(event, err);
     }

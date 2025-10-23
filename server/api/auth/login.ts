@@ -9,10 +9,10 @@ const prisma = new PrismaClient();
 
 export default defineEventHandler(async (event) => {
     const body = await readBody(event);
-    const { email, password } = body;
+    const { username, password } = body;
 
     const user = await prisma.user.findUnique({
-        where: { email },
+        where: { username },
     });
 
     if (!user) {
@@ -24,7 +24,7 @@ export default defineEventHandler(async (event) => {
         throw createError({ statusCode: 401, message: "Invalid credentials" });
     }
 
-    const token = jwt.sign({ id: user.id, email }, JWT_SECRET, { expiresIn: "7d" });
+    const token = jwt.sign({ id: user.id, username }, JWT_SECRET, { expiresIn: "7d" });
 
     setCookie(event, "auth_token", token, {
         httpOnly: true,

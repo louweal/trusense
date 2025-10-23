@@ -9,7 +9,7 @@ datasource db {
 
 model User {
   id           String   @id @default(cuid())
-  email        String   @unique
+  username     String   @unique
   password     String
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
@@ -28,6 +28,7 @@ model Sensor {
   maxHum       Int?
   minPres      Int?
   maxPres      Int?
+  email        String?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   subscriberId String

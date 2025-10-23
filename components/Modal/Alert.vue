@@ -6,11 +6,22 @@
         <div
             class="relative flex flex-col gap-5 w-[600px] max-w-[90vw] bg-white rounded-[40px] transition-opacity shadow-modal p-8"
         >
+            <div class="absolute top-7 right-7 cursor-pointer" @click="closeModal()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" fill="none">
+                    <path
+                        fill="#072847"
+                        d="M25.22 23.602A1.144 1.144 0 1 1 23.6 25.22L.81 2.427A1.144 1.144 0 1 1 2.427.81L25.22 23.602Z"
+                    />
+                    <path
+                        fill="#072847"
+                        d="M23.694.81a1.144 1.144 0 0 1 1.618 1.617L2.52 25.22a1.144 1.144 0 1 1-1.618-1.618L23.694.809Z"
+                    />
+                </svg>
+            </div>
             <h2 class="text-2xl">Alert Settings</h2>
-
             <p class="opacity-60">
-                Receive an email notification when a measurement exceeds the threshold(s) set below. You will receive
-                not more than one email per four hours.
+                An email notification will be sent when a measurement exceeds the threshold(s) defined below. You will
+                not receive more than one notification every 4 hours.
             </p>
 
             <form
@@ -18,6 +29,11 @@
                 class="flex flex-col gap-5"
                 :class="{ 'opacity-50 pointer-events-none': showConfirmation }"
             >
+                <div class="flex flex-col gap-1">
+                    <h3 class="font-bold">Email</h3>
+                    <input type="email" v-model="email" name="email" id="email" placeholder="Enter your email" />
+                </div>
+
                 <div class="flex flex-col gap-1">
                     <h3 class="font-bold">Temperature</h3>
 
@@ -143,7 +159,7 @@
                     </div>
                 </div>
 
-                <button class="btn btn--primary">Save</button>
+                <button class="btn btn--primary" :class="{ 'opacity-50 pointer-events-none': !email }">Save</button>
             </form>
             <p class="text-center text-green-600" v-if="showConfirmation">Settings saved successfully!</p>
         </div>
@@ -199,6 +215,7 @@ const minHumidity = ref(props.minHum);
 const maxHumidity = ref(props.maxHum);
 const minAirPressure = ref(props.minPres);
 const maxAirPressure = ref(props.maxPres);
+const email = ref(null);
 
 const updateAlerts = async () => {
     let body = {};
@@ -228,6 +245,8 @@ const updateAlerts = async () => {
     }
 
     if (body == {}) return;
+
+    body["email"] = email.value;
 
     // send settings to web server
     try {
