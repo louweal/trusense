@@ -266,11 +266,20 @@ const updateAlerts = async () => {
         );
 
         if (res.ok) {
+            // console.log(props.userId);
+            // console.log(email.value);
+
+            // console.log(body);
             // update database
-            await $fetch("/api/sensors/" + props.id, {
-                method: "PATCH",
-                body: body,
-            });
+
+            try {
+                await $fetch("/api/sensors/" + props.id, {
+                    method: "PATCH",
+                    body: body,
+                });
+            } catch (error) {
+                console.log(error);
+            }
 
             showConfirmation.value = true;
 
