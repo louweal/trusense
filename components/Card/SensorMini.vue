@@ -17,7 +17,10 @@
         </div>
         <div v-else class="flex items-center gap-3">
             <span class="size-2 rounded-full bg-red-600"></span>
-            <p>This sensor seems to be offline.</p>
+            <p>
+                This sensor seems to be offline.
+                <!-- <span @click="location.reload()" class="underline cursor-pointer">Refresh</span> -->
+            </p>
         </div>
     </NuxtLink>
 </template>

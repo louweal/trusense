@@ -34,7 +34,10 @@
     </div>
     <div v-else class="bg-box p-8 rounded-[40px] flex items-center gap-3">
         <span class="size-2 rounded-full bg-red-600"></span>
-        <p>This sensor seems to be offline.</p>
+        <p>
+            This sensor seems to be offline.
+            <span @click="refresh()" class="underline cursor-pointer">Refresh</span>
+        </p>
     </div>
 </template>
 
@@ -69,6 +72,10 @@ const props = defineProps({
         required: true,
     },
 });
+
+function refresh() {
+    location.reload();
+}
 
 onMounted(async () => {
     const lastMessage = await hederaService.getLastMessage(props.topicId, props.interval);

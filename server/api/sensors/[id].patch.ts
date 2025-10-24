@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
             data: body,
         });
         return sensor;
-    } catch (e) {
-        return createError({ statusCode: 400, message: "Sensor update failed" });
+    } catch (e: any) {
+        return createError({ statusCode: 400, message: e.message || "Sensor update failed" });
     }
 });
