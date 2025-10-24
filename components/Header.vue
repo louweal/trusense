@@ -5,7 +5,7 @@
 
             <nav>
                 <ul v-if="!user" class="flex gap-7 items-center">
-                    <li><NuxtLink to="/login">Login</NuxtLink></li>
+                    <li><NuxtLink to="/login">Log in</NuxtLink></li>
                     <li>
                         <div @click="openSearchModal()" class="btn btn--dark btn--small">Track</div>
                     </li>

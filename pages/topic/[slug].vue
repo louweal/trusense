@@ -4,7 +4,7 @@
 
         <section class="pt-24 pb-6">
             <div class="container">
-                <div class="flex flex-col gap-5 order-1 lg:order-2">
+                <div class="flex flex-col gap-5 order-1 lg:order-2" v-if="topicId">
                     <div class="grid lg:grid-cols-3 gap-5">
                         <HeroSensor v-if="topicId" :id="id" :name="name" :interval="interval" :topicId="topicId" />
 
@@ -18,9 +18,6 @@
                     </div>
 
                     <Chart v-if="topicId" :topicId="topicId" :interval="interval" />
-                    <!-- <div v-else>
-                        <p>Loading chart...</p>
-                    </div> -->
                 </div>
             </div>
         </section>
