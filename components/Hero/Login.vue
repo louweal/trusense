@@ -15,7 +15,7 @@
                     </NuxtLink>
                     <div class="animate-slide-up bg-white p-8 rounded-3xl">
                         <div class="flex flex-col gap-4">
-                            <h2 class="text-[2rem] text-body">Login</h2>
+                            <h2 class="text-[2rem] text-body">Log in</h2>
                             <form @submit.prevent="handleLogin" class="space-y-4">
                                 <div class="flex flex-col gap-2">
                                     <label for="username" class="block text-body">Username</label>
