@@ -14,10 +14,10 @@
             </div>
 
             <div>
-                <p class="flex gap-3 items-center">
+                <p class="inline-flex gap-3 items-center">
                     <span> <strong>Topic ID:</strong> {{ topicId }}</span>
                     <a
-                        class="bg-accent px-2 rounded-2xl text-xs"
+                        class="bg-accent px-2 rounded-2xl text-xs whitespace-nowrap text-center"
                         :href="`https://hashscan.io/${config.public.hederaNetwork}/topic/${topicId}/messages`"
                         target="_blank"
                     >

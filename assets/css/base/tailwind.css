@@ -60,21 +60,17 @@
 }
 
 @utility container {
-    padding: 0 2rem;
+    padding: 0 1rem;
     max-width: var(--container-width);
     margin: 0 auto;
+
+    @media only screen and (min-width: 30rem) {
+        padding: 0 2rem;
+    }
 }
 
 @layer utilities {
-    /* .slider {
-        @apply w-full h-1 bg-accent rounded-lg appearance-none cursor-pointer;
-    }
-    .slider::-webkit-slider-thumb {
-        @apply appearance-none w-6 h-6 bg-primary rounded-full transition-all hover:bg-primary/80;
-    }
-    .slider::-moz-range-thumb {
-        @apply appearance-none w-6 h-6 bg-primary rounded-full transition-all hover:bg-primary/80;
-    } */
+    /* input range slider */
 
     .slider {
         @apply w-full h-1 bg-accent rounded-lg appearance-none cursor-pointer;

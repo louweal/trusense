@@ -122,7 +122,7 @@
                             </p>
 
                             <p class="opacity-60 text-lg">
-                                Discover the fees for your use cases below and get started with TruSense today!
+                                Discover the fees for your use case below and get started with TruSense today!
                             </p>
 
                             <form class="mt-4">

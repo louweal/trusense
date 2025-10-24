@@ -2,8 +2,8 @@
     <main>
         <Header />
 
-        <section class="section mt-20">
-            <div class="container">
+        <section class="section">
+            <div class="container pt-10">
                 <div class="grid md:grid-cols-12 gap-5">
                     <div class="md:col-span-10 lg:col-span-8 md:col-start-2 lg:col-start-3 flex flex-col gap-8">
                         <h2 class="h2 text-center">Your sensors</h2>

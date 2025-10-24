@@ -228,8 +228,9 @@ input[type="datetime-local"] {
 }
 
 .images--carrousel {
+    overflow: hidden;
     img {
-        transform: rotate(13deg);
+        transform: rotate(13deg) scale(0.87);
     }
 
     /* img:nth-child(1) {
@@ -244,6 +245,8 @@ input[type="datetime-local"] {
 .image--pulse {
     position: relative;
     border-radius: 50%;
+    padding: 21px;
+    border: 1px solid gold;
 
     &#image-1 {
         &:before {
@@ -260,10 +263,11 @@ input[type="datetime-local"] {
     &:before {
         content: "";
         position: absolute;
-        top: -21px;
+        inset: 0;
+        /* top: -21px;
         left: -21px;
         right: -21px;
-        bottom: -21px;
+        bottom: -21px; */
         background-color: var(--color-primary);
         opacity: 0;
         border-radius: 50%;

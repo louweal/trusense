@@ -6,7 +6,7 @@
                 'md:order-last': props.reverse,
             }"
         >
-            <div class="w-full aspect-square object-cover relative m-[21px] image--pulse" :id="`image-${i % 3}`">
+            <div class="w-full aspect-square object-cover relative image--pulse" :id="`image-${i % 3}`">
                 <img class="w-full h-full rounded-full object-cover z-[2]" :src="image" :alt="alt || title" />
             </div>
         </div>
