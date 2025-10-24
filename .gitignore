@@ -8,8 +8,4 @@ node_modules
 .DS_Store
 .env
 dist
-
-notes.txt
-*.zip
-webserver.js
-sketch.ino
+sensor/config_private.h
