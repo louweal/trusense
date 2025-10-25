@@ -73,7 +73,6 @@ export class HederaService {
             }
 
             if (payload.humidity) {
-                // console.log("payload.humidity :>> ", payload.humidity);
                 result["humidity"] = +payload.humidity;
             }
 

@@ -56,7 +56,6 @@ export default defineNuxtConfig({
             autoprefixer: {},
         },
     },
-    // plugins: ["~/plugins/vue-typed-js.client"],
     aos: {
         //  configuration
         useClassNames: true,

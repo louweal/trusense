@@ -33,8 +33,6 @@
                 :class="{ 'opacity-50 pointer-events-none': showConfirmation }"
             >
                 <div class="flex flex-col gap-1">
-                    <!-- <h3 class="font-bold">Interval</h3> -->
-
                     <div class="relative">
                         <label
                             for="minTemperature"

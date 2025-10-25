@@ -38,9 +38,6 @@
                     </div>
 
                     <Chart v-if="topicId" :topicId="topicId" :interval="interval" />
-                    <!-- <div v-else>
-                        <p>Loading chart...</p>
-                    </div> -->
                 </div>
             </div>
         </section>

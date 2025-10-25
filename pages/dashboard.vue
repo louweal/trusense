@@ -14,14 +14,6 @@
                                 class="!bg-white order-3 md:order-2"
                                 placeholder="Search..."
                             />
-
-                            <!-- <NuxtLink to="/order" class="btn gap-3 order-2 md:order-3">
-                                <span
-                                    class="flex justify-center items-center size-6 bg-black text-white rounded-full -ml-3 text-primary"
-                                    >+</span
-                                >
-                                New sensor
-                            </NuxtLink> -->
                         </div>
 
                         <!-- list all sensors -->

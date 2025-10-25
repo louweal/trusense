@@ -3,23 +3,7 @@
         <div class="hero__bg"></div>
         <div class="container z-[2]">
             <div class="grid md:grid-cols-12 gap-5 items-center">
-                <div class="md:col-span-5 md:col-start-2 flex flex-col gap-4 text-white md:translate-[-30px]">
-                    <!-- <div class="flex-col gap-4 hidden md:flex">
-                        <h1 class="text-[38px] font-semibold">
-                            Add transparency and trust to your business with
-                            <span class="bg-box inline-block transform rotate-[-1deg] pt-3 px-4 rounded-md"
-                                ><Logo
-                            /></span>
-                        </h1>
-
-                        <p>
-                            Register now to explore the possibilities of TruSense. Or
-                            <NuxtLink to="/login">log in</NuxtLink> with the demo account (provided by us).
-                        </p>
-
-                        <p>Soon you will also be able to buy your own TruSense sensors in our webstore!</p>
-                    </div> -->
-                </div>
+                <div class="md:col-span-5 md:col-start-2 flex flex-col gap-4 text-white md:translate-[-30px]"></div>
                 <div class="md:col-span-5 flex flex-col gap-4">
                     <NuxtLink to="/" class="flex gap-[10px] items-center text-[18px] text-white">
                         <IconArrowLeft />

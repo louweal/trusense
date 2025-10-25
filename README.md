@@ -5,14 +5,17 @@
 1. **Clone and install dependencies**
 
 ```bash
-npm install
+npm i
 ```
 
-3. **Set up the database**
+2. **Set environment variables**
+
+See .env.sample for details.
+
+3. **Push schema to database**
 
 ```bash
-# Run migrations
-npm run db:migrate
+npx prisma db push
 
 ```
 
@@ -29,9 +32,13 @@ The application will be available at `http://localhost:3000`
 ```
 ├── assets/css/          # Global styles
 ├── components/          # Vue components
+├── composables/         # Vue composables
 ├── lib/                 # Utilities and services
+├── middleware/          # Nuxt middleware
 ├── pages/               # File-based routing
-├── prisma/              # Database schema and migrations
+├── prisma/              # Database schema
+├── public/              # Public files
+├── sensor/              # Sensor code (for reference)
 ├── server/api/          # API routes
 ├── app.vue              # Root component
 └── nuxt.config.ts       # Nuxt configuration
