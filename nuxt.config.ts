@@ -35,7 +35,7 @@ export default defineNuxtConfig({
                 {
                     name: "description",
                     content:
-                        "Real-time temperature and humidity monitoring, immutably stored on HCS (Hedera Consensus Service).",
+                        "Real-time temperature, humidity and air pressure monitoring, immutably stored on HCS (Hedera Consensus Service).",
                 },
             ],
         },
