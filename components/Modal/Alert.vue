@@ -159,7 +159,7 @@
                     </div>
                 </div>
 
-                <button class="btn btn--primary" :class="{ 'opacity-50 pointer-events-none': !email }">Save</button>
+                <button class="btn btn--primary">Save</button>
             </form>
             <p class="text-center text-green-600" v-if="showConfirmation">Settings saved successfully!</p>
         </div>
@@ -167,7 +167,6 @@
 </template>
 
 <script setup>
-import { set } from "date-fns";
 import { onMounted, onUnmounted, ref } from "vue";
 
 const props = defineProps({
@@ -259,11 +258,16 @@ const updateAlerts = async () => {
         body["maxPres"] = setLimit(props.maxPres, maxAirPressure.value);
     }
 
-    if (body == {}) return;
+    if (email.value != props.email) {
+        body["email"] = email.value;
+    }
 
-    body["email"] = email.value;
+    if (body == {}) {
+        // nothing changed
+        return;
+    }
 
-    console.log(body);
+    // console.log(body);
 
     // send settings to web server
     try {
@@ -279,10 +283,6 @@ const updateAlerts = async () => {
         );
 
         if (res.ok) {
-            // console.log(props.userId);
-            // console.log(email.value);
-
-            // console.log(body);
             // update database
 
             try {
