@@ -1,5 +1,14 @@
 # TruSense
 
+High precision temperature, humidity and air pressure monitoring immutably stored on Hedera; ensuring full transparency and trust.
+
+Live site: [trusense.africa](https://www.trusense.africa)
+Login credentials can be found in the private DoraHacks BUIDL details.
+
+Web server repository: [TruSense Web Server](https://github.com/louweal/trusense-web-server)
+
+Device code: [/sensor](https://github.com/louweal/trusense/tree/master/sensor)
+
 ### Installation
 
 1. **Clone and install dependencies**
@@ -10,7 +19,13 @@ npm i
 
 2. **Set environment variables**
 
-See .env.sample for details.
+```
+HEDERA_NETWORK="testnet"
+NODE_ENV="development"
+DATABASE_URL="postgresql://..."
+JWT_SECRET="<just put a random string here>"
+SENDGRID_AP_KEY="..."
+```
 
 3. **Push schema to database**
 
