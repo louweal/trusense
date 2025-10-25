@@ -1,13 +1,11 @@
 # TruSense
 
-High precision temperature, humidity and air pressure monitoring immutably stored on Hedera; ensuring full transparency and trust.
+Real-time temperature, humidity and air pressure monitoring immutably stored on Hedera; ensuring full transparency and trust.
 
-Live site: [trusense.africa](https://www.trusense.africa)
-Login credentials can be found in the private DoraHacks BUIDL details.
-
-Web server repository: [TruSense Web Server](https://github.com/louweal/trusense-web-server)
-
-Device code: [/sensor](https://github.com/louweal/trusense/tree/master/sensor)
+-   Website: [trusense.africa](https://www.trusense.africa)
+    -   _Login credentials can be found in the private DoraHacks BUIDL details._
+-   Web server repository: [TruSense Web Server](https://github.com/louweal/trusense-web-server)
+-   Device code: [/sensor](https://github.com/louweal/trusense/tree/master/sensor)
 
 ### Installation
 
