@@ -2,7 +2,7 @@
 
 Real-time temperature, humidity and air pressure monitoring immutably stored on Hedera; ensuring full transparency and trust.
 
--   More information: [Pitch Deck]() or [Demo Video]()
+-   More information: [Pitch Deck](https://drive.google.com/file/d/1Xeaafw1JANi_bfWfCda7GT82E8Q6FznX/view) or [Demo Video](https://youtu.be/dWivTsuG4xc)
 -   Website: [trusense.africa](https://www.trusense.africa)
     -   _Login credentials can be found in the private DoraHacks BUIDL details._
 -   Web server repository: [TruSense Web Server](https://github.com/louweal/trusense-web-server)
