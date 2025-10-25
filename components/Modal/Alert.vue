@@ -167,6 +167,7 @@
 </template>
 
 <script setup>
+import { set } from "date-fns";
 import { onMounted, onUnmounted, ref } from "vue";
 
 const props = defineProps({
@@ -179,28 +180,28 @@ const props = defineProps({
         required: true,
     },
     minTemp: {
-        type: Number,
+        type: [Number, null],
         default: null,
     },
     maxTemp: {
-        type: Number,
+        type: [Number, null],
         default: null,
     },
 
     minHum: {
-        type: Number,
+        type: [Number, null],
         default: null,
     },
     maxHum: {
-        type: Number,
+        type: [Number, null],
         default: null,
     },
     minPres: {
-        type: Number,
+        type: [Number, null],
         default: null,
     },
     maxPres: {
-        type: Number,
+        type: [Number, null],
         default: null,
     },
     email: {
@@ -221,36 +222,48 @@ const minAirPressure = ref(props.minPres);
 const maxAirPressure = ref(props.maxPres);
 const email = ref(props.email);
 
+function setLimit(oldValue, newValue) {
+    if (newValue === "") {
+        return null;
+    }
+    if (oldValue !== newValue) {
+        return +newValue;
+    }
+    return;
+}
+
 const updateAlerts = async () => {
     let body = {};
 
     if (minTemperature.value != props.minTemp) {
-        body["minTemp"] = minTemperature.value;
+        body["minTemp"] = setLimit(props.minTemp, minTemperature.value);
     }
 
     if (maxTemperature.value != props.maxTemp) {
-        body["maxTemp"] = maxTemperature.value;
+        body["maxTemp"] = setLimit(props.maxTemp, maxTemperature.value);
     }
 
     if (minHumidity.value != props.minHum) {
-        body["minHum"] = minHumidity.value;
+        body["minHum"] = setLimit(props.minHum, minHumidity.value);
     }
 
     if (maxHumidity.value != props.maxHum) {
-        body["maxHum"] = maxHumidity.value;
+        body["maxHum"] = setLimit(props.maxHum, maxHumidity.value);
     }
 
     if (minAirPressure.value != props.minPres) {
-        body["minPres"] = minAirPressure.value;
+        body["minPres"] = setLimit(props.minPres, minAirPressure.value);
     }
 
     if (maxAirPressure.value != props.maxPres) {
-        body["maxPres"] = maxAirPressure.value;
+        body["maxPres"] = setLimit(props.maxPres, maxAirPressure.value);
     }
 
     if (body == {}) return;
 
     body["email"] = email.value;
+
+    console.log(body);
 
     // send settings to web server
     try {
@@ -286,6 +299,9 @@ const updateAlerts = async () => {
             setTimeout(() => {
                 showConfirmation.value = false;
                 closeModal();
+
+                // reload page
+                location.reload();
             }, 2000);
         }
     } catch (error) {
