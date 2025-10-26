@@ -23,7 +23,6 @@ HEDERA_NETWORK="testnet"
 NODE_ENV="development"
 DATABASE_URL="postgresql://..."
 JWT_SECRET="<just put a random string here>"
-SENDGRID_AP_KEY="..."
 ```
 
 3. **Push schema to database**

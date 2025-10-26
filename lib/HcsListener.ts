@@ -38,7 +38,7 @@ export class HcsListener {
             this.es.close();
             await $fetch("/api/hcs/stop");
             this.es = null;
-            console.log("HCS listener stopped for topic", this.topicId, ".");
+            // console.log("HCS listener stopped for topic", this.topicId, ".");
         }
     }
 }

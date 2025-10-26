@@ -3,7 +3,7 @@ import { defineNuxtRouteMiddleware, useFetch, navigateTo } from "nuxt/app";
 export default defineNuxtRouteMiddleware(async (to: any) => {
     console.log("Global middleware running");
 
-    const publicPages = ["/", "/login", "/register", "/api/auth/me", "/api/send-email"];
+    const publicPages = ["/", "/login", "/register", "/api/auth/me"];
 
     if (publicPages.includes(to.path)) return;
 
