@@ -8,6 +8,11 @@ Real-time temperature, humidity and air pressure monitoring immutably stored on 
 -   Web server repository: [TruSense Web Server](https://github.com/louweal/trusense-web-server)
 -   Device code: [/sensor](https://github.com/louweal/trusense/tree/master/sensor)
 
+**Team**
+
+-   louweal
+    -   Hashgraph Certificate: [hashgraph-certificate.pdf](https://drive.google.com/file/d/1KwdLJ6-B2PKznUdtZz0NDCHuP-4wM9oy/view)
+
 ### Installation
 
 1. **Clone and install dependencies**
