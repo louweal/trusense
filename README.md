@@ -11,7 +11,7 @@ Real-time temperature, humidity and air pressure monitoring immutably stored on 
 **Team**
 
 -   louweal
-    -   Hashgraph Certificate: [hashgraph-certificate.pdf](https://drive.google.com/file/d/1KwdLJ6-B2PKznUdtZz0NDCHuP-4wM9oy/view)
+    -   Hashgraph Certificate: [hashgraph-certificate.pdf](https://certs.hashgraphdev.com/7654ae02-70f9-4b57-8d2b-5a7540ba31b3.pdf)
 
 ### Installation
 
